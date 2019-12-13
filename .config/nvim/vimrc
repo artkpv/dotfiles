@@ -1,0 +1,569 @@
+" Name:     (Neo)Vim configuration
+" Author:   Artyom K. <artyomkarpov@gmail.com
+" URL:      www.artkpv.net
+" See:     https://github.com/amix/vimrc
+"           https://github.com/ruslanosipov/dotfiles/blob/master/vimrc
+
+" General --------------------------------------------------- {{{1
+
+" Sets how many lines of history VIM has to remember
+set history=1000
+
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+
+" Fast saving
+nmap <leader>w :w!<cr>
+nnoremap <C-s> :wa<CR>
+
+" :W sudo saves the file 
+" (useful for handling the permission-denied error)
+command! W w !sudo tee % > /dev/null
+
+" Use system clipboard
+set clipboard=unnamed,unnamedplus
+
+" Package management --------------------------------------------------- {{{1
+
+set packpath^=~/.config/nvim
+packadd minpac
+
+call minpac#init()
+
+" minpac must have {'type': 'opt'} so that it can be loaded with `packadd`.
+call minpac#add('k-takata/minpac', {'type': 'opt'})
+
+"
+" Add other plugins here.
+call minpac#add('junegunn/fzf')
+call minpac#add('junegunn/fzf.vim')
+call minpac#add('tpope/vim-unimpaired')
+call minpac#add('plasticboy/vim-markdown')
+call minpac#add('godlygeek/tabular')
+call minpac#add('junegunn/goyo.vim')
+call minpac#add('rhysd/vim-grammarous')
+call minpac#add('flazz/vim-colorschemes')
+call minpac#add('vimwiki/vimwiki', {'branch': 'dev'} )
+call minpac#add('tpope/vim-obsession')
+call minpac#add('tpope/vim-fugitive')
+
+" TODO: consider this: call minpac#add('easymotion/vim-easymotion')
+call minpac#add('scrooloose/nerdtree')
+
+call minpac#add('christoomey/vim-tmux-navigator')
+
+call minpac#add('vim-airline/vim-airline')
+
+"
+" IDE related
+
+call minpac#add('scrooloose/nerdcommenter')
+call minpac#add('tpope/vim-dispatch')
+call minpac#add('radenling/vim-dispatch-neovim')
+call minpac#add('tpope/vim-surround')
+call minpac#add('sirver/ultisnips')
+
+call minpac#add('dense-analysis/ale')
+call minpac#add('OmniSharp/omnisharp-vim')
+"  call minpac#add('Shougo/deoplete.nvim')
+
+" call minpac#add('ycm-core/YouCompleteMe') " Not working right
+" call minpac#add('autozimu/LanguageClient-neovim')
+" try https://github.com/prabirshrestha/vim-lsp
+
+" call minpac#add('neoclide/coc.nvim', {'branch': 'release'})
+" call minpac#add('davidhalter/jedi-vim')
+" call minpac#add('ncm2/float-preview.nvim') " didn't work
+" TODO: Building https://github.com/neomake/neomake/wiki/Makers
+
+
+call minpac#add('ledger/vim-ledger')
+
+
+" Load the plugins right now. (optional)
+"packloadall
+
+command! PackUpdate call minpac#update()
+command! PackClean call minpac#clean()
+
+
+
+" VIM user interface  --------------------------------------------------- {{{1
+
+" Set 7 lines to the cursor - when moving vertically using j/k
+set scrolloff=7
+
+" Avoid garbled characters in Chinese language windows OS
+" let $LANG='en'  " Or else it changes locale for child shell (:!locale)
+set langmenu=en
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+" Turn on the Wild menu
+set wildmenu
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
+"Always show current position
+set ruler
+
+" Height of the command bar
+set cmdheight=2
+
+" A buffer becomes hidden when it is abandoned
+set hid
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+" Ignore case when searching
+set ignorecase
+
+" When searching try to be smart about cases 
+set smartcase
+
+" Highlight search results
+set hlsearch
+
+" Makes search act like search in modern browsers
+set incsearch 
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw 
+
+" For regular expressions turn magic on
+set magic
+
+" Show matching brackets when text indicator is over them
+set showmatch 
+" How many tenths of a second to blink when matching brackets
+set matchtime=2
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set timeoutlen=500
+
+" Properly disable sound on errors on MacVim
+if has("gui_macvim")
+    autocmd GUIEnter * set vb t_vb=
+endif
+
+
+" Add a bit extra margin to the left
+set foldcolumn=1
+set foldmethod=marker
+
+
+"  Colors and Fonts --------------------------------------------------- {{{1
+
+
+" Enable syntax highlighting
+syntax enable 
+
+" set background=dark
+
+try
+    " colorscheme solarized
+    colorscheme gruvbox
+    "colorscheme desert
+catch
+endtry
+
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+    set guioptions-=T
+    set guioptions-=e
+    set t_Co=256
+    set guitablabel=%M\ %t
+endif
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+" Use Unix as the standard file type
+set fileformats=unix,dos,mac
+
+
+" Mapping to Increase font size: 
+nnoremap <C-+> :silent! let &guifont = substitute(
+            \ &guifont,
+            \ ':h\zs\d\+',
+            \ '\=eval(submatch(0)+1)',
+            \ '')<CR>
+nnoremap <C--> :silent! let &guifont = substitute(
+            \ &guifont,
+            \ ':h\zs\d\+',
+            \ '\=eval(submatch(0)-1)',
+            \ '')<CR>
+
+
+
+"  Files, backups and undo --------------------------------------------------- {{{1
+
+
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowritebackup
+set noswapfile
+
+
+"  Text, tab and indent related --------------------------------------------------- {{{1
+
+" Use spaces instead of tabs
+set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
+
+" 1 tab == 4 spaces
+set shiftwidth=4
+set tabstop=4
+
+set autoindent
+set smartindent
+set wrap "Wrap lines
+
+" Linebreak on X characters
+set textwidth=1000
+set linebreak
+
+" Make soft line breaks much better looking.
+set breakindent
+
+" Pretty soft break character.
+let &showbreak = '> '
+
+
+"  Visual mode relate --------------------------------------------------- {{{1
+
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+
+"  Moving around, tabs, windows and buffers   --------------------------------------------------- {{{1
+
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+
+" Specify the behavior when switching between buffers 
+try
+  set switchbuf=useopen,usetab,newtab
+  set showtabline=2
+catch
+endtry
+
+" Return to last edit position when opening files (You want this!)
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+"  Editing mappings --------------------------------------------------- {{{1
+
+" Remap VIM 0 to first non-blank character
+map 0 ^
+
+" Move a line of text using ALT+[jk] or Command+[jk] on mac
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+if has("mac") || has("macunix")
+  nmap <D-j> <M-j>
+  nmap <D-k> <M-k>
+  vmap <D-j> <M-j>
+  vmap <D-k> <M-k>
+endif
+
+
+"  Helper functions --------------------------------------------------- {{{1
+
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    endif
+    return ''
+endfunction
+
+" Don't close window, when deleting a buffer
+command! Bclose call <SID>BufcloseCloseIt()
+function! <SID>BufcloseCloseIt()
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
+
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
+
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
+
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
+endfunction
+
+function! CmdLine(str)
+    call feedkeys(":" . a:str)
+endfunction 
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'gv'
+        call CmdLine("Ack '" . l:pattern . "' " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+
+
+" Ledger --------------------------------------------------- {{{1
+
+
+let g:ledger_bin = 'hledger'
+let g:ledger_is_hledger = 1
+    
+au FileType ledger setlocal foldmethod=syntax
+au FileType ledger noremap { ?^\d<CR>
+au FileType ledger noremap } /^\d<CR>
+
+au FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+
+
+
+" UltiSnips --------------------------------------------------- {{{1
+
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
+
+"  ALE  --------------------------------------------------- {{{1
+
+let g:ale_completion_enabled=1
+
+" Use ALE's function for omnicompletion.
+" set omnifunc=ale#completion#OmniFunc
+
+let g:ale_linters = {
+     \ 'cs': ['omnisharp', 'mcs']
+     \}
+
+" OmniSharp --------------------------------------------------- {{{1
+
+" OmniSharp will start automatically upon opening a `*.cs` file.
+let g:OmniSharp_start_server = 1
+
+
+let g:OmniSharp_server_install = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn'
+" let g:OmniSharp_server_path = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn/run'
+
+" Use the stdio version of OmniSharp-roslyn:
+let g:OmniSharp_server_stdio = 1
+
+let g:OmniSharp_loglevel = 'debug'
+
+" Timeout in seconds to wait for a response from the server
+let g:OmniSharp_timeout = 5
+
+let g:OmniSharp_selector_ui = 'fzf'
+
+" Update semantic highlighting on BufEnter and InsertLeave
+let g:OmniSharp_highlight_types = 3  
+
+" set previewheight=5
+
+" Don't autoselect first omnicomplete option, show options even if there is only
+" one (so the preview documentation is accessible). Remove 'preview' if you
+" don't want to see any documentation whatsoever.
+" set completeopt=longest,menuone,preview
+
+"" Fetch full documentation during omnicomplete requests.
+"" By default, only Type/Method signatures are fetched. Full documentation can
+"" still be fetched when you need it with the :OmniSharpDocumentation command.
+let g:omnicomplete_fetch_full_documentation = 1
+
+augroup omnisharp_commands
+    autocmd!
+
+    " Show type information automatically when the cursor stops moving
+    autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+
+    " The following commands are contextual, based on the cursor position.
+    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+
+    " Finds members in the current buffer
+    autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+
+    autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
+    autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
+    autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+
+    " Navigate up and down by method/property/field
+    autocmd FileType cs nnoremap <buffer> <Leader>nu :OmniSharpNavigateUp<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>nd :OmniSharpNavigateDown<CR>
+
+    " Find all code errors/warnings for the current solution and populate the quickfix window
+    autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
+augroup END
+
+" Contextual code actions (uses fzf, CtrlP or unite.vim when available)
+nnoremap <Leader><Space> :OmniSharpGetCodeActions<CR>
+" Run code actions with text selected in visual mode to extract method
+xnoremap <Leader><Space> :call OmniSharp#GetCodeActions('visual')<CR>
+
+" Rename with dialog
+nnoremap <Leader>nm :OmniSharpRename<CR>
+nnoremap <F2> :OmniSharpRename<CR>
+" Rename without dialog - with cursor on the symbol to rename: `:Rename newname`
+command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+
+nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
+
+" Start the omnisharp server for the current solution
+nnoremap <Leader>ss :OmniSharpStartServer<CR>
+nnoremap <Leader>sp :OmniSharpStopServer<CR>
+
+
+
+" VimWiki --------------------------------------------------- {{{1
+
+" See ~/.config/nvim/ftplugin/vimwiki.vim
+
+let g:vimwiki_use_mouse = 1
+let g:vimwiki_list = [ {
+            \ 'path': '$HOME/mydir/notes/', 
+            \ 'path_html': '$HOME/mydir/notes_html/',
+            \ 'diary_rel_path': 'дневник/',
+            \ 'diary_index': 'дневник',
+            \ 'diary_header': 'Дневник',
+            \ 'auto_diary_index': 1,
+            \ 'auto_tags': 1,
+            \ 'syntax': 'markdown', 
+            \ 'custom_wiki2html': '$HOME/mydir/notes/bin/wiki2html.sh',
+            \ 'template_path': '$HOME/mydir/notes/bin/',
+            \ 'template_default': 'markdowntemplate',
+            \ 'ext': '.md' }]
+
+let g:vimwiki_folding = 'expr'
+let g:vimwiki_toc_header = 'Содержание'
+let g:vimwiki_auto_chdir = 1
+let g:vimwiki_diary_months = {
+      \ 1: 'Январь', 2: 'Февраль', 3: 'Март',
+      \ 4: 'Апрель', 5: 'Май', 6: 'Июнь',
+      \ 7: 'Июль', 8: 'Август', 9: 'Сентябрь',
+      \ 10: 'Октябрь', 11: 'Ноябрь', 12: 'Декабрь'
+      \ }
+
+function! MyWikiClean() 
+    " Clean escape '\' chars inserted by Evernote export.
+    %s_\\__gce
+
+    " Clean enclosing of links with '<' and '>' chars.
+    %s_\v\<([^\>]+)\>_\1_gce
+
+    %s_\v\!\[\]\((local.*\/([^\)]+))\)(\{wid[^}]*\})?_[\2](\1)_
+
+endfunction
+
+command! PrintDay :norm i99101011111212131314141515161617171818191920202121
+
+" vim-airline --------------------------------------------------- {{{1
+
+let g:airline_powerline_fonts = 1
+
+
+" Goyo --------------------------------------------------- {{{1
+
+function! s:goyo_enter()
+    set noshowmode
+    set noshowcmd
+endfunction
+
+function! s:goyo_leave()
+    set showmode
+    set showcmd
+endfunction
+
+
+" FZF --------------------------------------------------- {{{1
+
+nnoremap <C-p> :<C-u>FZF<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+imap <c-x><c-f> <plug>(fzf-complete-path)
+
+
+" Other --------------------------------------------------- {{{1
+
+" Filesnames for the tag command
+set tags=tags;
+
+set keymap=russian-jcukenwin    " настраиваем переключение раскладок клавиатуры по C-^
+set iminsert=0                  " раскладка по умолчанию для ввода - английская
+set imsearch=0                  " раскладка по умолчанию для поиска - английская
+
+" Auto save when buffer lose focus
+au FocusLost * silent! wa
+
+" Save on buffer change
+set autowrite 
+
+let g:pymode_python = 'python3'
+
+au BufRead * try | execute "compiler ".&filetype | catch /./ | endtry 
+
+" Insert current date and time
+" see http://www.cplusplus.com/reference/ctime/strftime/
+nmap <F4> <C-R>=strftime("%Y-%m-%d %H:%M%z")<CR>
+imap <F4> <C-R>=strftime("%Y-%m-%d %H:%M%z")<CR>
+
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+
+set sessionoptions-=options    " do not store global and local values in a session
+set sessionoptions-=folds      " do not store folds
+
+
