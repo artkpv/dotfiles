@@ -536,15 +536,31 @@ let g:fzf_action = {
 
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
+" i18n   --------------------------------------------------- {{{1
 
-" Other --------------------------------------------------- {{{1
-
-" Filesnames for the tag command
-set tags=tags;
+function! EnRuHighlight()
+    if &iminsert == 0
+        set iminsert=1
+    else
+        set iminsert=0
+    endif
+endfunction
 
 set keymap=russian-jcukenwin    " настраиваем переключение раскладок клавиатуры по C-^
 set iminsert=0                  " раскладка по умолчанию для ввода - английская
 set imsearch=0                  " раскладка по умолчанию для поиска - английская
+
+" {{{ swith language En-Ru
+nmap <F3> <ESC>:call EnRuHighlight()<CR>
+imap <F3> <ESC>:call EnRuHighlight()<CR>a
+" }}}
+
+
+"" Other --------------------------------------------------- {{{1
+
+" Filesnames for the tag command
+set tags=tags;
+
 
 " Auto save when buffer lose focus
 au FocusLost * silent! wa
