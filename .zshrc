@@ -1,4 +1,4 @@
-# Author: Artyom K. <artyomkarpov at gmail dot com
+# Author: Artyom K. w1ld at inbox dot ru
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
