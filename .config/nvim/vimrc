@@ -74,7 +74,7 @@ call minpac#add('sirver/ultisnips')
 call minpac#add('dense-analysis/ale')
 call minpac#add('OmniSharp/omnisharp-vim')
 call minpac#add('Shougo/deoplete.nvim')
-call minpac#add('autozimu/LanguageClient-neovim')
+" call minpac#add('autozimu/LanguageClient-neovim')
 
 " call minpac#add('ycm-core/YouCompleteMe') " Not working right
 " try https://github.com/prabirshrestha/vim-lsp
