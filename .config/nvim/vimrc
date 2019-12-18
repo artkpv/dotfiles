@@ -73,7 +73,7 @@ call minpac#add('sirver/ultisnips')
 
 call minpac#add('dense-analysis/ale')
 call minpac#add('OmniSharp/omnisharp-vim')
-"  call minpac#add('Shougo/deoplete.nvim')
+call minpac#add('Shougo/deoplete.nvim')
 
 " call minpac#add('ycm-core/YouCompleteMe') " Not working right
 " call minpac#add('autozimu/LanguageClient-neovim')
@@ -277,7 +277,7 @@ catch
 endtry
 
 " Return to last edit position when opening files (You want this!)
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
@@ -360,13 +360,12 @@ endfunction
 let g:ledger_bin = 'hledger'
 let g:ledger_is_hledger = 1
     
-au FileType ledger setlocal foldmethod=syntax
-au FileType ledger noremap { ?^\d<CR>
-au FileType ledger noremap } /^\d<CR>
+autocmd FileType ledger setlocal foldmethod=syntax
+autocmd FileType ledger noremap { ?^\d<CR>
+autocmd FileType ledger noremap } /^\d<CR>
 
-au FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
-au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
-
+autocmd FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+autocmd FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
 
 
 " UltiSnips --------------------------------------------------- {{{1
@@ -536,6 +535,21 @@ let g:fzf_action = {
 
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
+" Deoplete --------------------------------------------------- {{{1
+" Use deoplete.
+" See https://www.gregjs.com/vim/2016/configuring-the-deoplete-asynchronous-keyword-completion-plugin-with-tern-for-vim/
+let g:deoplete#enable_at_startup = 1
+
+" Use smartcase.
+" call deoplete#custom#option('smart_case', v:true)
+
+"if !exists('g:deoplete#omni#input_patterns')
+  "let g:deoplete#omni#input_patterns = {}
+"endif
+
+" deoplete tab-complete
+" inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
 " i18n   --------------------------------------------------- {{{1
 
 function! EnRuHighlight()
@@ -563,14 +577,14 @@ set tags=tags;
 
 
 " Auto save when buffer lose focus
-au FocusLost * silent! wa
+autocmd FocusLost,BufLeave * silent! wa
 
 " Save on buffer change
 set autowrite 
 
 let g:pymode_python = 'python3'
 
-au BufRead * try | execute "compiler ".&filetype | catch /./ | endtry 
+autocmd BufRead * try | execute "compiler ".&filetype | catch /./ | endtry 
 
 " Insert current date and time
 " see http://www.cplusplus.com/reference/ctime/strftime/
@@ -583,3 +597,4 @@ set sessionoptions-=options    " do not store global and local values in a sessi
 set sessionoptions-=folds      " do not store folds
 
 
+autocmd FileType cs set foldmethod=syntax
