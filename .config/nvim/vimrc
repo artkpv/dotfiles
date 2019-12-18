@@ -421,6 +421,8 @@ let g:OmniSharp_highlight_types = 3
 let g:omnicomplete_fetch_full_documentation = 1
 
 function SetCSSettings()
+    " TODO:
+    " - Configure getting full documentation. See https://github.com/OmniSharp/omnisharp-vim/pull/535
 
     " Use deoplete.
     call deoplete#enable()
@@ -428,8 +430,10 @@ function SetCSSettings()
     " Use smartcase.
     call deoplete#custom#option('smart_case', v:true)
 
+    " Use OmniSharp-vim omnifunc 
     call deoplete#custom#source('omni', 'functions', { 'cs':  'OmniSharp#Complete' })
 
+    " Set how Deoplete filters omnifunc output.
     call deoplete#custom#var('omni', 'input_patterns', {
         \ 'cs': '[^. *\t]\.\w*',
         \})
