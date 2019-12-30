@@ -1,3 +1,4 @@
+
 " Use deoplete.
 call deoplete#enable()
 
@@ -36,7 +37,10 @@ nnoremap <buffer> <Leader>nd :OmniSharpNavigateDown<CR>
 nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
 
 " Show type information automatically when the cursor stops moving
-autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+autocmd CursorHold call OmniSharp#TypeLookupWithoutDocumentation()
+
+" Trigger CursorHold after 1 sec
+set updatetime=1000
 
 
 
@@ -57,3 +61,6 @@ nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
 nnoremap <Leader>ss :OmniSharpStartServer<CR>
 nnoremap <Leader>sp :OmniSharpStopServer<CR>
 
+
+" Show signature.  
+let g:echodoc#enable_at_startup=1  " TODO

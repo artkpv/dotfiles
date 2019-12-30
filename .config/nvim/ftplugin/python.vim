@@ -10,3 +10,4 @@ let g:deoplete#sources#jedi#statement_length = 0
 
 " Shows docstring in preview window. Default: 0
 let g:deoplete#sources#jedi#show_docstring = 1
+
