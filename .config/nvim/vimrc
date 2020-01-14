@@ -175,6 +175,9 @@ set foldmethod=marker
 " New window goes down. For preview-window to pop up at bottom.
 set splitbelow
 
+" New window goes right.
+set splitright
+
 " Preview window height
 set previewheight=5
 
@@ -451,7 +454,8 @@ let g:vimwiki_list = [ {
             \ 'syntax': 'markdown', 
             \ 'custom_wiki2html': '$HOME/mydir/notes/bin/wiki2html.sh',
             \ 'template_path': '$HOME/mydir/notes/bin/',
-            \ 'template_default': 'markdowntemplate',
+            \ 'template_default': 'GitHub.html5',
+            \ 'links_space_char': '_',
             \ 'ext': '.md' }]
 
 let g:vimwiki_folding = 'expr'
