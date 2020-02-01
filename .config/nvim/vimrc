@@ -1,7 +1,7 @@
 " Name:     (Neo)Vim configuration
-" Author:   Artyom K. <artyomkarpov@gmail.com
+" Author:   Artyom K. artyomkarpov [at] gmail [dot] com
 " URL:      www.artkpv.net
-" See:     https://github.com/amix/vimrc
+" Refs:     https://github.com/amix/vimrc
 "           https://github.com/ruslanosipov/dotfiles/blob/master/vimrc
 
 " General --------------------------------------------------- {{{1
@@ -411,7 +411,7 @@ let g:OmniSharp_server_install = '/home/art/.cache/omnisharp-vim/omnisharp-rosly
 " Use the stdio version of OmniSharp-roslyn:
 let g:OmniSharp_server_stdio = 1
 
-let g:OmniSharp_loglevel = 'debug'
+let g:OmniSharp_loglevel = 'info'
 
 " Timeout in seconds to wait for a response from the server
 let g:OmniSharp_timeout = 5
@@ -420,6 +420,9 @@ let g:OmniSharp_selector_ui = 'fzf'
 
 " Update semantic highlighting on BufEnter and InsertLeave
 let g:OmniSharp_highlight_types = 3  
+
+" To test if bug with no doc fixes.
+let g:OmniSharp_server_use_mono = 1
 
 " Don't autoselect first omnicomplete option, show options even if there is only
 " one (so the preview documentation is accessible). Remove 'preview' if you

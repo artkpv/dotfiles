@@ -34,3 +34,4 @@ alias less='less -r'
 export PAGER=less
 
 
+export MSBuildSDKsPath="/opt/dotnet/sdk/3.0.100/Sdks";
