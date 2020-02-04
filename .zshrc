@@ -93,7 +93,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export NNN_TRASH=1
 export NNN_CONTEXT_COLORS='4321'
 
-
 #### 
 # DotNet tab completion
 ####
