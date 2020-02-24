@@ -111,4 +111,5 @@ compctl -K _dotnet_zsh_complete dotnet
 
 
 
-export MSBuildSDKsPath="/opt/dotnet/sdk/3.0.100/Sdks";
+export MSBuildSDKsPath=$( echo /usr/share/dotnet/sdk/3.*/Sdks );
+

@@ -405,6 +405,7 @@ let g:echodoc#type='echo'
 " OmniSharp will start automatically upon opening a `*.cs` file.
 let g:OmniSharp_start_server = 1
 
+" Use this to specify where the roslyn omnisharp server should be run from and downloaded to.
 let g:OmniSharp_server_install = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn'
 " let g:OmniSharp_server_path = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn/run'
 
@@ -413,15 +414,18 @@ let g:OmniSharp_server_stdio = 1
 
 let g:OmniSharp_loglevel = 'info'
 
+" Show loading message
+let g:OmniSharp_server_display_loading = 1
+
 " Timeout in seconds to wait for a response from the server
-let g:OmniSharp_timeout = 5
+let g:OmniSharp_timeout = 1
 
 let g:OmniSharp_selector_ui = 'fzf'
 
 " Update semantic highlighting on BufEnter and InsertLeave
 let g:OmniSharp_highlight_types = 3  
 
-" To test if bug with no doc fixes.
+" 
 let g:OmniSharp_server_use_mono = 1
 
 " Don't autoselect first omnicomplete option, show options even if there is only
