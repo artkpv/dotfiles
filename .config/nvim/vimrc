@@ -475,6 +475,8 @@ let g:vimwiki_diary_months = {
       \ 10: 'Октябрь', 11: 'Ноябрь', 12: 'Декабрь'
       \ }
 
+let g:vimwiki_global_ext = 0
+
 function! MyWikiClean() 
     " Clean escape '\' chars inserted by Evernote export.
     %s_\\__gce

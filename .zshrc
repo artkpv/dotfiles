@@ -113,3 +113,8 @@ compctl -K _dotnet_zsh_complete dotnet
 
 export MSBuildSDKsPath=$( echo /usr/share/dotnet/sdk/3.*/Sdks );
 
+
+# Enable bash autocompletions 
+autoload -U +X bashcompinit && bashcompinit
+
+source ~/bin/az.completion
