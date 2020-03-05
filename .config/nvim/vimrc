@@ -558,8 +558,8 @@ autocmd BufRead * try | execute "compiler ".&filetype | catch /./ | endtry
 
 " Insert current date and time
 " see http://www.cplusplus.com/reference/ctime/strftime/
-nmap <F4> <C-R>=strftime("%Y-%m-%d %H:%M%z")<CR>
-imap <F4> <C-R>=strftime("%Y-%m-%d %H:%M%z")<CR>
+nmap <F4> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>
+imap <F4> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>
 
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 

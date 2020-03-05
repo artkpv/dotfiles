@@ -118,3 +118,7 @@ export MSBuildSDKsPath=$( echo /usr/share/dotnet/sdk/3.*/Sdks );
 autoload -U +X bashcompinit && bashcompinit
 
 source ~/bin/az.completion
+
+TIMELOG=~/mydir/notes/time/2020.timeclock
+alias вна="echo н `date '+%Y-%m-%d %H:%M'` \$* >>$TIMELOG"     
+alias вза="echo з `date '+%Y-%m-%d %H:%M'` >>$TIMELOG"
