@@ -47,9 +47,9 @@ alias g=git
 
 alias info='info --vi-keys'
 
-alias vi=nvim
-alias vim=nvim
-alias qvim=nvim-qt
+alias vi="LANG=en_US nvim"
+alias vim="LANG=en_US nvim"
+alias qvim="LANG=en_US nvim-qt"
 alias vimrc='nvim ~/.config/nvim/vimrc'
 
 alias start=xdg-open
@@ -92,6 +92,11 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 ######
 export NNN_TRASH=1
 export NNN_CONTEXT_COLORS='4321'
+export NNN_PLUG='p:-_less -iR $nnn*'  # Press ;p to open pager.
+
+# -x - show notis on selection cp, mv, rm completion
+alias nnn='nnn -x'
+
 
 #### 
 # DotNet tab completion
@@ -122,3 +127,11 @@ source ~/bin/az.completion
 TIMELOG=~/mydir/notes/time/2020.timeclock
 alias вна="echo н `date '+%Y-%m-%d %H:%M'` \$* >>$TIMELOG"     
 alias вза="echo з `date '+%Y-%m-%d %H:%M'` >>$TIMELOG"
+
+function dotnet-new-pr
+{
+dotnet new console
+mv Program.cs pr.cs
+dotnet new sln
+dotnet sln add *.csproj
+}

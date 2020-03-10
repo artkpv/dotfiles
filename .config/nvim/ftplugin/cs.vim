@@ -8,11 +8,17 @@ call deoplete#custom#option('smart_case', v:true)
 
 " Use OmniSharp-vim omnifunc 
 call deoplete#custom#source('omni', 'functions', { 'cs':  'OmniSharp#Complete' })
-
+ 
 " Set how Deoplete filters omnifunc output.
 call deoplete#custom#var('omni', 'input_patterns', {
     \ 'cs': '[^. *\t]\.\w*',
     \})
+
+
+call deoplete#custom#option('sources', {
+    \ 'cs': ['omnisharp'],
+    \ })
+
 
 
 " The following commands are contextual, based on the cursor position.
@@ -63,5 +69,3 @@ nnoremap <Leader>ss :OmniSharpStartServer<CR>
 nnoremap <Leader>sp :OmniSharpStopServer<CR>
 
 
-" Show signature.  
-let g:echodoc#enable_at_startup=1  " TODO

@@ -31,6 +31,7 @@ command! W w !sudo tee % > /dev/null
 " Use system clipboard
 set clipboard=unnamed,unnamedplus
 
+
 " Package management --------------------------------------------------- {{{1
 
 set packpath^=~/.config/nvim
@@ -433,15 +434,7 @@ let g:OmniSharp_server_use_mono = 1
 " don't want to see any documentation whatsoever.
 " set completeopt=longest,menuone,preview
 
-"" Fetch full documentation during omnicomplete requests.
-"" By default, only Type/Method signatures are fetched. Full documentation can
-"" still be fetched when you need it with the :OmniSharpDocumentation command.
-" TODO:
-" - Configure getting full documentation. See https://github.com/OmniSharp/omnisharp-vim/pull/535
 let g:omnicomplete_fetch_full_documentation = 1
-
-let g:OmniSharp_start_without_solution = 1 
-
 
 
 
