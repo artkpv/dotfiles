@@ -58,7 +58,10 @@ alias pa='pacman'
 
 alias tm='tmux attach'
 
-alias l=hledger
+function hl
+{
+    hledger $* | less -R
+}
 
 PATH=$PATH:$HOME/bin
 PATH=$PATH:$HOME/.dotnet/bin
