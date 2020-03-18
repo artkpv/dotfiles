@@ -78,6 +78,10 @@ call minpac#add('Shougo/deoplete.nvim')
 call minpac#add('deoplete-plugins/deoplete-jedi')
 call minpac#add('Shougo/deoplete-clangx')
 call minpac#add('Shougo/echodoc.vim')
+call minpac#add('honza/vim-snippets')
+
+
+call minpac#add('majutsushi/tagbar')
 
 " call minpac#add('autozimu/LanguageClient-neovim')
 
@@ -376,7 +380,7 @@ let g:ledger_main=$LEDGER_FILE
 
 " UltiSnips --------------------------------------------------- {{{1
 
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "my_snippets"]
+let g:UltiSnipsSnippetDirectories=["pack/minpac/start/vim-snippets/UltiSnips", "my_snippets"]
 
 "  ALE  --------------------------------------------------- {{{1
 
@@ -537,6 +541,9 @@ imap <F3> <ESC>:call EnRuHighlight()<CR>a
 
 " Filesnames for the tag command
 set tags=tags;
+"
+" Regenerate tags when saving Python files.
+autocmd BufWritePost *.py *.cs silent! !ctags -R &
 
 
 " Auto save when buffer lose focus
