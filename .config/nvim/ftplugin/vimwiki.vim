@@ -5,7 +5,8 @@
 " mono colors: cake, candycode
 " colorscheme alduin
 " colorscheme colorsbox-material
-colorscheme dzo
+" MountinDew
+colorscheme alduin
 
 
 set laststatus=0

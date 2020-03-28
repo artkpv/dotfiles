@@ -63,6 +63,9 @@ call minpac#add('christoomey/vim-tmux-navigator')
 
 call minpac#add('vim-airline/vim-airline')
 
+" call minpac#add('camspiers/animate.vim')
+" call minpac#add('camspiers/lens.vim')
+
 "
 " IDE related
 
@@ -80,6 +83,7 @@ call minpac#add('Shougo/deoplete-clangx')
 call minpac#add('Shougo/echodoc.vim')
 call minpac#add('honza/vim-snippets')
 
+call minpac#add('fsharp/vim-fsharp')
 
 call minpac#add('majutsushi/tagbar')
 
@@ -387,7 +391,7 @@ let g:UltiSnipsSnippetDirectories=["pack/minpac/start/vim-snippets/UltiSnips", "
 let g:ale_completion_enabled=1
 
 " Use ALE's function for omnicompletion.
-" set omnifunc=ale#completion#OmniFunc
+set omnifunc=ale#completion#OmniFunc
 
 let g:ale_linters = {
      \ 'cs': ['omnisharp', 'mcs']
@@ -422,13 +426,10 @@ let g:OmniSharp_loglevel = 'info'
 " Show loading message
 let g:OmniSharp_server_display_loading = 1
 
-" Timeout in seconds to wait for a response from the server
-let g:OmniSharp_timeout = 1
-
 let g:OmniSharp_selector_ui = 'fzf'
 
 " Update semantic highlighting on BufEnter and InsertLeave
-let g:OmniSharp_highlight_types = 3  
+let g:OmniSharp_highlight_types = 3
 
 " 
 let g:OmniSharp_server_use_mono = 1
@@ -566,5 +567,3 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 set sessionoptions-=options    " do not store global and local values in a session
 set sessionoptions-=folds      " do not store folds
 
-
-autocmd FileType cs set foldmethod=syntax

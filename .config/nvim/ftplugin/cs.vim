@@ -69,3 +69,6 @@ nnoremap <Leader>ss :OmniSharpStartServer<CR>
 nnoremap <Leader>sp :OmniSharpStopServer<CR>
 
 
+setl foldlevel=2
+setl foldnestmax=3
+
