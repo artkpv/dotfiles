@@ -21,7 +21,6 @@ set autoread
 let mapleader = ","
 
 " Fast saving
-nmap <leader>w :w!<cr>
 nnoremap <C-s> :wa<CR>
 
 " :W sudo saves the file 
@@ -69,21 +68,25 @@ call minpac#add('vim-airline/vim-airline')
 "
 " IDE related
 
+call minpac#add('neoclide/coc.nvim', {'branch': 'release'} )  " All except C#
+" call minpac#add('OmniSharp/omnisharp-vim')  " For C# only
+call minpac#add('sheerun/vim-polyglot')
+
+" call minpac#add('neovim/nvim-lsp')
 call minpac#add('scrooloose/nerdcommenter')
 call minpac#add('tpope/vim-dispatch')
 call minpac#add('radenling/vim-dispatch-neovim')
 call minpac#add('tpope/vim-surround')
-call minpac#add('sirver/ultisnips')
+" call minpac#add('sirver/ultisnips')
 
-call minpac#add('dense-analysis/ale')
-call minpac#add('OmniSharp/omnisharp-vim')
-call minpac#add('Shougo/deoplete.nvim')
-call minpac#add('deoplete-plugins/deoplete-jedi')
-call minpac#add('Shougo/deoplete-clangx')
-call minpac#add('Shougo/echodoc.vim')
+"call minpac#add('dense-analysis/ale')
+"call minpac#add('Shougo/deoplete.nvim')
+"call minpac#add('deoplete-plugins/deoplete-jedi')
+"call minpac#add('Shougo/deoplete-clangx')
+"call minpac#add('Shougo/echodoc.vim')
 call minpac#add('honza/vim-snippets')
 
-call minpac#add('fsharp/vim-fsharp')
+"call minpac#add('fsharp/vim-fsharp')
 
 call minpac#add('majutsushi/tagbar')
 
@@ -136,7 +139,7 @@ set ruler
 set cmdheight=2
 
 " A buffer becomes hidden when it is abandoned
-set hid
+set hidden
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
@@ -384,18 +387,18 @@ let g:ledger_main=$LEDGER_FILE
 
 " UltiSnips --------------------------------------------------- {{{1
 
-let g:UltiSnipsSnippetDirectories=["pack/minpac/start/vim-snippets/UltiSnips", "my_snippets"]
+"let g:UltiSnipsSnippetDirectories=["pack/minpac/start/vim-snippets/UltiSnips", "my_snippets"]
 
 "  ALE  --------------------------------------------------- {{{1
 
-let g:ale_completion_enabled=1
+"let g:ale_completion_enabled=1
 
-" Use ALE's function for omnicompletion.
-set omnifunc=ale#completion#OmniFunc
+"" Use ALE's function for omnicompletion.
+"set omnifunc=ale#completion#OmniFunc
 
-let g:ale_linters = {
-     \ 'cs': ['omnisharp', 'mcs']
-     \}
+"let g:ale_linters = {
+     "\ 'cs': ['omnisharp', 'mcs']
+     "\}
 
 " Completion --------------------------------------------------- {{{1
 
@@ -403,43 +406,186 @@ let g:ale_linters = {
 " See ftplugin/cs.vim
 " See ftplugin/c.vim
 
+" TextEdit might fail if hidden is not set.
+set hidden
 
-" Show last method signature  
-let g:echodoc#enable_at_startup=1
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
 
-" Show help at the bottom.
-let g:echodoc#type='echo'
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if has('patch8.1.1068')
+  " Use `complete_info` if your (Neo)Vim version supports it.
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <TAB> for selections ranges.
+" NOTE: Requires 'textDocument/selectionRange' support from the language server.
+" coc-tsserver, coc-python are the examples of servers that support it.
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings using CoCList:
+" Show all diagnostics.
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+
+
+"" Show last method signature  
+"let g:echodoc#enable_at_startup=1
+
+"" Show help at the bottom.
+"let g:echodoc#type='echo'
 
 
 " OmniSharp will start automatically upon opening a `*.cs` file.
-let g:OmniSharp_start_server = 1
+" let g:OmniSharp_start_server = 1
 
 " Use this to specify where the roslyn omnisharp server should be run from and downloaded to.
-let g:OmniSharp_server_install = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn'
+" let g:OmniSharp_server_install = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn'
 " let g:OmniSharp_server_path = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn/run'
 
 " Use the stdio version of OmniSharp-roslyn:
-let g:OmniSharp_server_stdio = 1
+"let g:OmniSharp_server_stdio = 0
 
-let g:OmniSharp_loglevel = 'info'
+"let g:OmniSharp_loglevel = 'debug'
 
 " Show loading message
-let g:OmniSharp_server_display_loading = 1
+" let g:OmniSharp_server_display_loading = 1
 
-let g:OmniSharp_selector_ui = 'fzf'
+" let g:OmniSharp_selector_ui = 'fzf'
 
 " Update semantic highlighting on BufEnter and InsertLeave
-let g:OmniSharp_highlight_types = 3
+"let g:OmniSharp_highlight_types = 3
 
 " 
-let g:OmniSharp_server_use_mono = 1
+"let g:OmniSharp_server_use_mono = 0
 
 " Don't autoselect first omnicomplete option, show options even if there is only
 " one (so the preview documentation is accessible). Remove 'preview' if you
 " don't want to see any documentation whatsoever.
 " set completeopt=longest,menuone,preview
 
-let g:omnicomplete_fetch_full_documentation = 1
+"let g:omnicomplete_fetch_full_documentation = 1
+
 
 
 
