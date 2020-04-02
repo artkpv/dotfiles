@@ -69,7 +69,7 @@ call minpac#add('vim-airline/vim-airline')
 " IDE related
 
 call minpac#add('neoclide/coc.nvim', {'branch': 'release'} )  " All except C#
-" call minpac#add('OmniSharp/omnisharp-vim')  " For C# only
+call minpac#add('OmniSharp/omnisharp-vim')  " For C# only
 call minpac#add('sheerun/vim-polyglot')
 
 " call minpac#add('neovim/nvim-lsp')
@@ -557,34 +557,34 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 
 " OmniSharp will start automatically upon opening a `*.cs` file.
-" let g:OmniSharp_start_server = 1
+let g:OmniSharp_start_server = 1
 
 " Use this to specify where the roslyn omnisharp server should be run from and downloaded to.
 " let g:OmniSharp_server_install = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn'
 " let g:OmniSharp_server_path = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn/run'
 
 " Use the stdio version of OmniSharp-roslyn:
-"let g:OmniSharp_server_stdio = 0
+let g:OmniSharp_server_stdio = 1
 
 "let g:OmniSharp_loglevel = 'debug'
 
 " Show loading message
-" let g:OmniSharp_server_display_loading = 1
+let g:OmniSharp_server_display_loading = 1
 
-" let g:OmniSharp_selector_ui = 'fzf'
+let g:OmniSharp_selector_ui = 'fzf'
 
 " Update semantic highlighting on BufEnter and InsertLeave
-"let g:OmniSharp_highlight_types = 3
+let g:OmniSharp_highlight_types = 3
 
 " 
-"let g:OmniSharp_server_use_mono = 0
+let g:OmniSharp_server_use_mono = 1
 
 " Don't autoselect first omnicomplete option, show options even if there is only
 " one (so the preview documentation is accessible). Remove 'preview' if you
 " don't want to see any documentation whatsoever.
 " set completeopt=longest,menuone,preview
 
-"let g:omnicomplete_fetch_full_documentation = 1
+let g:omnicomplete_fetch_full_documentation = 1
 
 
 
@@ -690,7 +690,7 @@ imap <F3> <ESC>:call EnRuHighlight()<CR>a
 set tags=tags;
 "
 " Regenerate tags when saving Python files.
-autocmd BufWritePost *.py *.cs silent! !ctags -R &
+" autocmd BufWritePost *.py *.cs silent! !ctags -R &
 
 
 " Auto save when buffer lose focus
