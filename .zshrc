@@ -22,6 +22,8 @@ ZSH_THEME="spaceship"
 plugins=(
     git
     vi-mode
+    docker
+    docker-compose
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -64,7 +66,6 @@ function hl
 }
 
 PATH=$PATH:$HOME/bin
-PATH=$PATH:$HOME/.dotnet/bin
 
 if [ -n "$DISPLAY" ]; then
     export BROWSER=firefox
@@ -79,7 +80,7 @@ else
   export EDITOR='nvim'
 fi
 export VISUAL=nvim
-export PAGER=less
+export PAGER='less -R'
 
 
 # alias transw='trans -t en:ru+en -no-ansi'
@@ -95,10 +96,9 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 ######
 export NNN_TRASH=1
 export NNN_CONTEXT_COLORS='4321'
-export NNN_PLUG='p:-_less -iR $nnn*'  # Press ;p to open pager.
+export NNN_PLUG='p:-_less -iR $nnn*;o:preview-tui'
 
-# -x - show notis on selection cp, mv, rm completion
-alias nnn='nnn -x'
+alias nnn='nnn -xa'
 
 
 #### 
@@ -118,10 +118,6 @@ _dotnet_zsh_complete()
 compctl -K _dotnet_zsh_complete dotnet
 
 
-
-export MSBuildSDKsPath=$( echo /usr/share/dotnet/sdk/3.*/Sdks );
-
-
 # Enable bash autocompletions 
 autoload -U +X bashcompinit && bashcompinit
 
@@ -138,3 +134,21 @@ mv Program.cs pr.cs
 dotnet new sln
 dotnet sln add *.csproj
 }
+
+
+alias py=python3
+
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+alias fzf="fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'"
+
+alias vpn="sudo vpnstart.sh"
+
+function onwakeup 
+{
+    bluetoothctl connect 00:1F:20:95:E8:F7
+    redshift -x
+}
+
+alias pabrowse_all="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
+alias pabrowse="pacman -Qqe | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"

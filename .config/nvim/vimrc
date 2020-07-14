@@ -72,6 +72,8 @@ call minpac#add('neoclide/coc.nvim', {'branch': 'release'} )  " All except C#
 call minpac#add('OmniSharp/omnisharp-vim')  " For C# only
 call minpac#add('sheerun/vim-polyglot')
 
+" call minpac#add('prettier/vim-prettier')
+
 " call minpac#add('neovim/nvim-lsp')
 call minpac#add('scrooloose/nerdcommenter')
 call minpac#add('tpope/vim-dispatch')
@@ -79,7 +81,7 @@ call minpac#add('radenling/vim-dispatch-neovim')
 call minpac#add('tpope/vim-surround')
 " call minpac#add('sirver/ultisnips')
 
-"call minpac#add('dense-analysis/ale')
+call minpac#add('dense-analysis/ale')
 "call minpac#add('Shougo/deoplete.nvim')
 "call minpac#add('deoplete-plugins/deoplete-jedi')
 "call minpac#add('Shougo/deoplete-clangx')
@@ -102,12 +104,8 @@ call minpac#add('majutsushi/tagbar')
 call minpac#add('ledger/vim-ledger')
 
 
-" Load the plugins right now. (optional)
-"packloadall
-
 command! PackUpdate call minpac#update()
 command! PackClean call minpac#clean()
-
 
 
 " VIM user interface  --------------------------------------------------- {{{1
@@ -115,9 +113,11 @@ command! PackClean call minpac#clean()
 " Set 7 lines to the cursor - when moving vertically using j/k
 set scrolloff=7
 
+" TODO:
 " Avoid garbled characters in Chinese language windows OS
 " let $LANG='en'  " Or else it changes locale for child shell (:!locale)
 set langmenu=en
+
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
@@ -174,11 +174,6 @@ set novisualbell
 set t_vb=
 set timeoutlen=500
 
-" Properly disable sound on errors on MacVim
-if has("gui_macvim")
-    autocmd GUIEnter * set vb t_vb=
-endif
-
 
 " Add a bit extra margin to the left
 set foldcolumn=1
@@ -193,6 +188,10 @@ set splitright
 " Preview window height
 set previewheight=5
 
+
+" Air line. Hide keymap:
+let g:airline#extensions#keymap#enabled = 0
+
 "  Colors and Fonts --------------------------------------------------- {{{1
 
 
@@ -202,6 +201,7 @@ syntax enable
 " set background=dark
 
 try
+    " colorscheme contrasty
     " colorscheme solarized
     colorscheme gruvbox
     "colorscheme desert
@@ -391,14 +391,14 @@ let g:ledger_main=$LEDGER_FILE
 
 "  ALE  --------------------------------------------------- {{{1
 
-"let g:ale_completion_enabled=1
+let g:ale_completion_enabled=0
 
 "" Use ALE's function for omnicompletion.
 "set omnifunc=ale#completion#OmniFunc
 
-"let g:ale_linters = {
-     "\ 'cs': ['omnisharp', 'mcs']
-     "\}
+let g:ale_linters = {
+     \ 'cs': ['omnisharp', 'mcs']
+     \}
 
 " Completion --------------------------------------------------- {{{1
 
@@ -561,12 +561,12 @@ let g:OmniSharp_start_server = 1
 
 " Use this to specify where the roslyn omnisharp server should be run from and downloaded to.
 " let g:OmniSharp_server_install = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn'
-" let g:OmniSharp_server_path = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn/run'
+" let g:OmniSharp_server_path = '/home/art/bin/omnisharp/omnisharp/OmniSharp.exe'
 
 " Use the stdio version of OmniSharp-roslyn:
 let g:OmniSharp_server_stdio = 1
 
-"let g:OmniSharp_loglevel = 'debug'
+let g:OmniSharp_loglevel = 'info'
 
 " Show loading message
 let g:OmniSharp_server_display_loading = 1
@@ -577,7 +577,7 @@ let g:OmniSharp_selector_ui = 'fzf'
 let g:OmniSharp_highlight_types = 3
 
 " 
-let g:OmniSharp_server_use_mono = 1
+let g:OmniSharp_server_use_mono = 0
 
 " Don't autoselect first omnicomplete option, show options even if there is only
 " one (so the preview documentation is accessible). Remove 'preview' if you
@@ -587,27 +587,19 @@ let g:OmniSharp_server_use_mono = 1
 let g:omnicomplete_fetch_full_documentation = 1
 
 
+let g:OmniSharp_popup = 1
+
 
 
 " VimWiki --------------------------------------------------- {{{1
 
 " See ~/.config/nvim/ftplugin/vimwiki.vim
 
+" Disable menu. See bug at https://github.com/vimwiki/vimwiki/issues/933
+" let g:vimwiki_menu = ''
+
 let g:vimwiki_use_mouse = 1
-let g:vimwiki_list = [ {
-            \ 'path': '$HOME/mydir/notes/', 
-            \ 'path_html': '$HOME/mydir/notes_html/',
-            \ 'diary_rel_path': 'дневник/',
-            \ 'diary_index': 'дневник',
-            \ 'diary_header': 'Дневник',
-            \ 'auto_diary_index': 1,
-            \ 'auto_tags': 1,
-            \ 'syntax': 'markdown', 
-            \ 'custom_wiki2html': '$HOME/mydir/notes/bin/wiki2html.sh',
-            \ 'template_path': '$HOME/mydir/notes/bin/',
-            \ 'template_default': 'GitHub.html5',
-            \ 'links_space_char': '_',
-            \ 'ext': '.md' }]
+
 
 let g:vimwiki_folding = 'expr'
 let g:vimwiki_toc_header = 'Содержание'
@@ -620,23 +612,26 @@ let g:vimwiki_diary_months = {
       \ }
 
 let g:vimwiki_global_ext = 0
+let g:vimwiki_list = [ {
+            \ 'path': '~/mydir/notes/', 
+            \ 'path_html': '~/mydir/notes_html/',
+            \ 'diary_rel_path': 'дневник/',
+            \ 'diary_index': 'дневник',
+            \ 'diary_header': 'Дневник',
+            \ 'auto_diary_index': 1,
+            \ 'auto_tags': 1,
+            \ 'syntax': 'markdown', 
+            \ 'custom_wiki2html': '~/mydir/notes/bin/wiki2html.sh',
+            \ 'template_path': '~/mydir/notes/bin/',
+            \ 'template_default': 'GitHub.html5',
+            \ 'links_space_char': '_',
+            \ 'ext': '.md' }]
 
-function! MyWikiClean() 
-    " Clean escape '\' chars inserted by Evernote export.
-    %s_\\__gce
-
-    " Clean enclosing of links with '<' and '>' chars.
-    %s_\v\<([^\>]+)\>_\1_gce
-
-    %s_\v\!\[\]\((local.*\/([^\)]+))\)(\{wid[^}]*\})?_[\2](\1)_
-
-endfunction
-
-command! PrintDay :norm i99101011111212131314141515161617171818191920202121
 
 " vim-airline --------------------------------------------------- {{{1
 
 let g:airline_powerline_fonts = 1
+
 
 
 " Goyo --------------------------------------------------- {{{1
@@ -654,7 +649,10 @@ endfunction
 
 " FZF --------------------------------------------------- {{{1
 
-nnoremap <C-p> :<C-u>FZF<CR>
+" Always enable preview window on the right with 60% width
+let g:fzf_preview_window = 'right:60%'
+
+nnoremap <C-p> :<C-u>Files<CR>
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
@@ -662,6 +660,8 @@ let g:fzf_action = {
 
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
 
 
 " i18n   --------------------------------------------------- {{{1
@@ -682,6 +682,25 @@ set imsearch=0                  " раскладка по умолчанию д�
 nmap <F3> <ESC>:call EnRuHighlight()<CR>
 imap <F3> <ESC>:call EnRuHighlight()<CR>a
 " }}}
+
+
+"" Tmux integration --------------------------------------------------- {{{1
+
+
+" Disable vim->tmux navigation when the Vim pane is zoomed in tmux
+let g:tmux_navigator_disable_when_zoomed = 1
+
+"
+let g:tmux_navigator_disable_when_zoomed = 1
+
+" Custom Key Bindings
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
 
 "" Other --------------------------------------------------- {{{1
@@ -712,4 +731,5 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
 set sessionoptions-=options    " do not store global and local values in a session
 set sessionoptions-=folds      " do not store folds
+
 

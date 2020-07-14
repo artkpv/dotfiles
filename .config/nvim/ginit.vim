@@ -3,15 +3,10 @@
 if exists(':GuiTabline')
 	GuiTabline 0
 endif
-"
-" set guifont=Source\ Code\ Pro:h9
-" au VimEnter * GuiFont! Source\ Code\ Pro:h9
+
 set guifont=Source\ Code\ Pro:h10
 
 
 " Disable Windows popup to make correct formatting. See https://github.com/neovim/neovim/issues/9026
 GuiPopupmenu 0
-" call GuiPopupmenu(0)
-" au VimEnter * GuiPopupmenu 0
 
-" ColorDefault

@@ -20,6 +20,8 @@
     "\ })
 
 
+nmap <buffer> ]g :ALENext<CR>
+nmap <buffer> [g :ALEPrevious<CR>
 
 " The following commands are contextual, based on the cursor position.
 nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
@@ -47,7 +49,7 @@ nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
 autocmd CursorHold call OmniSharp#TypeLookupWithoutDocumentation()
 
 "" Trigger CursorHold after 1 sec
-set updatetime=100
+set updatetime=10
 
 
 
