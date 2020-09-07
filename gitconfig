@@ -1,0 +1,35 @@
+[include]
+   path = .gitconfig_aliases
+
+[user]
+	name = Artyom K.
+	email = artyomkarpov@gmail.com
+[http]
+	postBuffer = 52428800
+[gui]
+[core]
+	autocrlf = false
+	editor = \"nvim\"
+	safecrlf = true
+	excludesfile = .gitignore_global
+
+
+[remote-hg]
+	hg-git-compat = true
+[push]
+	default = matching
+
+[merge]
+	tool = vimdiff
+
+[mergetool]
+	keepBackup = false
+    
+[mergetool "vimdiff"]
+	cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED  -c '$wincmd w' -c 'wincmd J'
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
