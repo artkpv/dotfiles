@@ -3,13 +3,13 @@
       relink: true
       create: true
 
-- clean: ['~']
+- clean: ['~', '~/.config']
 
 - link:
-    ~/.zshrc.conf: zshrc.conf
-    ~/.tmux.conf: tmux.conf
-    ~/.gitconfig: gitconfig
-    ~/.gitconfig_aliases: gitconfig_aliases
+    ~/.zshrc:
+    ~/.tmux.conf:
+    ~/.gitconfig:
+    ~/.gitconfig_aliases: 
     ~/.config/nvim: nvim
     ~/.config/termite/config: termite
     ~/.config/i3/config: i3
@@ -19,4 +19,6 @@
 - create:
 
 - shell:
-  - [git submodule update --init --recursive, Installing submodules]
+  - git submodule sync --recursive
+  - git submodule update --init --recursive
+
