@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Author: Artyom K. w1ld at inbox dot ru
 
 # If you come from bash you might have to change your $PATH.
@@ -12,7 +19,10 @@ export ZSH="/home/art/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Set fzf installation directory path
+export FZF_BASE=/usr/bin/fzf
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -22,6 +32,7 @@ ZSH_THEME="robbyrussell"
 plugins=(
     git
     vi-mode
+    fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -155,3 +166,16 @@ alias pabrowse="pacman -Qqe | fzf --preview 'pacman -Qil {}' --layout=reverse --
 export PATH=$PATH:/home/art/bin
 
 source '/home/art/lib/azure-cli/az.completion'
+
+function set_background
+{
+    img="$HOME/Downloads/pictures/image.png"
+    curl bing.com -skL | grep -E 'https://www.bing.com/th[^"]*' -o | xargs curl -s -o$img 
+    feh --bg-scale "$img" 
+}
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/mydir/ref/dotfiles/p10k.zsh.
+[[ ! -f ~/mydir/ref/dotfiles/p10k.zsh ]] || source ~/mydir/ref/dotfiles/p10k.zsh

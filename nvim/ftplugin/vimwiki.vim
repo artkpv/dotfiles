@@ -1,14 +1,13 @@
 
-" Consider: 
-" xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
-" alduin
-" baycomb
-" mono colors: cake, candycode
-" colorsbox-material
-" MountinDew
-" colorscheme alduin
-colorscheme one
-set bg=light
+try
+    " colorscheme contrasty
+    " colorscheme solarized
+    " colorscheme gruvbox
+    "colorscheme desert
+    " colorscheme onehalflight
+    colorscheme onehalfdark
+catch
+endtry
 
 
 CocDisable

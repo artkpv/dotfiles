@@ -1,0 +1,2 @@
+exec /usr/bin/i3
+./.fehbg &

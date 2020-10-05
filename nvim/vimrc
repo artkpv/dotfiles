@@ -34,8 +34,6 @@ set clipboard=unnamed,unnamedplus
 " Refs https://vim.fandom.com/wiki/Move_cursor_by_display_lines_when_wrapping
 noremap <silent> k gk
 noremap <silent> j gj
-noremap <silent> 0 g0
-noremap <silent> $ g$
 
 " Package management --------------------------------------------------- {{{1
 
@@ -126,8 +124,8 @@ set scrolloff=7
 " let $LANG='en'  " Or else it changes locale for child shell (:!locale)
 set langmenu=en
 
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
+" source $VIMRUNTIME/delmenu.vim
+" source $VIMRUNTIME/menu.vim
 
 " Turn on the Wild menu
 set wildmenu
@@ -223,14 +221,18 @@ if (empty($TMUX))
   endif
 endif
 
-try
-    " colorscheme contrasty
-    " colorscheme solarized
-    " colorscheme gruvbox
-    "colorscheme desert
-    colorscheme onehalflight
-catch
-endtry
+
+" Consider: 
+" xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
+" alduin
+" baycomb
+" mono colors: cake, candycode
+" colorsbox-material
+" MountinDew
+" colorscheme alduin
+colorscheme one
+set bg=dark
+
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -401,11 +403,9 @@ endfunction
 
 " Ledger --------------------------------------------------- {{{1
 
-" See ftplugin/ledger.vim
-
 let g:ledger_bin='hledger'
 let g:ledger_is_hledger=1
-let g:ledger_main=$LEDGER_FILE  
+let g:ledger_main=$LEDGER_FILE
 
 
 " UltiSnips --------------------------------------------------- {{{1
@@ -757,4 +757,5 @@ set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 set sessionoptions-=options    " do not store global and local values in a session
 set sessionoptions-=folds      " do not store folds
 
+set modeline
 

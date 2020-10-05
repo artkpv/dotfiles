@@ -1,0 +1,10 @@
+#!/bin/sh
+while true
+do
+    img="$HOME/Downloads/pictures/image.png"
+    if curl bing.com -s; then
+        curl bing.com -skL | grep -E 'https://www.bing.com/th[^"]*' -o | xargs curl -s -o$img 
+    fi
+    feh --no-fehbg --bg-scale $img 
+    sleep 4h
+done

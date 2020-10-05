@@ -21,20 +21,12 @@ set $mod Mod4
 
 font pango:Source Code Pro 9
 
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
+# Gaps:
+for_window [class=".*"] border pixel 2
+gaps inner 10
+gaps outer 2
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
-
-exec --no-startup-id kmix
-
-exec --no-startup-id redshift-gtk
+smart_borders on
 
 
 # Use pactl to adjust volume in PulseAudio.
@@ -48,19 +40,10 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 focus_follows_mouse no
 
-# start a terminal
-# bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec termite
-
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+grave exec termite
 
 # change focus
 bindsym $mod+h focus left
@@ -149,6 +132,14 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+
+# Move workspaces betweeen monitors
+bindsym $mod+Control+l move workspace to output right
+bindsym $mod+Control+h move workspace to output left
+bindsym $mod+Control+j move workspace to output down
+bindsym $mod+Control+k move workspace to output up
+
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -183,7 +174,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $Locker i3lock && sleep 1
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
@@ -205,7 +195,42 @@ bindsym $mod+F4 mode "$mode_system"
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 3%-
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +3%
 
+set $Locker i3lock -i /home/art/Downloads/pictures/lock.png && sleep 1
+
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -i /home/art/Downloads/pictures/lock.png --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec --no-startup-id nm-applet
+
+exec --no-startup-id pasystray
+
+exec --no-startup-id blueman-applet
+
+exec --no-startup-id redshift-gtk
+
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+exec --no-startup-id udiskie --smart-tray
+
+mode "$launcher" {
+    bindsym f exec firefox, mode "default"
+    bindsym k exec keepassxc, mode "default"
+    bindsym h exec "nvim-qt -- -c VimwikiIndex", mode "default"
+    bindsym i exec "nvim-qt -- $HOME/mydir/notes/входящие.md", mode "default"
+    bindsym t exec "nvim-qt -- $HOME/mydir/notes/time/2020.timeclock", mode "default"
+    bindsym e exec termite --exec=nnn
+    bindsym Return exec "rofi -show combi", mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Return mode "$launcher"
+
+
+
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -214,3 +239,4 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # }
 
 # https://wiki.archlinux.org/index.php/Xorg/Keyboard_configuration
+
