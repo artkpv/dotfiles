@@ -1,6 +1,6 @@
 
 " Use deoplete.
-call deoplete#enable()
+" call deoplete#enable()
 
 " Use smartcase.
-call deoplete#custom#option('smart_case', v:true)
+" call deoplete#custom#option('smart_case', v:true)

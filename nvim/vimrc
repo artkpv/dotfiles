@@ -230,8 +230,8 @@ endif
 " colorsbox-material
 " MountinDew
 " colorscheme alduin
-colorscheme one
-set bg=dark
+" colorscheme onehalfdark
+colorscheme onehalflight
 
 
 " Set extra options when running in GUI mode

@@ -132,6 +132,9 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+workspace $ws1 output DP-3
+workspace $ws2 output DP-1
+workspace $ws10 output eDP-1
 
 # Move workspaces betweeen monitors
 bindsym $mod+Control+l move workspace to output right
@@ -212,15 +215,23 @@ exec --no-startup-id pasystray
 exec --no-startup-id blueman-applet
 
 exec --no-startup-id redshift-gtk
+exec --no-startup-id redshift-gtk
+exec --no-startup-id xfce4-power-manager
+
+exec ~/.fehbg
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 exec --no-startup-id udiskie --smart-tray
 
+exec --no-startup-id picom -b -i 1.0
+
+set $launcher Launcher: (f) firefox, (k) keepassxc, (h) wiki home, (l) diary note, (i) inbox, (t) time, (e) termite.
 mode "$launcher" {
     bindsym f exec firefox, mode "default"
     bindsym k exec keepassxc, mode "default"
     bindsym h exec "nvim-qt -- -c VimwikiIndex", mode "default"
+    bindsym l exec "nvim-qt -- -c VimwikiMakeDiaryNote", mode "default"
     bindsym i exec "nvim-qt -- $HOME/mydir/notes/входящие.md", mode "default"
     bindsym t exec "nvim-qt -- $HOME/mydir/notes/time/2020.timeclock", mode "default"
     bindsym e exec termite --exec=nnn
@@ -230,12 +241,21 @@ mode "$launcher" {
 bindsym $mod+Return mode "$launcher"
 
 
+set $screenshots Screenshot (Enter) xclip, (p) area in file at Desktop, (f) file at Desktop
+mode "$screenshots" {
+# Needs maim https://github.com/naelstrof/maim
+    bindsym Return exec "maim -s | xclip -selection clipboard -t image/png", mode "default"
+    bindsym p exec "maim -s ~/Desktop/screenshot_$( date +%s).jpg", mode "default"
+    bindsym f exec "maim ~/Desktop/screenshot_$( date +%s).jpg", mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+p mode "$screenshots"
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 # bar {
-        # status_command i3status
+       # status_command i3status
 # }
 
 # https://wiki.archlinux.org/index.php/Xorg/Keyboard_configuration

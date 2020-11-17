@@ -13,16 +13,17 @@ fi
 # . ~/.zshrc_secret
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/art/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
+#ZSH_THEME="robbyrussell"
 
 # Set fzf installation directory path
-export FZF_BASE=/usr/bin/fzf
+#export FZF_BASE=$( dirname `which fzf ` )
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -73,7 +74,7 @@ function hl
 {
     hledger $* | less -R
 }
-export LEDGER_FILE=$HOME/mydir/notes/accounting/2020.ledger
+export LEDGER_FILE=$HOME/mydir/accounting/2020.ledger
 
 PATH=$PATH:$HOME/bin
 
@@ -131,8 +132,6 @@ compctl -K _dotnet_zsh_complete dotnet
 # Enable bash autocompletions 
 autoload -U +X bashcompinit && bashcompinit
 
-# source ~/bin/az.completion
-
 TIMELOG=~/mydir/notes/time/2020.timeclock
 alias вна="echo н `date '+%Y-%m-%d %H:%M'` \$* >>$TIMELOG"     
 alias вза="echo з `date '+%Y-%m-%d %H:%M'` >>$TIMELOG"
@@ -163,9 +162,14 @@ function onwakeup
 alias pabrowse_all="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
 alias pabrowse="pacman -Qqe | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
 
+alias dkr="sudo docker"
+
 export PATH=$PATH:/home/art/bin
 
-source '/home/art/lib/azure-cli/az.completion'
+AZCOMPLETION="$HOME/lib/azure-cli/az.completion"
+if [[ -e $AZCOMPLETION ]] ; then
+	source $AZCOMPLETION 
+fi
 
 function set_background
 {
@@ -179,3 +183,5 @@ function set_background
 
 # To customize prompt, run `p10k configure` or edit ~/mydir/ref/dotfiles/p10k.zsh.
 [[ ! -f ~/mydir/ref/dotfiles/p10k.zsh ]] || source ~/mydir/ref/dotfiles/p10k.zsh
+
+

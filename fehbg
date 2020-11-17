@@ -5,6 +5,6 @@ do
     if curl bing.com -s; then
         curl bing.com -skL | grep -E 'https://www.bing.com/th[^"]*' -o | xargs curl -s -o$img 
     fi
-    feh --no-fehbg --bg-scale $img 
+    feh --no-fehbg --bg-fill $img 
     sleep 4h
 done

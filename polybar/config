@@ -230,21 +230,19 @@ interface = wlo1
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
+label-connected = %essid% %downspeed:9%
 format-connected-underline = #9f78e1
-label-connected = %essid%
+ramp-signal-0 = 😱
+ramp-signal-1 = 😠
+ramp-signal-2 = 😒
+ramp-signal-3 = 😊
+ramp-signal-4 = 😃
+ramp-signal-5 = 😈
 
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+format-disconnected = <label-disconnected>
+label-disconnected = not connected
+label-disconnected-foreground = #66ffffff
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
@@ -413,6 +411,15 @@ menu-2-0 = power off
 menu-2-0-exec = sudo poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
+
+[module/nordvpn]
+type = custom/script
+interval = 1
+format-prefix = "  "  
+format = <label>
+exec = python   path/to/.config/polybar/spotify.py  -f '{play_pause} {song} - {artist} - {album}'
+
+format-underline = #1db954
 
 [settings]
 screenchange-reload = true
