@@ -15,6 +15,9 @@
     ~/.zprofile:
     ~/.gitconfig_aliases: 
     ~/.Xresources:
+    ~/.config/spotify-tui/config.yml: spotify-tui
+    ~/.config/spotifyd/spotifyd.conf: spotifyd.conf
+    ~/.config/systemd/user/spotifyd.service: spotifyd.service
     ~/.config/nvim: nvim
     ~/.config/termite/config: termite
     ~/.config/i3/config: i3

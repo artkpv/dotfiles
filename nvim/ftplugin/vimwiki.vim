@@ -1,11 +1,12 @@
 
 try
-    " colorscheme contrasty
+    "colorscheme contrasty
     " colorscheme solarized
     " colorscheme gruvbox
     "colorscheme desert
     " colorscheme onehalflight
-    colorscheme onehalfdark
+    "colorscheme onehalfdark
+    colorscheme nord
 catch
 endtry
 

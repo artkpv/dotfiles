@@ -74,7 +74,9 @@ function hl
 {
     hledger $* | less -R
 }
-export LEDGER_FILE=$HOME/mydir/accounting/2020.ledger
+alias hlui='hledger-ui --watch --theme=terminal'
+
+export LEDGER_FILE=$HOME/mydir/accounting/2021.ledger
 
 PATH=$PATH:$HOME/bin
 

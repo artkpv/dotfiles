@@ -12,6 +12,7 @@
 	editor = \"nvim\"
 	safecrlf = true
 	excludesfile = .gitignore_global
+	quotepath = off
 
 
 [remote-hg]

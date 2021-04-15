@@ -63,7 +63,7 @@ font-2 = siji:pixelsize=10;1
  
 modules-left = bspwm i3
 modules-center = mpd
-modules-right = filesystem backlight-acpi pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = filesystem backlight-acpi pulseaudio xkeyboard memory cpu wlan nordvpn eth battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -414,10 +414,10 @@ menu-2-1-exec = menu-open-0
 
 [module/nordvpn]
 type = custom/script
-interval = 1
-format-prefix = "  "  
+interval = 2
 format = <label>
-exec = python   path/to/.config/polybar/spotify.py  -f '{play_pause} {song} - {artist} - {album}'
+exec = nordvpn status | sed -nE '/Country/s/Country:\s(.*)/\1/p'
+exec-if = [[ `nordvpn status | grep Connected ` ]]
 
 format-underline = #1db954
 
