@@ -10,7 +10,12 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# . ~/.zshrc_secret
+if [[ -e ~/mydir/notes/.zsh_secret && ! -e ~/.zsh_secret ]] ; then
+  ln -s ~/mydir/notes/.zsh_secret ~/.zsh_secret
+fi
+if [[ -e ~/.zsh_secret ]] ; then
+  . ~/.zsh_secret
+fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -76,7 +81,7 @@ function hl
 }
 alias hlui='hledger-ui --watch --theme=terminal'
 
-export LEDGER_FILE=$HOME/mydir/accounting/2021.ledger
+export LEDGER_FILE=$HOME/mydir/accounting/all.ledger
 
 PATH=$PATH:$HOME/bin
 
@@ -109,9 +114,9 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 ######
 export NNN_TRASH=1
 export NNN_CONTEXT_COLORS='4321'
-export NNN_PLUG='p:-_less -iR $nnn*;o:preview-tui'
+export NNN_PLUG='p:-_less -iR $nnn*;o:preview-tabbed'
 
-alias nnn='nnn -xa'
+alias nnn='nnn -xa -P preview-tabbed'
 
 
 #### 
@@ -187,3 +192,40 @@ function set_background
 [[ ! -f ~/mydir/ref/dotfiles/p10k.zsh ]] || source ~/mydir/ref/dotfiles/p10k.zsh
 
 
+function cbr_get_currency() 
+{
+    # https://gist.github.com/artkpv/3cbff1819846a4eec132be21a1fbd63d
+    # Скрипт для получения курса валют на заданную даты из Центробанка 
+    DATE=$1  # 02/03/2002
+    CURR=USD
+    export LANG=ru_RU.CP1251; curl 'http://www.cbr.ru/scripts/XML_daily.asp?date_req='$DATE -s |  grep -Po $CURR'.*?Value>[^<]*' | sed -En -e 's/.*>([0-9,]*)/\1/gp' -
+}
+
+function n-toggle()
+{
+if ( LANG=en nmcli general status ) | grep -e asleep - ; then nmcli networking on ; else nmcli networking off ; fi
+}
+
+function b-toggle()
+{
+if ( brightnessctl| grep 100% ) ; then brightnessctl set 1% ; else brightnessctl set 100%  ; fi  # toggle brightness
+}
+
+export SDCV_PAGER=less
+function di()
+{
+    if [[ $# -ne 0 ]]; then 
+        sdcv --color $*
+        echo "Для повтора? [y / N]"
+        read ans
+        if [[ "$ans" =~ "1|y|Y" ]]; then
+            echo "\n\n$*" >> ~/mydir/notes/входящие.md
+            # sdcv -u "Oxford English Dictionary 2nd Ed. P1" \
+            #     -u "Oxford English Dictionary 2nd Ed. P2" \
+            #     $* | head -n10 - >> ~/mydir/notes/входящие.md
+
+        fi
+    else
+        sdcv --color 
+    fi
+}

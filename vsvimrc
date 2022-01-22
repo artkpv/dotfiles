@@ -1,0 +1,51 @@
+set ignorecase
+set clipboard=unnamed
+
+let mapleader = ","
+
+map K :vsc Edit.QuickInfo<CR>
+
+map <Leader>i :vsc ReSharper.ReSharper_InspectThis<CR>
+map <Leader>n :vsc ReSharper.ReSharper_NavigateTo<CR>
+map <Leader>f :vsc ReSharper.ReSharper_GotoFileMember<CR>
+map <Leader>, :vsc ReSharper.ReSharper_GotoText<CR>
+map <Leader>t :vsc ReSharper.ReSharper_GotoType<CR>
+map <Leader>u :vsc ReSharper.ReSharper_GotoUsage<CR>
+map gd :vsc ReSharper.ReSharper_GotoDeclaration<CR>
+map gD :vsc ReSharper.ReSharper_GotoImplementations<CR>
+map <Leader>m :vsc Edit.NextMethod<CR>
+map <Leader>M :vsc Edit.PreviousMethod<CR>
+map <Leader>w :vsc Edit.GoToNextIssueinFile<CR>
+map <Leader>W :vsc Edit.GoToPreviousIssueinFile<CR>
+map <Leader>e :vsc ReSharper.ReSharper_GotoNextErrorInSolution<CR>
+map <Leader>E :vsc ReSharper.ReSharper_GotoPrevErrorInSolution<CR>
+
+map <Leader>tr :vsc ReSharper.ReSharper_UnitTestRunFromContext<CR>
+map <Leader>td :vsc ReSharper.ReSharper_UnitTestDebugContext<CR>
+map <Leader>ta :vsc ReSharper.ReSharper_UnitTestRunSolution<CR>
+map <Leader>tl :vsc ReSharper.ReSharper_UnitTestSessionRepeatPreviousRun<CR>
+map <Leader>tt :vsc ReSharper.ReSharper_ShowUnitTestSessions<CR>
+
+map <Leader>r :vsc ReSharper.ReSharper_RefactorThis<CR>
+"map <Leader>n :vsc ReSharper.ReSharper_Rename<CR>
+map <Leader>s :vsc ReSharper.ReSharper_SurroundWith<CR>
+map <Leader>v :vsc ReSharper.Resharper_IntroVariable<CR>
+map <Leader>o :vsc ReSharper.ReSharper_Move<CR>
+
+map <Leader>l :vsc ReSharper.ReSharper_LiveTemplatesInsert<CR>
+map <Leader>/ :vsc Edit.ToggleLineComment<CR>
+
+nmap <C-O> :vsc View.NavigateBackward<CR>
+nmap <C-I> :vsc View.NavigateForward<CR>
+
+
+
+"map <Leader>ci :vsc ReSharper.ReSharper_CallHierarchyShowIncomingCalls<CR>
+"map <Leader>ci :vsc ReSharper.ReSharper_CallHierarchyShowOutgoingCalls<CR>
+
+"map <Leader>qk :vsc Tools.CustomizeKeyboard<CR>
+
+" map zl :so ~/.vsvimrc<CR>
+"
+"
+"kkkkjmap <Leader>b :vsc Build.BuildSolution<CR>

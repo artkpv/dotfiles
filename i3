@@ -17,9 +17,8 @@ set $mod Mod4
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-# font pango:DejaVu Sans Mono 8
-
-font pango:Source Code Pro 9
+font pango:DejaVu Sans Mono 8
+# font pango:Source Code Pro 9
 
 # Gaps:
 for_window [class=".*"] border pixel 2
@@ -214,7 +213,7 @@ exec --no-startup-id pasystray
 
 exec --no-startup-id blueman-applet
 
-exec --no-startup-id redshift-gtk
+exec --no-startup-id redshiftgui
 exec --no-startup-id xfce4-power-manager
 
 exec ~/.fehbg
@@ -225,15 +224,14 @@ exec --no-startup-id udiskie --smart-tray
 
 exec --no-startup-id picom -b -i 1.0
 
-set $launcher Launcher: (f) firefox, (k) keepassxc, (h) wiki home, (l) diary note, (i) inbox, (t) time, (e) termite.
+set $launcher Launcher: (f) firefox, (k) keepassxc, (h) wiki, (j) дневник, (d) заметка в дневник,  (i) inbox
 mode "$launcher" {
     bindsym f exec firefox, mode "default"
     bindsym k exec keepassxc, mode "default"
-    bindsym h exec "nvim-qt -- -c VimwikiIndex", mode "default"
-    bindsym l exec "nvim-qt -- -c VimwikiMakeDiaryNote", mode "default"
-    bindsym i exec "nvim-qt -- $HOME/mydir/notes/входящие.md", mode "default"
-    bindsym t exec "nvim-qt -- $HOME/mydir/notes/time/2020.timeclock", mode "default"
-    bindsym e exec termite --exec=nnn
+    bindsym h exec "goneovim $HOME/mydir/notes/index.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym j exec "goneovim $HOME/mydir/notes/дневник/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym i exec "goneovim $HOME/mydir/notes/входящие.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym d exec "goneovim $HOME/mydir/notes/дневник/$(date +%Y-%m-%d-%H%M).md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     bindsym Return exec "rofi -show combi", mode "default"
     bindsym Escape mode "default"
 }

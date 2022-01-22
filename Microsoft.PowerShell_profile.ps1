@@ -3,7 +3,7 @@ Import-Module DockerCompletion
 import-Module PSReadLine
 
 set-alias g git
-set-alias vi fvim
+set-alias vi neovide
 set-alias d docker
 remove-item alias:\curl -erroraction silentlycontinue
 

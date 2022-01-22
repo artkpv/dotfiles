@@ -5,6 +5,7 @@
 "           https://github.com/ruslanosipov/dotfiles/blob/master/vimrc
 
 " General --------------------------------------------------- {{{1
+set nocompatible
 
 " Sets how many lines of history VIM has to remember
 set history=1000
@@ -50,12 +51,14 @@ call minpac#add('k-takata/minpac', {'type': 'opt'})
 call minpac#add('junegunn/fzf')
 call minpac#add('junegunn/fzf.vim')
 call minpac#add('tpope/vim-unimpaired')
-call minpac#add('plasticboy/vim-markdown')
 call minpac#add('godlygeek/tabular')
+call minpac#add('plasticboy/vim-markdown')
 call minpac#add('junegunn/goyo.vim')
 call minpac#add('rhysd/vim-grammarous')
 call minpac#add('flazz/vim-colorschemes')
-call minpac#add('vimwiki/vimwiki', {'branch': 'dev'} )
+" call minpac#add('vimwiki/vimwiki', {'branch': 'dev'} )
+call minpac#add('lervag/wiki.vim')
+
 call minpac#add('tpope/vim-obsession')
 call minpac#add('tpope/vim-fugitive')
 
@@ -98,7 +101,6 @@ call minpac#add('honza/vim-snippets')
 
 call minpac#add('majutsushi/tagbar')
 
-" call minpac#add('autozimu/LanguageClient-neovim')
 
 " call minpac#add('ycm-core/YouCompleteMe') " Not working right
 " try https://github.com/prabirshrestha/vim-lsp
@@ -108,6 +110,7 @@ call minpac#add('majutsushi/tagbar')
 
 
 call minpac#add('ledger/vim-ledger')
+call minpac#add('freitass/todo.txt-vim')
 
 
 command! PackUpdate call minpac#update()
@@ -203,11 +206,10 @@ set statusline^=%{FugitiveStatusline()}
 
 "  Colors and Fonts --------------------------------------------------- {{{1
 
-set guifont=DejaVu\ Sans\ Mono:h10
-"set guifont=Source\ Code\ Pro:h10
+set guifont=DejaVu\ Sans\ Mono:h9
 
 " Enable syntax highlighting
-syntax enable 
+syntax on 
 
 "Credit joshdick
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
@@ -227,17 +229,23 @@ if (empty($TMUX))
 endif
 
 
-" Consider: 
+try
+" colorscheme gruvbox
+"colorscheme nord
 " xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
-" alduin
-" baycomb
-" mono colors: cake, candycode
-" colorsbox-material
-" MountinDew
+"colorscheme zenburn
 " colorscheme alduin
-colorscheme onehalfdark
-" colorscheme onehalflight
-
+"colorscheme baycomb
+" colorscheme cake 
+"colorscheme solarized8_dark_high 
+" colorscheme candycode
+"colorscheme colorsbox-material
+"colorscheme MountinDew
+" colorscheme alduin
+ colorscheme onehalfdark
+ "colorscheme onehalflight
+catch
+endtry
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -458,11 +466,11 @@ set signcolumn=yes
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"inoremap <silent><expr> <TAB>
+"      \ pumvisible() ? "\<C-n>" :
+"      \ <SID>check_back_space() ? "\<TAB>" :
+"      \ coc#refresh()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -540,8 +548,8 @@ omap af <Plug>(coc-funcobj-a)
 " Use <TAB> for selections ranges.
 " NOTE: Requires 'textDocument/selectionRange' support from the language server.
 " coc-tsserver, coc-python are the examples of servers that support it.
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
+" nmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <TAB> <Plug>(coc-range-select)
 
 " Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
@@ -626,37 +634,139 @@ let g:OmniSharp_popup = 1
 " Disable menu. See bug at https://github.com/vimwiki/vimwiki/issues/933
 " let g:vimwiki_menu = ''
 
-let g:vimwiki_use_mouse = 1
+" let g:vimwiki_use_mouse = 1
+" 
+" 
+" let g:vimwiki_folding = 'expr'
+" let g:vimwiki_toc_header = 'Содержание'
+" let g:vimwiki_auto_chdir = 1
+" let g:vimwiki_diary_months = {
+"       \ 1: 'Январь', 2: 'Февраль', 3: 'Март',
+"       \ 4: 'Апрель', 5: 'Май', 6: 'Июнь',
+"       \ 7: 'Июль', 8: 'Август', 9: 'Сентябрь',
+"       \ 10: 'Октябрь', 11: 'Ноябрь', 12: 'Декабрь'
+"       \ }
+" 
+" let g:vimwiki_global_ext = 0
+" let g:vimwiki_list = [ {
+"             \ 'path': '~/mydir/notes/', 
+"             \ 'path_html': '~/mydir/notes_html/',
+"             \ 'diary_rel_path': 'дневник/',
+"             \ 'diary_index': 'дневник',
+"             \ 'diary_header': 'Дневник',
+"             \ 'auto_diary_index': 1,
+"             \ 'auto_tags': 1,
+"             \ 'syntax': 'markdown', 
+"             \ 'custom_wiki2html': '~/mydir/notes/bin/wiki2html.sh',
+"             \ 'template_path': '~/mydir/notes/bin/',
+"             \ 'template_default': 'GitHub.html5',
+"             \ 'links_space_char': '_',
+"             \ 'ext': '.md' }]
 
 
-let g:vimwiki_folding = 'expr'
-let g:vimwiki_toc_header = 'Содержание'
-let g:vimwiki_auto_chdir = 1
-let g:vimwiki_diary_months = {
-      \ 1: 'Январь', 2: 'Февраль', 3: 'Март',
-      \ 4: 'Апрель', 5: 'Май', 6: 'Июнь',
-      \ 7: 'Июль', 8: 'Август', 9: 'Сентябрь',
-      \ 10: 'Октябрь', 11: 'Ноябрь', 12: 'Декабрь'
-      \ }
+"au FileType vimwiki set syntax=markdown
+"au FileType vimwiki set foldlevel=3
 
-let g:vimwiki_global_ext = 0
-let g:vimwiki_list = [ {
-            \ 'path': '~/mydir/notes/', 
-            \ 'path_html': '~/mydir/notes_html/',
-            \ 'diary_rel_path': 'дневник/',
-            \ 'diary_index': 'дневник',
-            \ 'diary_header': 'Дневник',
-            \ 'auto_diary_index': 1,
-            \ 'auto_tags': 1,
-            \ 'syntax': 'markdown', 
-            \ 'custom_wiki2html': '~/mydir/notes/bin/wiki2html.sh',
-            \ 'template_path': '~/mydir/notes/bin/',
-            \ 'template_default': 'GitHub.html5',
-            \ 'links_space_char': '_',
-            \ 'ext': '.md' }]
 
-au FileType vimwiki set syntax=markdown
-au FileType vimwiki set foldlevel=3
+" wiki.vim --------------------------------------------------- {{{1
+
+let g:wiki_root = '~/mydir/notes/'
+let g:wiki_filetypes = ['wiki', 'md']
+
+let g:wiki_link_target_type = 'md'
+
+let g:wiki_month_names = [ '01.Январь', '02.Февраль', '03.Март', '04.Апрель', '05.Май', '06.Июнь', '07.Июль', '08.Август', '09.Сентябрь', '10.Октябрь', '11.Ноябрь', '12.Декабрь' ]
+
+let g:wiki_toc_title = 'Содержание'
+
+
+let g:wiki_journal = {
+    \ 'index_use_journal_scheme': v:false,
+    \ 'name': 'дневник',
+    \ 'frequency': 'daily',
+    \ 'date_format': {
+    \   'daily' : '%Y-%m-%d',
+    \   'weekly' : '%Y_w%V',
+    \   'monthly' : '%Y_%m_month',
+    \ },
+    \}
+
+
+let g:wiki_template_title_week = '# Записи за %(year) неделя %(week)'
+let g:wiki_template_title_month = '# Записи за %(year) %(month-name)'
+
+function! MyWikiBufferInit() 
+  try
+    "colorscheme onehalflight
+    " colorscheme onehalfdark
+
+    "colorscheme nord
+
+    "set guifont=Nimbus\ Mono\ PS:h11
+  catch
+  endtry
+  try
+    CocDisable
+  catch
+  endtry
+  set laststatus=0
+  set foldcolumn=4
+  au! BufWritePost ~/mydir/notes/* !git add "%";git commit -m "Auto commit of %:t." "%"
+
+  nmap <leader>mh :s_\v^((#+) +)?(.*)_#\2 \3_e<CR> :noh<CR>
+  nmap <leader>mH :s_\v^#(#* )? *(.*)_\1\2_e<CR> :noh<CR>
+  set foldlevel=1
+endfunction
+
+augroup MyWikiAutocmds
+  autocmd!
+  autocmd User WikiBufferInitialized call MyWikiBufferInit()
+augroup END
+
+command! PrintDay :norm i66778899101011111212131314141515161617171818191920202121
+
+function! MyWikiClean() 
+    " Clean escape '\' chars inserted by Evernote export.
+    %s_\\__gce
+
+    " Clean enclosing of links with '<' and '>' chars.
+    %s_\v\<([^\>]+)\>_\1_gce
+
+    %s_\v\!\[\]\((local.*\/([^\)]+))\)(\{wid[^}]*\})?_[\2](\1)_
+
+endfunction
+
+let g:wiki_map_link_create = 'WikiRemoveWhitespaceLinkCreate'
+
+function WikiRemoveWhitespaceLinkCreate(text) abort
+  if a:text !~# '\v(md|wiki|txt)$'
+    return strftime('%Y%m%d%H%M') . '_' . substitute(tolower(a:text), '\s\+', '_', 'g')
+  endif
+  return a:text
+endfunction
+
+let g:wiki_viewer = {
+    \ '_' : 'xdg-open',
+    \}
+
+let g:wiki_file_open = 'WikiFileOpen'
+
+function! WikiFileOpen(...) abort dict
+  if self.path !~# '\v(md|wiki|txt)$'
+    silent execute '!xdg-open' fnameescape(self.path) '&'
+    return 1
+  endif
+
+  return 0
+endfunction
+
+
+" markdown --------------------------------------------------- {{{1
+
+set conceallevel=2
+au FileType md set syntax=markdown
+au FileType wiki set syntax=markdown
+au FileType md CocDisable
 
 " vim-airline --------------------------------------------------- {{{1
 
@@ -743,7 +853,7 @@ set tags=tags;
 
 
 " Auto save when buffer lose focus
-autocmd FocusLost,BufLeave * silent! wa
+autocmd FocusLost,BufLeave * silent! wa   " In goneovim it focuses back to vim.
 
 " Save on buffer change
 set autowrite 
@@ -756,6 +866,8 @@ autocmd BufRead * try | execute "compiler ".&filetype | catch /./ | endtry
 " see http://www.cplusplus.com/reference/ctime/strftime/
 nmap <F4> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>
 imap <F4> <C-R>=strftime("%Y-%m-%d %H:%M")<CR>
+nmap <F5> <C-R>=strftime("%Y%m%d%H%M")<CR>
+imap <F5> <C-R>=strftime("%Y%m%d%H%M")<CR>
 
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
@@ -764,3 +876,9 @@ set sessionoptions-=folds      " do not store folds
 
 set modeline
 
+let maplocalleader= ","
+
+let g:todo_done_filename = 'done.txt'
+
+" From https://vim.fandom.com/wiki/Folding_with_Regular_Expression
+nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>
