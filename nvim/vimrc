@@ -234,7 +234,7 @@ try
 "colorscheme nord
 " xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
 "colorscheme zenburn
-" colorscheme alduin
+ colorscheme alduin
 "colorscheme baycomb
 " colorscheme cake 
 "colorscheme solarized8_dark_high 
@@ -242,7 +242,7 @@ try
 "colorscheme colorsbox-material
 "colorscheme MountinDew
 " colorscheme alduin
- colorscheme onehalfdark
+ "colorscheme onehalfdark
  "colorscheme onehalflight
 catch
 endtry
@@ -748,18 +748,6 @@ endfunction
 let g:wiki_viewer = {
     \ '_' : 'xdg-open',
     \}
-
-let g:wiki_file_open = 'WikiFileOpen'
-
-function! WikiFileOpen(...) abort dict
-  if self.path !~# '\v(md|wiki|txt)$'
-    silent execute '!xdg-open' fnameescape(self.path) '&'
-    return 1
-  endif
-
-  return 0
-endfunction
-
 
 " markdown --------------------------------------------------- {{{1
 
