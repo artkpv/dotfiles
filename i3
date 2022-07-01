@@ -228,10 +228,10 @@ set $launcher Launcher: (f) firefox, (k) keepassxc, (h) wiki, (j) дневник
 mode "$launcher" {
     bindsym f exec firefox, mode "default"
     bindsym k exec keepassxc, mode "default"
-    bindsym h exec "goneovim $HOME/mydir/notes/index.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
-    bindsym j exec "goneovim $HOME/mydir/notes/дневник/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
-    bindsym i exec "goneovim $HOME/mydir/notes/входящие.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
-    bindsym d exec "goneovim $HOME/mydir/notes/дневник/$(date +%Y-%m-%d-%H%M).md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym h exec "goneovim --nofork $HOME/mydir/notes/index.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym j exec "goneovim --nofork $HOME/mydir/notes/дневник/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym i exec "goneovim --nofork $HOME/mydir/notes/входящие.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym d exec "goneovim --nofork $HOME/mydir/notes/дневник/$(date +%Y-%m-%d-%H%M).md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     bindsym Return exec "rofi -show combi", mode "default"
     bindsym Escape mode "default"
 }

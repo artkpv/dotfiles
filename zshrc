@@ -100,6 +100,7 @@ fi
 export VISUAL=nvim
 export PAGER='less -R'
 
+export AUR_PAGER='nvim'
 
 # alias transw='trans -t en:ru+en -no-ansi'
 function transw () {
@@ -197,7 +198,7 @@ function cbr_get_currency()
     # https://gist.github.com/artkpv/3cbff1819846a4eec132be21a1fbd63d
     # Скрипт для получения курса валют на заданную даты из Центробанка 
     DATE=$1  # 02/03/2002
-    CURR=USD
+    CURR=${2-USD}
     export LANG=ru_RU.CP1251; curl 'http://www.cbr.ru/scripts/XML_daily.asp?date_req='$DATE -s |  grep -Po $CURR'.*?Value>[^<]*' | sed -En -e 's/.*>([0-9,]*)/\1/gp' -
 }
 

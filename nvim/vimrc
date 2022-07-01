@@ -67,7 +67,7 @@ call minpac#add('scrooloose/nerdtree')
 
 call minpac#add('christoomey/vim-tmux-navigator')
 
-call minpac#add('vim-airline/vim-airline')
+"call minpac#add('vim-airline/vim-airline')
 call minpac#add('sonph/onehalf', {'subdir': 'vim'})
 call minpac#add('rakr/vim-one')
 
@@ -199,10 +199,10 @@ set previewheight=5
 
 
 " Air line. Hide keymap:
-let g:airline#extensions#keymap#enabled = 0
+" let g:airline#extensions#keymap#enabled = 0
 
 
-set statusline^=%{FugitiveStatusline()} 
+"set statusline^=%{FugitiveStatusline()} 
 
 "  Colors and Fonts --------------------------------------------------- {{{1
 
@@ -230,11 +230,11 @@ endif
 
 
 try
-" colorscheme gruvbox
-"colorscheme nord
+"colorscheme gruvbox
+colorscheme nord
 " xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
 "colorscheme zenburn
- colorscheme alduin
+ "colorscheme alduin
 "colorscheme baycomb
 " colorscheme cake 
 "colorscheme solarized8_dark_high 
@@ -242,8 +242,11 @@ try
 "colorscheme colorsbox-material
 "colorscheme MountinDew
 " colorscheme alduin
- "colorscheme onehalfdark
+  "colorscheme onehalfdark
  "colorscheme onehalflight
+ " colorscheme xoria256
+  "colorscheme cake
+  "set bg=light
 catch
 endtry
 
@@ -309,7 +312,7 @@ set linebreak
 set breakindent
 
 " Pretty soft break character.
-let &showbreak = '> '
+let &showbreak = '| '
 
 
 "  Visual mode relate --------------------------------------------------- {{{1
@@ -427,14 +430,16 @@ let g:ledger_main=$LEDGER_FILE
 
 "  ALE  --------------------------------------------------- {{{1
 
-let g:ale_completion_enabled=0
+let g:ale_completion_enabled=1
 
 "" Use ALE's function for omnicompletion.
 "set omnifunc=ale#completion#OmniFunc
 
 let g:ale_linters = {
-     \ 'cs': ['omnisharp', 'mcs']
+     \ 'cs': ['omnisharp', 'mcs'],
+     \ 'python': ['pyls']
      \}
+let g:ale_python_pylsp_executable = 'pyls'
 
 " Completion --------------------------------------------------- {{{1
 
@@ -563,7 +568,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings using CoCList:
 " Show all diagnostics.
@@ -686,21 +691,25 @@ let g:wiki_journal = {
     \ 'frequency': 'daily',
     \ 'date_format': {
     \   'daily' : '%Y-%m-%d',
-    \   'weekly' : '%Y_w%V',
-    \   'monthly' : '%Y_%m_month',
+    \   'weekly' : '%Y-%m-%d_%V_неделя',
+    \   'monthly' : '%Y-%m-%d_месяц',
     \ },
     \}
 
 
-let g:wiki_template_title_week = '# Записи за %(year) неделя %(week)'
-let g:wiki_template_title_month = '# Записи за %(year) %(month-name)'
+let g:wiki_template_title_week = '# %(year). %(week) неделя'
+let g:wiki_template_title_month = '# %(year). %(month-name) месяц'
 
 function! MyWikiBufferInit() 
   try
     "colorscheme onehalflight
     " colorscheme onehalfdark
+    " xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
 
+    "colorscheme zazen
+    "colorscheme alduin
     "colorscheme nord
+    "colorscheme gruvbox
 
     "set guifont=Nimbus\ Mono\ PS:h11
   catch
@@ -758,7 +767,7 @@ au FileType md CocDisable
 
 " vim-airline --------------------------------------------------- {{{1
 
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 
 
 
@@ -841,7 +850,8 @@ set tags=tags;
 
 
 " Auto save when buffer lose focus
-autocmd FocusLost,BufLeave * silent! wa   " In goneovim it focuses back to vim.
+"autocmd FocusLost,BufLeave * silent! wa   " In goneovim it focuses back to vim.
+autocmd BufLeave * silent! wa  
 
 " Save on buffer change
 set autowrite 
@@ -870,3 +880,5 @@ let g:todo_done_filename = 'done.txt'
 
 " From https://vim.fandom.com/wiki/Folding_with_Regular_Expression
 nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>
+
+set mouse=a
