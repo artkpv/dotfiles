@@ -28,7 +28,7 @@
         mode: -rwxr-xr-x
     ~/bin/aur-gc.sh:
         mode: -rwxr-xr-x
-    ~/bin/aur-remove.sh:
+    ~/bin/aur-remove.sh: 
         mode: -rwxr-xr-x
 
 - shell:
