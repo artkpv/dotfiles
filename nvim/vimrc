@@ -1,5 +1,5 @@
 " Name:     (Neo)Vim configuration
-" Author:   Artyom K. artyomkarpov [at] gmail [dot] com
+" Author:   Artyom K. 
 " URL:      www.artkpv.net
 " Refs:     https://github.com/amix/vimrc
 "           https://github.com/ruslanosipov/dotfiles/blob/master/vimrc
@@ -16,6 +16,7 @@ filetype indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
+au FocusGained,BufEnter * checktime
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -35,6 +36,9 @@ set clipboard=unnamed,unnamedplus
 " Refs https://vim.fandom.com/wiki/Move_cursor_by_display_lines_when_wrapping
 noremap <silent> k gk
 noremap <silent> j gj
+
+" Change directory to the directory of buffer
+autocmd BufEnter * silent! lcd %:p:h
 
 " Package management --------------------------------------------------- {{{1
 
@@ -67,7 +71,7 @@ call minpac#add('scrooloose/nerdtree')
 
 call minpac#add('christoomey/vim-tmux-navigator')
 
-"call minpac#add('vim-airline/vim-airline')
+call minpac#add('vim-airline/vim-airline')
 call minpac#add('sonph/onehalf', {'subdir': 'vim'})
 call minpac#add('rakr/vim-one')
 
@@ -111,7 +115,10 @@ call minpac#add('majutsushi/tagbar')
 
 call minpac#add('ledger/vim-ledger')
 call minpac#add('freitass/todo.txt-vim')
+call minpac#add('ferrine/md-img-paste.vim')
 
+call minpac#add('dyng/ctrlsf.vim')
+call minpac#add('rakr/vim-one')
 
 command! PackUpdate call minpac#update()
 command! PackClean call minpac#clean()
@@ -197,19 +204,25 @@ set splitright
 " Preview window height
 set previewheight=5
 
+"  Status line --------------------------------------------------- {{{1
+
+" Show the status line
+set laststatus=2
 
 " Air line. Hide keymap:
-" let g:airline#extensions#keymap#enabled = 0
+let g:airline#extensions#keymap#enabled = 0
 
-
-"set statusline^=%{FugitiveStatusline()} 
+let g:airline_powerline_fonts = 1
 
 "  Colors and Fonts --------------------------------------------------- {{{1
 
-set guifont=DejaVu\ Sans\ Mono:h9
+set guifont=DejaVu\ Sans\ Mono:h11
 
 " Enable syntax highlighting
 syntax on 
+
+" Set regular expression engine automatically
+set regexpengine=0
 
 "Credit joshdick
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
@@ -228,27 +241,47 @@ if (empty($TMUX))
   endif
 endif
 
+let g:one_allow_italics = 1 " Italic for comments
 
 try
-"colorscheme gruvbox
-colorscheme nord
-" xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
-"colorscheme zenburn
- "colorscheme alduin
-"colorscheme baycomb
-" colorscheme cake 
-"colorscheme solarized8_dark_high 
-" colorscheme candycode
-"colorscheme colorsbox-material
-"colorscheme MountinDew
-" colorscheme alduin
-  "colorscheme onehalfdark
- "colorscheme onehalflight
- " colorscheme xoria256
-  "colorscheme cake
-  "set bg=light
+    " colorscheme gruvbox
+    "colorscheme nord
+    " xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
+    "colorscheme zenburn
+    "colorscheme alduin
+    "colorscheme baycomb
+    " colorscheme cake 
+    "colorscheme solarized8_dark_high 
+    " colorscheme candycode
+    "colorscheme colorsbox-material
+    "colorscheme MountinDew
+    " colorscheme alduin
+    "colorscheme onehalfdark
+    "colorscheme onehalflight
+    " colorscheme xoria256
+    "colorscheme cake
+    
+    "colorscheme one
+    let g:airline_theme='one'
+
+    " For WIKI
+    "colorscheme onehalflight
+    " colorscheme onehalfdark
+    "colorscheme xoria256
+    "colorscheme yeller
+    " colorscheme sialoquent
+    "colorscheme zenburn
+    "colorscheme zazen
+    " colorscheme alduin
+    "colorscheme nord
+    colorscheme gruvbox
+    "colorscheme dzo
+    "set guifont=Nimbus\ Mono\ PS:h11
 catch
 endtry
+
+set background=light
+"set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -277,12 +310,10 @@ nnoremap <C--> :silent! let &guifont = substitute(
             \ '\=eval(submatch(0)-1)',
             \ '')<CR>
 
-
-
 "  Files, backups and undo --------------------------------------------------- {{{1
 
 
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
+" Turn backup off, since most stuff is in SVN, git etc. anyway...
 set nobackup
 set nowritebackup
 set noswapfile
@@ -305,7 +336,7 @@ set smartindent
 set wrap "Wrap lines
 
 " Linebreak on X characters
-set textwidth=1000
+"set textwidth=1000
 set linebreak
 
 " Make soft line breaks much better looking.
@@ -331,6 +362,33 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+" Close the current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Useful mappings for managing tabs
+" map <leader>tn :tabnew<cr>
+" map <leader>to :tabonly<cr>
+" map <leader>tc :tabclose<cr>
+" map <leader>tm :tabmove
+" map <leader>t<leader> :tabnext<cr>
+
+" Let 'tl' toggle between this and the last accessed tab
+let g:lasttab = 1
+nmap <leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <C-r>=escape(expand("%:p:h"), " ")<cr>/
+
+" Switch CWD to the directory of the open buffer
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers 
 try
@@ -341,8 +399,6 @@ endtry
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 "  Editing mappings --------------------------------------------------- {{{1
 
@@ -362,6 +418,10 @@ if has("mac") || has("macunix")
   vmap <D-k> <M-k>
 endif
 
+"  Spell checking  --------------------------------------------------- {{{1
+
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
 
 "  Helper functions --------------------------------------------------- {{{1
 
@@ -416,12 +476,33 @@ function! VisualSelection(direction, extra_filter) range
 endfunction
 
 
+" i18n   --------------------------------------------------- {{{1
+
+function! EnRuHighlight()
+    if &iminsert == 0
+        set iminsert=1
+    else
+        set iminsert=0
+    endif
+endfunction
+
+set keymap=russian-jcukenwin    " настраиваем переключение раскладок клавиатуры по C-^
+set iminsert=0                  " раскладка по умолчанию для ввода - английская
+set imsearch=0                  " раскладка по умолчанию для поиска - английская
+
+" {{{ swith language En-Ru
+nmap <F3> <ESC>:call EnRuHighlight()<CR>
+imap <F3> <ESC>:call EnRuHighlight()<CR>a
+" }}}
+
+
+
 
 " Ledger --------------------------------------------------- {{{1
 
-let g:ledger_bin='hledger'
-let g:ledger_is_hledger=1
-let g:ledger_main=$LEDGER_FILE
+" let g:ledger_bin='hledger'
+" let g:ledger_is_hledger=1
+" let g:ledger_main=$LEDGER_FILE
 
 
 " UltiSnips --------------------------------------------------- {{{1
@@ -447,16 +528,6 @@ let g:ale_python_pylsp_executable = 'pyls'
 " See ftplugin/cs.vim
 " See ftplugin/c.vim
 
-" TextEdit might fail if hidden is not set.
-set hidden
-
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
-
-" Give more space for displaying messages.
-set cmdheight=2
-
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
@@ -467,6 +538,7 @@ set shortmess+=c
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 set signcolumn=yes
+
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -589,46 +661,45 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 "nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 
-
-"" Show last method signature  
-"let g:echodoc#enable_at_startup=1
-
-"" Show help at the bottom.
-"let g:echodoc#type='echo'
-
-
-" OmniSharp will start automatically upon opening a `*.cs` file.
-let g:OmniSharp_start_server = 1
-
-" Use this to specify where the roslyn omnisharp server should be run from and downloaded to.
-" let g:OmniSharp_server_install = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn'
-" let g:OmniSharp_server_path = '/home/art/bin/omnisharp/omnisharp/OmniSharp.exe'
-
-" Use the stdio version of OmniSharp-roslyn:
-let g:OmniSharp_server_stdio = 1
-
-let g:OmniSharp_loglevel = 'info'
-
-" Show loading message
-let g:OmniSharp_server_display_loading = 1
-
-let g:OmniSharp_selector_ui = 'fzf'
-
-" Update semantic highlighting on BufEnter and InsertLeave
-let g:OmniSharp_highlight_types = 3
-
-" 
-let g:OmniSharp_server_use_mono = 0
-
-" Don't autoselect first omnicomplete option, show options even if there is only
-" one (so the preview documentation is accessible). Remove 'preview' if you
-" don't want to see any documentation whatsoever.
-" set completeopt=longest,menuone,preview
-
-let g:omnicomplete_fetch_full_documentation = 1
-
-
-let g:OmniSharp_popup = 1
+"    "" Show last method signature  
+"    "let g:echodoc#enable_at_startup=1
+"    
+"    "" Show help at the bottom.
+"    "let g:echodoc#type='echo'
+"    
+"    
+"    " OmniSharp will start automatically upon opening a `*.cs` file.
+"    let g:OmniSharp_start_server = 1
+"    
+"    " Use this to specify where the roslyn omnisharp server should be run from and downloaded to.
+"    " let g:OmniSharp_server_install = '/home/art/.cache/omnisharp-vim/omnisharp-roslyn'
+"    " let g:OmniSharp_server_path = '/home/art/bin/omnisharp/omnisharp/OmniSharp.exe'
+"    
+"    " Use the stdio version of OmniSharp-roslyn:
+"    let g:OmniSharp_server_stdio = 1
+"    
+"    let g:OmniSharp_loglevel = 'info'
+"    
+"    " Show loading message
+"    let g:OmniSharp_server_display_loading = 1
+"    
+"    let g:OmniSharp_selector_ui = 'fzf'
+"    
+"    " Update semantic highlighting on BufEnter and InsertLeave
+"    let g:OmniSharp_highlight_types = 3
+"    
+"    " 
+"    let g:OmniSharp_server_use_mono = 0
+"    
+"    " Don't autoselect first omnicomplete option, show options even if there is only
+"    " one (so the preview documentation is accessible). Remove 'preview' if you
+"    " don't want to see any documentation whatsoever.
+"    " set completeopt=longest,menuone,preview
+"    
+"    let g:omnicomplete_fetch_full_documentation = 1
+"    
+"    
+"    let g:OmniSharp_popup = 1
 
 
 
@@ -676,44 +747,39 @@ let g:OmniSharp_popup = 1
 " wiki.vim --------------------------------------------------- {{{1
 
 let g:wiki_root = '~/mydir/notes/'
-let g:wiki_filetypes = ['wiki', 'md']
 
+let g:wiki_link_extension = ''
+let g:wiki_filetypes = ['md', 'wiki']
 let g:wiki_link_target_type = 'md'
 
 let g:wiki_month_names = [ '01.Январь', '02.Февраль', '03.Март', '04.Апрель', '05.Май', '06.Июнь', '07.Июль', '08.Август', '09.Сентябрь', '10.Октябрь', '11.Ноябрь', '12.Декабрь' ]
 
 let g:wiki_toc_title = 'Содержание'
 
-
 let g:wiki_journal = {
     \ 'index_use_journal_scheme': v:false,
-    \ 'name': 'дневник',
+    \ 'name': '2022',
     \ 'frequency': 'daily',
     \ 'date_format': {
     \   'daily' : '%Y-%m-%d',
-    \   'weekly' : '%Y-%m-%d_%V_неделя',
-    \   'monthly' : '%Y-%m-%d_месяц',
     \ },
     \}
 
+    "\   'weekly' : '%Y-%m-%d_%V_неделя',
+    "\   'monthly' : '%Y-%m-%d_месяц',
 
 let g:wiki_template_title_week = '# %(year). %(week) неделя'
 let g:wiki_template_title_month = '# %(year). %(month-name) месяц'
 
 function! MyWikiBufferInit() 
   try
-    "colorscheme onehalflight
-    " colorscheme onehalfdark
-    " xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
-
-    "colorscheme zazen
-    "colorscheme alduin
-    "colorscheme nord
-    "colorscheme gruvbox
-
-    "set guifont=Nimbus\ Mono\ PS:h11
+    let $TYPESET_PATH = expand("%:p")
+    if $TYPESET_PATH !~# '\v\.(index.md|index.wiki)$'
+        set guifont=Go\ Mono\ For\ Powerline:h13
+    endif
   catch
   endtry
+
   try
     CocDisable
   catch
@@ -745,13 +811,13 @@ function! MyWikiClean()
 
 endfunction
 
-let g:wiki_map_link_create = 'WikiRemoveWhitespaceLinkCreate'
+let g:wiki_map_text_to_link = 'WikiRemoveWhitespaceLinkCreate'
 
 function WikiRemoveWhitespaceLinkCreate(text) abort
-  if a:text !~# '\v(md|wiki|txt)$'
-    return strftime('%Y%m%d%H%M') . '_' . substitute(tolower(a:text), '\s\+', '_', 'g')
+  if a:text !~# '\v\.(md|wiki|txt)$'
+    return [strftime('%Y%m%d%H%M') . '_' .  substitute(tolower(a:text), '\s\+', '_', 'g') . '.md', a:text]
   endif
-  return a:text
+  return [a:text, a:text]
 endfunction
 
 let g:wiki_viewer = {
@@ -765,9 +831,12 @@ au FileType md set syntax=markdown
 au FileType wiki set syntax=markdown
 au FileType md CocDisable
 
-" vim-airline --------------------------------------------------- {{{1
 
-" let g:airline_powerline_fonts = 1
+autocmd FileType markdown nmap <buffer><silent> <leader>p :call mdip#MarkdownClipboardImage()<CR>
+" there are some defaults for image directory and image name, you can change them
+let g:mdip_imgdir = 'images'
+let g:mdip_imgname = 'image'
+
 
 
 
@@ -800,26 +869,16 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
 
+" CtrlSF --------------------------------------------------- {{{1
 
-" i18n   --------------------------------------------------- {{{1
-
-function! EnRuHighlight()
-    if &iminsert == 0
-        set iminsert=1
-    else
-        set iminsert=0
-    endif
-endfunction
-
-set keymap=russian-jcukenwin    " настраиваем переключение раскладок клавиатуры по C-^
-set iminsert=0                  " раскладка по умолчанию для ввода - английская
-set imsearch=0                  " раскладка по умолчанию для поиска - английская
-
-" {{{ swith language En-Ru
-nmap <F3> <ESC>:call EnRuHighlight()<CR>
-imap <F3> <ESC>:call EnRuHighlight()<CR>a
-" }}}
-
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+vmap     <C-F>F <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nmap     <C-F>p <Plug>CtrlSFPwordPath
+nnoremap <C-F>o :CtrlSFOpen<CR>
+nnoremap <C-F>t :CtrlSFToggle<CR>
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
 
 "" Tmux integration --------------------------------------------------- {{{1
 
@@ -882,3 +941,4 @@ let g:todo_done_filename = 'done.txt'
 nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>
 
 set mouse=a
+

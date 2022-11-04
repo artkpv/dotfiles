@@ -214,6 +214,7 @@ exec --no-startup-id pasystray
 exec --no-startup-id blueman-applet
 
 exec --no-startup-id redshiftgui
+exec --no-startup-id xfce4-clipman
 exec --no-startup-id xfce4-power-manager
 
 exec ~/.fehbg
@@ -229,9 +230,9 @@ mode "$launcher" {
     bindsym f exec firefox, mode "default"
     bindsym k exec keepassxc, mode "default"
     bindsym h exec "goneovim --nofork $HOME/mydir/notes/index.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
-    bindsym j exec "goneovim --nofork $HOME/mydir/notes/дневник/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym j exec "goneovim --nofork $HOME/mydir/notes/$(date +%Y)/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     bindsym i exec "goneovim --nofork $HOME/mydir/notes/входящие.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
-    bindsym d exec "goneovim --nofork $HOME/mydir/notes/дневник/$(date +%Y-%m-%d-%H%M).md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym d exec "goneovim --nofork $HOME/mydir/notes/$(date +%Y)/$(date +%Y-%m-%d-%H%M).md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     bindsym Return exec "rofi -show combi", mode "default"
     bindsym Escape mode "default"
 }

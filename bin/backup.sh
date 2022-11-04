@@ -24,11 +24,13 @@
 # Narbeh - http://narbeh.org - narbeh.aj@gmail.com
 #################################################################
 
-sudo mount /dev/sda2 /mnt/satadrive
+# sudo mount /dev/sda2 /mnt/satadrive
 
 ################
 # Configuration
 ################
+
+
 
 # Server Name
 server_name="hostname"
@@ -42,7 +44,14 @@ if [ $? -ne 0 ]; then
 fi
 
 # Backup path
+#backup_path="/run/media/art/disk/Backup"
 backup_path="/mnt/satadrive/Backup"
+
+
+[[ -e $backup_path ]] || {
+    echo "Backup path '$backup_path' doesn't exist"
+    exit 1
+}
 
 gitlab_backup="no"
 
@@ -62,10 +71,6 @@ backup_to_minio_enable="no"
 minio_directories="/etc /var/log /usr/local"
 minio_bucket=""
 minio_cluster_name=""
-
-# Copy to other media (Multi value)
-external_copy="no"
-external_storage="/run/media/art/SSD SATA/backup"
 
 # Copy tar backup to MinIo
 external_minio_copy="no"
@@ -356,27 +361,6 @@ fi
 
 sleep 1
 
-# Copy to other storage
-if [ $external_copy = "yes" ]
-then
-    cp_paths=$external_storage
-    #for cp_paths in "${external_storage[@]}"
-    #do
-        echo -e "\n ${color}--- $date_now Copy backup archive to $cp_paths: \n${nc}"
-        echo "$date_now Copy backup archive to $cp_paths" >> $log_file
-        cp $backup_path/$final_archive "$cp_paths/"
-        if [ $? -eq 0 ]
-        then
-            echo -e "Copied to $cp_paths. \n"
-            echo "$date_now Copied to $cp_paths" >> $log_file
-        else
-            echo -e " ${color_fail} Copy to $cp_paths failed. ${nc} \n"
-            echo "$date_now Copy to $cp_paths failed. Please investigate." >> $log_file
-        fi
-    #done
-fi
-
-sleep 1
 
 # SCP to other server
 if [ $scp_enable = "yes" ]

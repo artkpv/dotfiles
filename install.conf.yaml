@@ -24,12 +24,10 @@
     ~/.config/polybar: polybar
     ~/.config/redshift/redshift.conf: redshift.conf
     ~/.config/rofi/config: rofi
-    ~/bin/backup.sh:
+    ~/bin/:
+        path: bin/*
         mode: -rwxr-xr-x
-    ~/bin/aur-gc.sh:
-        mode: -rwxr-xr-x
-    ~/bin/aur-remove.sh: 
-        mode: -rwxr-xr-x
+        glob: true
 
 - shell:
   - git submodule sync --recursive
