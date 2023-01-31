@@ -194,8 +194,8 @@ bindsym $mod+F4 mode "$mode_system"
 
 
 # backlight
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 3%-
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +3%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 6%-
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +6%
 
 set $Locker xflock4 && sleep 1
 

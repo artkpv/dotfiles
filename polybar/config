@@ -63,7 +63,9 @@ font-2 = siji:pixelsize=10;1
  
 modules-left = bspwm i3
 modules-center = mpd
-modules-right = filesystem backlight-acpi pulseaudio xkeyboard memory cpu wlan nordvpn eth battery temperature date powermenu
+modules-right = ipc filesystem backlight-acpi pulseaudio xkeyboard memory cpu wlan nordvpn eth battery temperature date powermenu 
+
+enable-ipc = true
 
 tray-position = right
 tray-padding = 2
@@ -426,6 +428,11 @@ exec = nordvpn status | sed -nE '/Country/s/Country:\s(.*)/\1/p'
 exec-if = [[ `nordvpn status | grep Connected ` ]]
 
 format-underline = #1db954
+
+[module/ipc]
+type = custom/ipc
+hook-0 = echo ''
+initial = 0
 
 [settings]
 screenchange-reload = true

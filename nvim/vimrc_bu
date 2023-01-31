@@ -58,7 +58,7 @@ call minpac#add('tpope/vim-unimpaired')
 call minpac#add('godlygeek/tabular')
 call minpac#add('plasticboy/vim-markdown')  " Too slow with goerz/jupytext.vim
 call minpac#add('junegunn/goyo.vim')
-" call minpac#add('rhysd/vim-grammarous')   " Buggy
+call minpac#add('rhysd/vim-grammarous')
 call minpac#add('flazz/vim-colorschemes')
 " call minpac#add('vimwiki/vimwiki', {'branch': 'dev'} )
 call minpac#add('lervag/wiki.vim')
@@ -81,10 +81,7 @@ call minpac#add('rakr/vim-one')
 "
 " IDE related
 
-" TODO: Disable for wiki. CocDisable in buffer load doesn't work. Report the
-" bug. Then enable it for other files.
-"call minpac#add('neoclide/coc.nvim', {'branch': 'release'} )  " All except C#
-
+call minpac#add('neoclide/coc.nvim', {'branch': 'release'} )  " All except C#
 call minpac#add('OmniSharp/omnisharp-vim')  " For C# only
 call minpac#add('nickspoons/vim-sharpenup') 
 
@@ -227,7 +224,7 @@ let g:airline_powerline_fonts = 1
 
 "  Colors and Fonts --------------------------------------------------- {{{1
 
-set guifont=DejaVu\ Sans\ Mono:h13
+set guifont=DejaVu\ Sans\ Mono:h15
 
 " Enable syntax highlighting
 syntax on 
@@ -291,8 +288,8 @@ try
 catch
 endtry
 
-"set background=light
-set background=dark
+set background=light
+"set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -562,7 +559,7 @@ let g:wiki_toc_title = 'Содержание'
 
 let g:wiki_journal = {
     \ 'index_use_journal_scheme': v:false,
-    \ 'name': '2023',
+    \ 'name': '2022',
     \ 'frequency': 'daily',
     \ 'date_format': {
     \   'daily' : '%Y-%m-%d',
@@ -590,7 +587,6 @@ function! MyWikiBufferInit()
   nmap <leader>mh :s_\v^((#+) +)?(.*)_#\2 \3_e<CR> :noh<CR>
   nmap <leader>mH :s_\v^#(#* )? *(.*)_\1\2_e<CR> :noh<CR>
   set foldlevel=1
-  "CocDisable
 endfunction
 
 augroup MyWikiAutocmds
@@ -611,17 +607,11 @@ function! MyWikiClean()
 
 endfunction
 
-let g:wiki_map_text_to_link = 'WikiMapTextToLink'
+let g:wiki_map_text_to_link = 'WikiRemoveWhitespaceLinkCreate'
 
-function WikiMapTextToLink(text) abort
+function WikiRemoveWhitespaceLinkCreate(text) abort
   if a:text !~# '\v\.(md|wiki|txt)$'
-    let t = substitute(tolower(a:text), '\v[ \t;:.*?\)\(]+', '_', 'g')
-    if getcwd() !~# '\v\/0$|\/0\/'
-        return [strftime('%Y-%m-%d-%H-%M') . '_' . t . '.md', a:text]
-    else
-        return [strftime('%Y%m%d%H%M') . '_' .  t . '.md', a:text]
-    endif
-
+    return [strftime('%Y%m%d%H%M') . '_' .  substitute(tolower(a:text), '\s\+', '_', 'g') . '.md', a:text]
   endif
   return [a:text, a:text]
 endfunction
@@ -721,9 +711,7 @@ function! ShowDocumentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-" TODO : Enable when coc.nvim on
-" autocmd CursorHold * silent call CocActionAsync('highlight')   
-
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
@@ -1007,4 +995,3 @@ nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\
 
 set mouse=a
 
-let g:polyglot_disabled = ['markdown']
