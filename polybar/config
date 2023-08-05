@@ -63,7 +63,7 @@ font-2 = siji:pixelsize=10;1
  
 modules-left = bspwm i3
 modules-center = mpd
-modules-right = ipc filesystem backlight-acpi pulseaudio xkeyboard memory cpu wlan nordvpn eth battery temperature date powermenu 
+modules-right = ipc backlight-acpi pulseaudio xkeyboard filesystem memory cpu temperature eth wlan syncthing battery date powermenu 
 
 enable-ipc = true
 
@@ -216,7 +216,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
-label = C %percentage:2%%
+label = C %percentage-sum:3%%
 
 [module/memory]
 type = internal/memory
@@ -224,7 +224,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-label = M %percentage_used%%
+label = M %percentage_used:3%%/%used:9% 
 
 [module/wlan]
 type = internal/network
@@ -232,7 +232,7 @@ interface = wlo1
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-label-connected = %essid% %downspeed:9%
+label-connected = %essid% ↑%upspeed:9% ↓%downspeed:9%
 format-connected-underline = #9f78e1
 ;ramp-signal-0 = 😱
 ;ramp-signal-1 = 😠
@@ -251,6 +251,13 @@ format-disconnected = <label-disconnected>
 label-disconnected = not connected
 label-disconnected-foreground = #66ffffff
 
+[module/syncthing]
+type = custom/script
+exec = syncthing cli show connections | grep 'connected": *true' | wc -l
+interval = 5
+format = <label>
+label = ST %output%
+format-underline = #99d6ff
 
 [module/eth]
 type = internal/network
@@ -372,9 +379,16 @@ animation-discharging-2 = 
 animation-discharging-foreground = ${colors.foreground-alt}
 animation-discharging-framerate = 750
 
+# [module/vpn-mullvad-status]
+# type = custom/script
+# exec = ~/.config/polybar/scripts/vpn-mullvad.sh --status
+# click-left = ~/.config/polybar/scripts/vpn-mullvad.sh --toggle
+# click-right = ~/.config/polybar/scripts/vpn-mullvad.sh --reconnect
+# interval = 1
+
 [module/temperature]
 type = internal/temperature
-thermal-zone = 0
+thermal-zone = 7  # CPU? for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
 warn-temperature = 60
 
 format = <ramp> <label>

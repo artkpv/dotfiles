@@ -36,11 +36,222 @@ snippet myday "Day from 7 to 21"
 endsnippet
 
 snippet myweek "Current week"
-# `LANG=ru_RU.utf8 date +%Y\ %W`н. Планы
+RUN 
+:r ! bash ~/bin/myweek.sh [YYYY-MM-DD]
+endsnippet
 
-${1:Предыдущая и следующяя недели}
 
-* * * 
+snippet myweekOLD "Current week"
+# `LANG=ru_RU.utf8 date --date=$1 +%Y\ %W`н. Планы
+
+- [`LANG=ru_RU.utf8 date -d 'this week -7 days' +%Y\ %W`н. Планы](`date -d 'this week -7 days' +%F_%W`_неделя.md)
+- [`LANG=ru_RU.utf8 date -d 'this week +7 days' +%Y\ %W`н. Планы](`date -d 'this week +7 days' +%F_%W`_неделя.md)
+
+++++++++++++++++++++++++++++++++++++++++++
+
+\\ Отсортированные (вначале важное), SMART (реальные, достижимые, и пр.) цели, большие камни. Что будет успехом если сделаю? Периоды глубокой работы для самого важного?
+
+++++++++++++++++++++++++++++++++++++++++++
+
+## `LANG=ru_RU.utf8 date -d 'this week' +%a\ %d\ %b`
+
+7
+7
+8
+8
+9
+9
+10
+10
+11
+11
+12
+12
+13
+13
+14
+14
+15
+15
+16
+16
+17
+17
+18
+18
+19
+19
+20
+20
+21
+21
+
+## `LANG=ru_RU.utf8 date -d 'this week +1 day' +%a\ %d\ %b`
+
+7
+7
+8
+8
+9
+9
+10
+10
+11
+11
+12
+12
+13
+13
+14
+14
+15
+15
+16
+16
+17
+17
+18
+18
+19
+19
+20
+20
+21
+21
+
+## `LANG=ru_RU.utf8 date -d 'this week +2 day' +%a\ %d\ %b`
+
+7
+7
+8
+8
+9
+9
+10
+10
+11
+11
+12
+12
+13
+13
+14
+14
+15
+15
+16
+16
+17
+17
+18
+18
+19
+19
+20
+20
+21
+21
+
+## `LANG=ru_RU.utf8 date -d 'this week +3 day' +%a\ %d\ %b`
+
+7
+7
+8
+8
+9
+9
+10
+10
+11
+11
+12
+12
+13
+13
+14
+14
+15
+15
+16
+16
+17
+17
+18
+18
+19
+19
+20
+20
+21
+21
+
+## `LANG=ru_RU.utf8 date -d 'this week +4 day' +%a\ %d\ %b`
+
+7
+7
+8
+8
+9
+9
+10
+10
+11
+11
+12
+12
+13
+13
+14
+14
+15
+15
+16
+16
+17
+17
+18
+18
+19
+19
+20
+20
+21
+21
+
+## `LANG=ru_RU.utf8 date -d 'this week +5 day' +%a\ %d\ %b`
+
+7
+7
+8
+8
+9
+9
+10
+10
+11
+11
+12
+12
+13
+13
+14
+14
+15
+15
+16
+16
+17
+17
+18
+18
+19
+19
+20
+20
+21
+21
+
+## `LANG=ru_RU.utf8 date -d 'this week +6 day' +%a\ %d\ %b`
 
 endsnippet
 

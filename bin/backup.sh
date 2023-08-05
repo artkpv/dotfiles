@@ -64,7 +64,13 @@ backup_files="/root/.bash_history /etc/passwd"
 
 # Directories to backup (Multi value)
 backup_dir_enable="yes"
-backup_directories="/home/art/mydir"
+declare -a backup_directories
+backup_directories[0]="/home/art/mydir/accounting"
+backup_directories[1]="/home/art/mydir/books"
+backup_directories[2]="/home/art/mydir/in"
+backup_directories[3]="/home/art/mydir/notes"
+backup_directories[4]="/home/art/mydir/photos"
+backup_directories[5]="/home/art/mydir/refs"
 
 # backup sync directory to MinIO (Multi value)
 backup_to_minio_enable="no"
@@ -207,14 +213,14 @@ if [ $backup_dir_enable = "yes" ]
 then
     echo -e "\n ${color}--- $date_now Backing up directories \n${nc}"
     echo "$date_now Backing up directories" >> $log_file
-    for backup_dirs in $backup_directories
+    for backup_dir in "${backup_directories[@]}"
     do
-        echo "--> $backup_dirs" | tee -a $log_file
-            dir_name=`echo $backup_dirs | cut -d / -f2- | sed 's/\//-/g'`
-        if [[ -d ${backup_dirs}/.git ]]; then
-            tar -cjf $backup_path/Backup/$path_date/$dir_name.tar.bz2 -X ${backup_dirs}/.gitignore $backup_dirs/ > /dev/null 2> /dev/null
+        echo "--> $backup_dir" | tee -a $log_file
+        dir_name=`echo $backup_dir | cut -d / -f2- | sed 's/\//-/g'`
+        if [[ -d ${backup_dir}/.git ]]; then
+            tar -cjf $backup_path/Backup/$path_date/$dir_name.tar.bz2 -X ${backup_dir}/.gitignore $backup_dir/ > /dev/null 2> /dev/null
         else
-            tar -cjf $backup_path/Backup/$path_date/$dir_name.tar.bz2 $backup_dirs/ > /dev/null 2> /dev/null
+            tar -cjf $backup_path/Backup/$path_date/$dir_name.tar.bz2 $backup_dir/ > /dev/null 2> /dev/null
         fi
     done
     echo
@@ -353,7 +359,7 @@ if [ $gpg_enable = "yes" ]
 then
     echo -e "\n ${color}--- $date_now Encrypting archive file using $gpg_public_recipient key\n${nc}"
     echo "$date_now Encrypting archive file using $gpg_public_recipient key" >> $log_file
-    gpg --homedir ~art/.gnupg --yes --always-trust -e -r $gpg_public_recipient $backup_path/Full_Backup_${path_date}.tar.bz2
+    gpg --homedir ~art/.gnupg --trust-model always --yes -e -r $gpg_public_recipient $backup_path/Full_Backup_${path_date}.tar.bz2
     # Removing the unencrypted archive file
     rm $backup_path/Full_Backup_${path_date}.tar.bz2
     final_archive="Full_Backup_${path_date}.tar.bz2.gpg"

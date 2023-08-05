@@ -215,7 +215,10 @@ exec --no-startup-id blueman-applet
 
 exec --no-startup-id redshiftgui
 exec --no-startup-id xfce4-clipman
+bindsym $mod+c exec --no-startup-id xfce4-clipman-history
 exec --no-startup-id xfce4-power-manager
+
+exec --no-startup-id mullvad-vpn
 
 exec ~/.fehbg
 
@@ -225,9 +228,10 @@ exec --no-startup-id udiskie --smart-tray
 
 exec --no-startup-id picom -b -i 1.0
 
-set $launcher Launcher: (f) firefox, (k) keepassxc, (h) wiki, (j) дневник, (d) заметка в дневник,  (i) inbox
+set $launcher Launcher: (f) firefox, (q) qutebrowser, (k) keepassxc, (h) wiki, (j) дневник, (d) заметка в дневник,  (i) inbox
 mode "$launcher" {
     bindsym f exec firefox, mode "default"
+    bindsym q exec qutebrowser, mode "default"
     bindsym k exec keepassxc, mode "default"
     bindsym h exec "goneovim --nofork $HOME/mydir/notes/index.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     bindsym j exec "goneovim --nofork $HOME/mydir/notes/$(date +%Y)/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"

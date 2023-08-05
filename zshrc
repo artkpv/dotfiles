@@ -39,6 +39,7 @@ plugins=(
     git
     vi-mode
     fzf
+    docker
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -50,7 +51,7 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
-alias g=git
+alias g='LANG=en git'
 alias info='info --vi-keys'
 alias less='less -r'
 alias l='ls -haAl --group-directories-first'
@@ -86,7 +87,7 @@ function onwakeup
 alias pabrowse_all="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
 alias pabrowse="pacman -Qqe | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
 
-alias dkr="sudo docker"
+alias dk="sudo docker"
 
 export LEDGER_FILE=$HOME/mydir/accounting/all.ledger
 
@@ -106,6 +107,7 @@ else
 fi
 export VISUAL=nvim
 export PAGER='less -R'
+export LESSCHARSET=utf-8
 
 export AUR_PAGER='nvim'
 
@@ -167,9 +169,18 @@ function cbr_get_currency()
 {
     # https://gist.github.com/artkpv/3cbff1819846a4eec132be21a1fbd63d
     # Скрипт для получения курса валют на заданную даты из Центробанка 
-    DATE=$1  # 02/03/2002
+    if [[ $1 == '-h' || $1 == '--help' ]]; then 
+        echo Usage: 'cbr_get_currency [date] [currency]', date in format: DD.MM.YYYY
+        return
+    fi
+    DATE=${1:-$( date +%d/%m/%Y )}
     CURR=${2-USD}
-    export LANG=ru_RU.CP1251; curl 'http://www.cbr.ru/scripts/XML_daily.asp?date_req='$DATE -s |  grep -Po $CURR'.*?Value>[^<]*' | sed -En -e 's/.*>([0-9,]*)/\1/gp' -
+    echo $DATE $CURR $( \
+        export LANG=ru_RU.CP1251; \
+        curl 'http://www.cbr.ru/scripts/XML_daily.asp?date_req='$DATE -s \
+            | grep -Po $CURR'.*?Value>[^<]*' \
+            | sed -En -e 's/.*>([0-9,]*)/\1/gp' - \
+        )
 }
 
 function n-toggle()
@@ -202,12 +213,15 @@ function dark()
 {
     echo '1\n86' | termite-style > /dev/null # Dark color 
     sed -i -E -e '/set background=dark/s_.*_set background=dark_' -e '/set background=light/s_.*_"set background=light_' ~/.config/nvim/vimrc
+    sed -i -E -e '/gtk-theme-name=/s_.*_gtk-theme-name=Adwaita-dark_' ~/.config/gtk-3.0/settings.ini
 }
 
 function light() 
 {
+    brightnessctl set 100%
     echo '1\n69' | termite-style  > /dev/null # Dark color
     sed -i -E -e '/set background=dark/s_.*_"set background=dark_' -e '/set background=light/s_.*_set background=light_' ~/.config/nvim/vimrc
+    sed -i -E -e '/gtk-theme-name=/s_.*_gtk-theme-name=Adwaita_' ~/.config/gtk-3.0/settings.ini
 }
 
 function b-toggle()
@@ -232,20 +246,29 @@ function beep()
 
 countdown() {
     # https://superuser.com/a/611582
-    date
-    start="$(( $(date +%s) + $(( $1 * 60 )) ))"
-    while [ "$start" -ge $(date +%s) ]; do
+    [[ ! -z "$1" ]] || ( echo Need minutes to count down. ; exit 1 )
+    start=$( date +%s )
+    echo "$( date ) - started $1 min pomo"
+    end="$(( $(date +%s) + $(( $1 * 60 )) ))"
+    while [ "$end" -ge $(date +%s) ]; do
         ## Is this more than 24h away?
-        days="$(($(($(( $start - $(date +%s) )) * 1 )) / 86400))"
-        time="$(( $start - `date +%s` ))"
+        days="$(($(($(( $end - $(date +%s) )) * 1 )) / 86400))"
+        time="$(( $end - `date +%s` ))"
         printf '%s day(s) and %s\r' "$days" "$(date -u -d "@$time" +%H:%M:%S)"
         sleep 0.1
         polybar-msg action ipc send "$(date -u -d "@$time" +%H:%M:%S)" > /dev/null
     done
+    minutes="$(( ( $(date +%s) - $start ) * 1 / 60 ))"
+    echo "$( date +%Y-%m-%d ) P \n    (pomo)       ${minutes}m"  >> ~/mydir/notes/time/$( date +%Y )-pomo.ledger
+    echo "$( date ) - done ${minutes} minutes."
     polybar-msg action ipc send Done > /dev/null
     beep
     beep
     beep
+}
+
+pomo() {
+    countdown $1
 }
 
 stopwatch() {
@@ -259,3 +282,27 @@ stopwatch() {
     done
 }
 
+myip() {
+    curl -m 2 'https://duckduckgo.com/?t=ffab&q=my+ip&ia=answer' -s | grep -o -E 'Your IP address is.*?</a'
+}
+
+nordvpn_con() {
+    echo use mullvad
+    return
+    _is_con() { 
+        res=$( myip ) 
+        echo $res
+        [[ "$res" != "" ]] && ( echo $res | grep -v Turkey ) 
+    }
+    if [[ -e /tmp/nordvpn_success_connections.txt ]] ; then
+        for l in $( cat /tmp/nordvpn_success_connections.txt | sort -u | shuf ) ; do   
+            nordvpn c $l 
+            _is_con && break
+        done
+    fi
+    if ! _is_con ; then echo '' > /tmp/nordvpn_success_connections.txt ; fi
+    while ! _is_con ; do nordvpn c Europe ; done         
+    nordvpn status | sed -E -n -e 's_Hostname: ([^\.]*).*_\1_p' - >> /tmp/nordvpn_success_connections.txt
+}
+
+[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
