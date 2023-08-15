@@ -236,7 +236,7 @@ let g:airline_theme='one'
 
 "  Colors and Fonts --------------------------------------------------- {{{1
 
-set guifont=DejaVu\ Sans\ Mono:h13
+set guifont=DejaVu\ Sans\ Mono:h7
 
 " Enable syntax highlighting
 syntax on 
@@ -301,8 +301,8 @@ try
 catch
 endtry
 
-set background=light
-"set background=dark
+"set background=light
+set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -311,6 +311,7 @@ if has("gui_running")
     set t_Co=256
     set guitablabel=%M\ %t
 endif
+
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -330,6 +331,10 @@ nnoremap <C--> :silent! let &guifont = substitute(
             \ ':h\zs\d\+',
             \ '\=eval(submatch(0)-1)',
             \ '')<CR>
+
+let g:neovide_scroll_animation_length = 0
+let g:neovide_cursor_trail_size = 0.5
+let g:neovide_theme = 'auto'
 
 "  Files, backups and undo --------------------------------------------------- {{{1
 

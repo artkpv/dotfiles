@@ -3,7 +3,7 @@
 
 [user]
 	name = Artyom K.
-	email = artyomkarpov@gmail.com
+	email = Artyom K
 [http]
 	postBuffer = 52428800
 [gui]
@@ -38,3 +38,5 @@
 	ui = auto
 [fetch]
 	prune = true
+[credential]
+	helper = cache --timeout=172800

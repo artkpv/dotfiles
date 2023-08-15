@@ -42,7 +42,7 @@ focus_follows_mouse no
 # kill focused window
 bindsym $mod+Shift+q kill
 
-bindsym $mod+grave exec termite
+bindsym $mod+grave exec alacritty
 
 # change focus
 bindsym $mod+h focus left
@@ -228,15 +228,16 @@ exec --no-startup-id udiskie --smart-tray
 
 exec --no-startup-id picom -b -i 1.0
 
-set $launcher Launcher: (f) firefox, (q) qutebrowser, (k) keepassxc, (h) wiki, (j) дневник, (d) заметка в дневник,  (i) inbox
+set $launcher Launcher: (f) firefox, (q) qutebrowser, (k) keepassxc, (h) wiki, (j) дневник, (d) заметка в дневник,  (i) inbox, (t) todo
 mode "$launcher" {
     bindsym f exec firefox, mode "default"
     bindsym q exec qutebrowser, mode "default"
     bindsym k exec keepassxc, mode "default"
-    bindsym h exec "goneovim --nofork $HOME/mydir/notes/index.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
-    bindsym j exec "goneovim --nofork $HOME/mydir/notes/$(date +%Y)/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
-    bindsym i exec "goneovim --nofork $HOME/mydir/notes/входящие.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
-    bindsym d exec "goneovim --nofork $HOME/mydir/notes/$(date +%Y)/$(date +%Y-%m-%d-%H%M).md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym h exec "neovide --nofork $HOME/mydir/notes/index.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym j exec "neovide --nofork $HOME/mydir/notes/$(date +%Y)/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym i exec "neovide --nofork $HOME/mydir/notes/входящие.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym d exec "neovide --nofork $HOME/mydir/notes/$(date +%Y)/$(date +%Y-%m-%d-%H%M).md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym t exec "neovide --nofork $HOME/mydir/notes/todo.txt -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     bindsym Return exec "rofi -show combi", mode "default"
     bindsym Escape mode "default"
 }

@@ -57,7 +57,6 @@ alias less='less -r'
 alias l='ls -haAl --group-directories-first'
 alias ls='ls --color=auto'
 alias pa='pacman'
-alias spa='sudo pacman'
 alias start=xdg-open
 alias tm='tmux attach'
 alias vi="LANG=en_US nvim"
@@ -211,17 +210,19 @@ function di()
 
 function dark() 
 {
-    echo '1\n86' | termite-style > /dev/null # Dark color 
+    #echo '1\n86' | termite-style > /dev/null
     sed -i -E -e '/set background=dark/s_.*_set background=dark_' -e '/set background=light/s_.*_"set background=light_' ~/.config/nvim/vimrc
     sed -i -E -e '/gtk-theme-name=/s_.*_gtk-theme-name=Adwaita-dark_' ~/.config/gtk-3.0/settings.ini
+    sed -i -E -e '/.*themes.*/s/night_owlish_light/moonlight_ii_vscode/' ~/.config/alacritty/alacritty.yml
 }
 
 function light() 
 {
     brightnessctl set 100%
-    echo '1\n69' | termite-style  > /dev/null # Dark color
+    #echo '1\n69' | termite-style  > /dev/null
     sed -i -E -e '/set background=dark/s_.*_"set background=dark_' -e '/set background=light/s_.*_set background=light_' ~/.config/nvim/vimrc
     sed -i -E -e '/gtk-theme-name=/s_.*_gtk-theme-name=Adwaita_' ~/.config/gtk-3.0/settings.ini
+    sed -i -E -e '/.*themes.*/s/moonlight_ii_vscode/night_owlish_light/' ~/.config/alacritty/alacritty.yml
 }
 
 function b-toggle()
@@ -305,4 +306,22 @@ nordvpn_con() {
     nordvpn status | sed -E -n -e 's_Hostname: ([^\.]*).*_\1_p' - >> /tmp/nordvpn_success_connections.txt
 }
 
-[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/art/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/art/mambaforge/etc/profile.d/conda.sh" ]; then
+        . "/home/art/mambaforge/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/art/mambaforge/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+if [ -f "/home/art/mambaforge/etc/profile.d/mamba.sh" ]; then
+    . "/home/art/mambaforge/etc/profile.d/mamba.sh"
+fi
+# <<< conda initialize <<<
+

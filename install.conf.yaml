@@ -23,7 +23,10 @@
     ~/.config/i3/config: i3
     ~/.config/polybar: polybar
     ~/.config/redshift/redshift.conf: redshift.conf
+    ~/.config/qutebrowser/config: qutebrowser_config.py
     ~/.config/rofi/config: rofi
+    ~/.config/alacritty/alacritty.yml: alacritty.yml
+    ~/.ssh/environment: ssh_environment
     ~/bin/:
         path: bin/*
         mode: -rwxr-xr-x
