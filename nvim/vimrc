@@ -131,9 +131,11 @@ function! PackInit() abort
 
     call minpac#add('chrisbra/csv.vim')
 
+    call minpac#add('dkarter/bullets.vim')
     " To edit Jupyter notebooks in vim and run them:
     "call minpac#add('dccsillag/magma-nvim')
     "call minpac#add('goerz/jupytext.vim')  " Slow with the markdown plugin.
+    "call minpac#add('itchyny/calendar.vim')
 endfunction
 
 command! PackUpdate source $MYVIMRC | call PackInit() | call minpac#update()
@@ -268,21 +270,17 @@ try
     "colorscheme nord
     " xoria256, zazen, yeller, dzo, sialoquent, dracula, zenburn,
     "colorscheme zenburn
-    "colorscheme alduin
     "colorscheme baycomb
     " colorscheme cake 
     "colorscheme solarized8_dark_high 
     " colorscheme candycode
     "colorscheme colorsbox-material
     "colorscheme MountinDew
-    " colorscheme alduin
-    "colorscheme onehalfdark
-    "colorscheme onehalflight
     " colorscheme xoria256
     "colorscheme cake
     
-    colorscheme hybrid_material
-    "colorscheme one
+    "colorscheme hybrid_material
+    colorscheme one
     "colorscheme gruvbox
     "let g:airline_theme='one'
 
@@ -294,15 +292,15 @@ try
     " colorscheme sialoquent
     "colorscheme zenburn
     "colorscheme zazen
-    " colorscheme alduin
+    "colorscheme alduin
     "colorscheme nord
     "colorscheme dzo
     "set guifont=Nimbus\ Mono\ PS:h11
 catch
 endtry
 
-"set background=light
-set background=dark
+set background=light
+"set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -698,6 +696,19 @@ let g:wiki_journal_index = {
 nmap <leader>wjn <Plug>(wiki-journal-next)
 nmap <leader>wjp <Plug>(wiki-journal-prev)
 
+let g:wiki_select_method = {
+      \ 'pages': function('wiki#fzf#pages'),
+      \ 'tags': function('wiki#fzf#tags'),
+      \ 'toc': function('wiki#fzf#toc'),
+      \}
+let g:wiki_fzf_pages_opts = '--preview "bat --color=never {1}"'
+let g:wiki_fzf_tags_opts = '--preview "bat --color=never {2..}"'
+
+nmap <leader>wgp :WikiPages<CR>
+nmap <leader>wgt :WikiToc<CR>
+
+
+
 " Ledger --------------------------------------------------- {{{1
 
 " let g:ledger_bin='hledger'
@@ -986,6 +997,8 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " FZF --------------------------------------------------- {{{1
 
+let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.95 } }
+
 " Always enable preview window on the right with 60% width
 let g:fzf_preview_window = 'right:60%'
 
@@ -1029,19 +1042,7 @@ nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
-" Magma integration --------------------------------------------------- {{{1
 
-let maplocalleader = ","
-
-nnoremap <silent><expr> <LocalLeader>mr  :MagmaEvaluateOperator<CR>
-nnoremap <silent>       <LocalLeader>mrr :MagmaEvaluateLine<CR>
-xnoremap <silent>       <LocalLeader>mr  :<C-u>MagmaEvaluateVisual<CR>
-nnoremap <silent>       <LocalLeader>mrc :MagmaReevaluateCell<CR>
-nnoremap <silent>       <LocalLeader>mrd :MagmaDelete<CR>
-nnoremap <silent>       <LocalLeader>mro :MagmaShowOutput<CR>
-
-let g:magma_automatically_open_output = v:true
-let g:magma_image_provider = "ueberzug"
 
 "" Other --------------------------------------------------- {{{1
 
@@ -1060,8 +1061,6 @@ autocmd BufLeave * silent! wa
 set autowrite 
 
 let g:pymode_python = 'python3'
-
-autocmd BufRead * try | execute "compiler ".&filetype | catch /./ | endtry 
 
 " Insert current date and time
 " see http://www.cplusplus.com/reference/ctime/strftime/
