@@ -282,3 +282,4 @@ if [ -f "/home/art/mambaforge/etc/profile.d/mamba.sh" ]; then
 fi
 # <<< conda initialize <<<
 
+
