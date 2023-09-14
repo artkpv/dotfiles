@@ -1,19 +1,25 @@
 - defaults:
+    base:
+      relink: true
+      create: true
     link:
       relink: true
       create: true
 
 - clean: ['~', '~/.config']
 
+- base:
+    ~/.tmux.conf:
+    ~/.gitconfig:
+    ~/.gitconfig_aliases: 
+    ~/.zshrc:
+    ~/.ssh/environment: ssh_environment
+
 - link:
     ~/.p10k.zsh:
     ~/.fehbg:
     ~/.xinitrc:
-    ~/.zshrc:
-    ~/.tmux.conf:
-    ~/.gitconfig:
     ~/.zprofile:
-    ~/.gitconfig_aliases: 
     ~/.Xresources:
     ~/.config/spotify-tui/config.yml: spotify-tui
     ~/.config/spotifyd/spotifyd.conf: spotifyd.conf
@@ -27,7 +33,6 @@
     ~/.config/qutebrowser/config: qutebrowser_config.py
     ~/.config/rofi/config: rofi
     ~/.config/alacritty/alacritty-mine.yml: alacritty.yml
-    ~/.ssh/environment: ssh_environment
     ~/bin/:
         path: bin/*
         mode: -rwxr-xr-x
