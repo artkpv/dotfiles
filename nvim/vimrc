@@ -299,8 +299,8 @@ try
 catch
 endtry
 
-set background=light
-"set background=dark
+"set background=light
+set background=dark
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -612,19 +612,19 @@ let g:wiki_link_default_schemes = {
       \}
 
 
-function! WikiMapTextToLink(text) abort
-    if a:text =~ '\v.*\.(md|wiki|txt)$'
-        return substitute(a:text,'\v\.(md|wiki|txt)', '', 'g')
-    else
-        let url = substitute(tolower(a:text), '\v[ \t;:.*?\)\(]+', '_', 'g')
-        if expand('%') =~ '\v\/0\/|^\/?0\/'
-            let url = strftime('%Y%m%d%H%M') . '_' .  url
-        else
-            let url = strftime('%Y-%m-%d-%H-%M') . '_' . url
-        endif
-        return url
-    endif
-endfunction
+" function! WikiMapTextToLink(text) abort
+"     if a:text =~ '\v.*\.(md|wiki|txt)$'
+"         return substitute(a:text,'\v\.(md|wiki|txt)', '', 'g')
+"     else
+"         let url = substitute(tolower(a:text), '\v[ \t;:.*?\)\(]+', '_', 'g')
+"         if expand('%') =~ '\v\/0\/|^\/?0\/'
+"             let url = strftime('%Y%m%d%H%M') . '_' .  url
+"         else
+"             let url = strftime('%Y-%m-%d-%H-%M') . '_' . url
+"         endif
+"         return url
+"     endif
+" endfunction
 
 let g:wiki_month_names = [ '01.Январь', '02.Февраль', '03.Март', '04.Апрель', '05.Май', '06.Июнь', '07.Июль', '08.Август', '09.Сентябрь', '10.Октябрь', '11.Ноябрь', '12.Декабрь' ]
 
@@ -701,8 +701,8 @@ let g:wiki_select_method = {
       \ 'tags': function('wiki#fzf#tags'),
       \ 'toc': function('wiki#fzf#toc'),
       \}
-let g:wiki_fzf_pages_opts = '--preview "bat --color=never {1}"'
-let g:wiki_fzf_tags_opts = '--preview "bat --color=never {2..}"'
+let g:wiki_fzf_pages_opts = '--preview "bat {1}"'
+let g:wiki_fzf_tags_opts = '--preview "bat {2..}"'
 
 nmap <leader>wgp :WikiPages<CR>
 nmap <leader>wgt :WikiToc<CR>
@@ -999,10 +999,6 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.95 } }
 
-" Always enable preview window on the right with 60% width
-let g:fzf_preview_window = 'right:60%'
-
-nnoremap <C-p> :<C-u>Files<CR>
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
@@ -1010,8 +1006,8 @@ let g:fzf_action = {
 
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
-command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+nnoremap <C-p> :<C-u>Files<CR>
+
 
 " CtrlSF --------------------------------------------------- {{{1
 

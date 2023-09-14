@@ -55,7 +55,7 @@
 [delta]
     navigate = true
     line-numbers=true
-    syntax-theme = OneHalfLight
+    syntax-theme = OneHalfDark
 
 [interactive]
     diffFilter = delta --color-only
