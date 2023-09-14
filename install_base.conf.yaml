@@ -11,6 +11,9 @@
     ~/.gitconfig_aliases: 
     ~/.zshrc:
     ~/.ssh/environment: ssh_environment
+    ~/.config/nvim: nvim
+    ~/.config/bat/config: bat
+    ~/.zshrc:
 
 - shell:
   - git submodule sync --recursive
