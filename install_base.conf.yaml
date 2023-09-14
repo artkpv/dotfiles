@@ -1,0 +1,17 @@
+- defaults:
+    link:
+      relink: true
+      create: true
+
+- clean: ['~', '~/.config']
+
+- link:
+    ~/.tmux.conf:
+    ~/.gitconfig:
+    ~/.gitconfig_aliases: 
+    ~/.zshrc:
+    ~/.ssh/environment: ssh_environment
+
+- shell:
+  - git submodule sync --recursive
+
