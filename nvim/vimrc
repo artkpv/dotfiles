@@ -139,7 +139,6 @@ function! PackInit() abort
     "call minpac#add('goerz/jupytext.vim')  " Slow with the markdown plugin.
     "call minpac#add('itchyny/calendar.vim')
      
-    call minpac#add('jalvesaq/zotcite')
     call minpac#add('iamcco/markdown-preview.nvim', {'do': 'packloadall! | call mkdp#util#install()'})
 
 endfunction

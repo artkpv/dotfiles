@@ -12,26 +12,9 @@
     ~/.zshrc:
     ~/.ssh/environment: ssh_environment
     ~/.p10k.zsh:
-    ~/.fehbg:
-    ~/.xinitrc:
     ~/.zprofile:
-    ~/.Xresources:
-    ~/.config/spotify-tui/config.yml: spotify-tui
-    ~/.config/spotifyd/spotifyd.conf: spotifyd.conf
-    ~/.config/systemd/user/spotifyd.service: spotifyd.service
     ~/.config/nvim: nvim
-        #~/.config/termite/config: termite
-    ~/.config/i3/config: i3
     ~/.config/bat/config: bat
-    ~/.config/polybar: polybar
-    ~/.config/redshift/redshift.conf: redshift.conf
-    ~/.config/qutebrowser/config.py: qutebrowser_config.py
-    ~/.config/rofi/config: rofi
-    ~/.config/alacritty/alacritty.toml: alacritty.toml
-    ~/.config/alacritty/dark-theme.toml: alacritty-dark-theme.toml
-    ~/.config/alacritty/light-theme.toml: alacritty-light-theme.toml
-    ~/.config/udiskie/config.yml: udiskie.yml
-    ~/.config/zathura/zathurarc: zathurarc
     ~/.newsboat/urls: newsboat/urls
     ~/.newsboat/config: newsboat/config
     ~/bin/:
