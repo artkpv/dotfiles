@@ -20,14 +20,20 @@
     ~/.config/spotifyd/spotifyd.conf: spotifyd.conf
     ~/.config/systemd/user/spotifyd.service: spotifyd.service
     ~/.config/nvim: nvim
-    ~/.config/termite/config: termite
+        #~/.config/termite/config: termite
     ~/.config/i3/config: i3
     ~/.config/bat/config: bat
     ~/.config/polybar: polybar
     ~/.config/redshift/redshift.conf: redshift.conf
-    ~/.config/qutebrowser/config: qutebrowser_config.py
+    ~/.config/qutebrowser/config.py: qutebrowser_config.py
     ~/.config/rofi/config: rofi
-    ~/.config/alacritty/alacritty-mine.yml: alacritty.yml
+    ~/.config/alacritty/alacritty.toml: alacritty.toml
+    ~/.config/alacritty/dark-theme.toml: alacritty-dark-theme.toml
+    ~/.config/alacritty/light-theme.toml: alacritty-light-theme.toml
+    ~/.config/udiskie/config.yml: udiskie.yml
+    ~/.config/zathura/zathurarc: zathurarc
+    ~/.newsboat/urls: newsboat/urls
+    ~/.newsboat/config: newsboat/config
     ~/bin/:
         path: bin/*
         mode: -rwxr-xr-x

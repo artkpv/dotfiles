@@ -24,28 +24,26 @@
 # Narbeh - http://narbeh.org - narbeh.aj@gmail.com
 #################################################################
 
-# sudo mount /dev/sda2 /mnt/satadrive
-
 ################
 # Configuration
 ################
 
-
-
 # Server Name
 server_name="hostname"
 
-mount | grep '/dev/sda2 on /mnt/satadrive' > /dev/null
+# Backup path
+mount_point="/run/media/art/BackUp"
+backup_path="$mount_point/backup"
+
+df -h $mount_point
+
+mount | grep "/dev/sda1 on $mount_point" > /dev/null
 if [ $? -ne 0 ]; then
-    mount /dev/sda2 /mnt/satadrive
     if [ $? -eq 0 ];then
-        echo -e "\n ${color}--- $date_now Need /dev/sda2 to be mounted at /mnt/satadrive \n${nc}"
+        echo -e "\n ${color}--- $date_now Need /dev/sda1 to be mounted at $mount_point \n${nc}"
     fi
 fi
 
-# Backup path
-#backup_path="/run/media/art/disk/Backup"
-backup_path="/mnt/satadrive/Backup"
 
 
 [[ -e $backup_path ]] || {
@@ -69,8 +67,8 @@ backup_directories[0]="/home/art/mydir/accounting"
 backup_directories[1]="/home/art/mydir/books"
 backup_directories[2]="/home/art/mydir/in"
 backup_directories[3]="/home/art/mydir/notes"
-backup_directories[4]="/home/art/mydir/photos"
-backup_directories[5]="/home/art/mydir/refs"
+#backup_directories[4]="/home/art/mydir/photos"
+backup_directories[4]="/home/art/mydir/refs"
 
 # backup sync directory to MinIO (Multi value)
 backup_to_minio_enable="no"
@@ -360,6 +358,10 @@ then
     echo -e "\n ${color}--- $date_now Encrypting archive file using $gpg_public_recipient key\n${nc}"
     echo "$date_now Encrypting archive file using $gpg_public_recipient key" >> $log_file
     gpg --homedir ~art/.gnupg --trust-model always --yes -e -r $gpg_public_recipient $backup_path/Full_Backup_${path_date}.tar.bz2
+    if [[ $? != 0 ]] ; then 
+        echo failed to encrypt
+        exit $?
+    fi
     # Removing the unencrypted archive file
     rm $backup_path/Full_Backup_${path_date}.tar.bz2
     final_archive="Full_Backup_${path_date}.tar.bz2.gpg"
@@ -367,6 +369,8 @@ fi
 
 sleep 1
 
+echo Copying KeePassXS DB:
+cp /home/art/mydir/notes/my_kp_db.kdbx $backup_path/
 
 # SCP to other server
 if [ $scp_enable = "yes" ]
@@ -436,5 +440,16 @@ echo "#######################" >> $log_file
 
 # Removing lock after successful backup
 rm /var/backup_lock
+
+echo "Copy to Google Drive? [Y/n]"
+read -r ANSWER
+ANSWER="${ANSWER:-Y}"
+if [[ "$ANSWER" =~ ^[yY] ]] 
+then 
+    echo su art -c "rclone copy -P $backup_path/my_kp_db.kdbx gdrive:/Backup/"
+    su art -c "rclone copy -P $backup_path/my_kp_db.kdbx gdrive:/Backup/"
+    echo su art -c "rclone copy -P $backup_path/$final_archive gdrive:/Backup/"
+    su art -c "rclone copy -P $backup_path/$final_archive gdrive:/Backup/"
+fi
 
 exit 0

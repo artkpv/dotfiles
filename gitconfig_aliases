@@ -98,6 +98,12 @@
   # diff - show changes but by word, not line
   dw = diff --word-diff
 
+  dlasthour= !git diff $(git log -1 --before=@{last.hour} --format=%H) --stat
+  dlastblock = !git diff $(git log -1 --before=@{4.hours.ago} --format=%H) --stat
+  dlastday = ! git diff $(git log -1 --before=@{last.day} --format=%H) --stat
+  dlastweek = ! git diff $(git log -1 --before=@{last.week} --format=%H) --stat | uniq
+  dlastmonth = ! git diff $(git log -1 --before=@{last.month} --format=%H) --shortstat | uniq             
+
   ### clean ###
 
   # clean everything to be pristine
@@ -123,8 +129,8 @@
   lt = log --topo-order
 
   # log key - our favorite way to show our key performance indicators, i.e. our most useful summary.
-  lkk = log --graph --topo-order --abbrev-commit --date=short --decorate --all --boundary --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'
-  lk = log --graph --topo-order --abbrev-commit --date=short --decorate --all --boundary --oneline
+  lkk = log --graph --topo-order --abbrev-commit --date=short --decorate --pretty=format:'%Cgreen%ad %Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue[%cn]%Creset %Cblue%G?%Creset'
+  lk = log --graph --topo-order --decorate --oneline
 
   # log latest - show the 10 most recent lines using `lk`
   ll = log -n 10 --graph --topo-order --abbrev-commit --date=short --decorate --all --boundary --pretty=format:'%Cgreen%ad'

@@ -1,0 +1,89 @@
+"query:Unread Articles:unread = \"yes\""
+"query:Read Articles:unread = \"no\""
+
+
+"------------------------------------------------------------------------------------------- Политика / Экономика "
+#https://www.ft.com/ft-view?format=rss  "гражданин мира"
+#https://www.theguardian.com/profile/editorial/rss
+#https://www.theguardian.com/news/series/the-long-read/rss  "гражданин мира"
+#https://meduza.io/rss/articles "гражданин РФ"
+#http://localhost:1200/youtube/user/@MeduzaPro
+#http://localhost:1200/youtube/user/@bbcnewsrussian
+#http://localhost:1200/telegram/channel/rerussia_org "~Re:Russia" "гражданин РФ"
+http://localhost:1200/telegram/channel/bcs_express финансы
+
+#http://localhost:1200/telegram/channel/turkeyabout "релокация" "Турция" политика
+#http://localhost:1200/telegram/channel/UznikOnline "гражданин РФ"
+
+"------------------------------------------------------------------------------------------- Мобилизация "
+https://ru.wikipedia.org/w/index.php?title=%D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F_%D0%B2_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8_(%D1%81_2022)&feed=atom&action=history "~Мобилизация с 2022"
+"------------------------------------------------------------------------------------------- Философия / Психология "
+http://localhost:1200/youtube/user/@user-fg4jf5zd2z
+http://localhost:1200/telegram/channel/wklim_philosophy ИФ
+http://localhost:1200/youtube/user/@satway
+https://satway.ru/feed/ рассудительность
+http://localhost:1200/telegram/channel/satway  "~Satway Telegram"
+"------------------------------------------------------------------------------------------- Рациональность "
+https://www.lesswrong.com/feed.xml?view=curated-rss рассудительность
+https://forum.effectivealtruism.org/feed.xml?view=frontpage-rss&karmaThreshold=125
+https://nitter.poast.org/80000hours/rss
+http://localhost:1200/youtube/user/@eightythousandhours
+https://www.clearerthinking.org/blog-feed.xml
+https://zapier.com/engine/rss/16782761/EAAnywhere   "~EA Anywhere : announcements"
+https://zapier.com/engine/rss/16782761/aialignment  "~AI Alignment : general"
+https://zapier.com/engine/rss/16782761/arena        "~Arena : announcements"
+https://zapier.com/engine/rss/16782761/aisafetycamp "~AI Safety Camp"
+https://zapier.com/engine/rss/16782761/eavirtual    "~EA Virtual"
+https://zapier.com/engine/rss/16782761/mlss         "~MLSS : alumni announcements"
+"------------------------------------------------------------------------------------------- ML / SE / AI Safety "
+https://importai.substack.com/feed  "~IAI, Import AI, from co-founder of Anthropic"
+https://us18.campaign-archive.com/feed?u=1d1821210cc4f04d1e05c4fa6&id=dbac5de515  "~Alignment Newsletter by Rohin Shah"
+https://hnrss.org/best?points=500&comments=200  "~Hacker News best, 500+ points, 200+ comments"
+http://localhost:1200/telegram/channel/agi_risk_and_ethics "ai safety"
+http://habrahabr.ru/rss/best/weekly/ "software engineer"
+http://localhost:1200/youtube/user/@3blue1brown
+http://localhost:1200/telegram/channel/hrlunapark вакансии
+https://www.artkpv.net/atom.xml
+https://nitter.poast.org/vast_ai/rss
+https://nitter.poast.org/RichardMCNgo/rss
+https://www.reddit.com/r/neovim/top/.rss?t=week  "~Neovim Top in week"
+https://lexfridman.com/feed/podcast/ "~Lex Fridman"
+https://www.neelnanda.io/blog?format=rss
+https://www.cold-takes.com/rss/ "~Holden Karnofsky Cold Stakes"
+
+# TODO https://forum.effectivealtruism.org/topics/ai-safety
+# TODO https://www.lesswrong.com/tag/ai?sortedBy=magic
+#"------------------------------------------------------------------------------------------- Турция "
+# http://localhost:1200/telegram/channel/events_istanbul "релокация" "Турция" "события Стамбул"
+# http://localhost:1200/telegram/channel/vinishko_v_stambule "релокация" "Турция" "события Стамбул"
+# http://localhost:1200/telegram/channel/victoria_turkey "релокация" "Турция" политика
+# http://localhost:1200/telegram/channel/istanbul_channel "релокация" "Турция" политика
+# http://localhost:1200/telegram/channel/TurkMoustache "релокация" "Турция" политика
+# http://localhost:1200/telegram/channel/philosophers_harbor "релокация" "Турция" "события Стамбул"
+# http://localhost:1200/telegram/channel/ArkHelps "релокация" политика 
+
+"------------------------------------------------------------------------------------------- Знакомые "
+
+https://nitter.poast.org/SimonLermenAI/rss
+https://nitter.poast.org/BogdanIonutCir2/rss
+https://nitter.poast.org/ShapovalovTS/rss
+https://nitter.poast.org/artscan/rss
+https://nitter.poast.org/leventov/rss
+https://engineeringideas.substack.com/feed
+"------------------------------------------------------------------------------------------- УИО "
+https://archlinux.org/feeds/news/
+
+"------------------------------------------------------------------------------------------- Отдых "
+http://localhost:1200/youtube/user/Kurzgesagt
+http://localhost:1200/youtube/user/@vdud
+https://lexfridman.com/feed/podcast/
+"------------------------------------------------------------------------------------------- Тренинг / Энергия "
+http://localhost:1200/youtube/user/@hubermanlab
+http://localhost:1200/youtube/user/@FitnessFAQs
+
+
+
+#######################################################################3
+
+# No RSS for Twitter: https://www.reddit.com/r/rss/comments/15ruvvx/all_twitter_feeds_down_rsshub_and_openrss/
+

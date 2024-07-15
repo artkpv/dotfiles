@@ -1,0 +1,15 @@
+import = ["/home/art/.config/alacritty/light-theme.toml"]
+
+[font]
+size = 6.0
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "F9"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "F10"
+
+[window]
+opacity = 0.8

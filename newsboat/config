@@ -1,0 +1,26 @@
+# Example config at /usr/share/doc/newsboat/examples/config
+
+#include "/usr/share/doc/newsboat/contrib/colorschemes/gruvbox"
+include "/usr/share/doc/newsboat/contrib/colorschemes/solarized-light"
+
+browser "qutebrowser %u &"
+
+#auto-reload yes
+
+# unbind keys
+unbind-key ENTER
+unbind-key j
+unbind-key k
+unbind-key J
+unbind-key K
+
+# bind keys - vim style
+bind-key j down
+bind-key k up
+bind-key l open
+bind-key h quit
+
+feedlist-format     "%3i %?n?%3U&   ? %=3S %t"
+articlelist-format     "%3i %D %f %F%t"
+
+

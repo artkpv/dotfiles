@@ -1,0 +1,5 @@
+program_options:
+  tray: auto
+  file_manager: doublecmd
+  automount: false
+

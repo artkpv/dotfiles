@@ -16,6 +16,8 @@ config.load_autoconfig(True)
 config.bind('<Alt-Ctrl-u>', 'spawn --userscript qute-keepassxc --key E8334CE6752602E76548A828ACBDF9416E3C7B5D', mode='insert')
 config.bind('pw', 'spawn --userscript qute-keepassxc --key E8334CE6752602E76548A828ACBDF9416E3C7B5D', mode='normal')
 
+config.bind(',v', 'spawn --detach mpv --player-operation-mode=pseudo-gui {url}')
+
 
 c.content.autoplay = False
 
@@ -29,4 +31,6 @@ c.content.geolocation = False
 ## Display PDFs within qutebrowser
 c.content.pdfjs = True
 
-config.set("colors.webpage.darkmode.enabled", True)
+c.colors.webpage.darkmode.enabled = True
+
+c.url.start_pages = "qute://start"

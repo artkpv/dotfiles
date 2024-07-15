@@ -218,35 +218,37 @@ exec --no-startup-id xfce4-clipman
 bindsym $mod+c exec --no-startup-id xfce4-clipman-history
 exec --no-startup-id xfce4-power-manager
 
-exec --no-startup-id mullvad-vpn
+#exec --no-startup-id mullvad-vpn
 
-exec ~/.fehbg
+exec --no-startup-id ~/.fehbg
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-exec --no-startup-id udiskie --smart-tray
-
 exec --no-startup-id picom -b -i 1.0
 
-set $launcher Launcher: (f) firefox, (q) qutebrowser, (k) keepassxc, (h) wiki, (j) дневник, (d) заметка в дневник,  (i) inbox, (t) todo
+set $launcher Launcher: (f) firefox Non pers, (p) FF personal, (k) keepassxc, (h) wiki, (j) дневник, (d) заметка в дневник,  (i) inbox, (t) todo
 mode "$launcher" {
-    bindsym f exec firefox, mode "default"
+    bindsym f exec "firefox -P Non-personal", mode "default"
+    bindsym p exec "firefox -P Personal", mode "default"
     bindsym q exec qutebrowser, mode "default"
     bindsym k exec keepassxc, mode "default"
-    bindsym h exec "neovide --nofork $HOME/mydir/notes/index.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym h exec "neovide $HOME/mydir/notes/index.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     #bindsym h exec "alacritty -e nvim $HOME/mydir/notes/index.md +WikiEnable +'cd ~/mydir/notes'", mode "default"
-    bindsym j exec "neovide --nofork $HOME/mydir/notes/$(date +%Y)/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym j exec "neovide $HOME/mydir/notes/$(date +%Y)/дневник.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     #bindsym j exec "alacritty -e nvim $HOME/mydir/notes/$(date +%Y)/дневник.md +WikiEnable +'cd ~/mydir/notes'", mode "default"
-    bindsym i exec "neovide --nofork $HOME/mydir/notes/входящие.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym i exec "neovide $HOME/mydir/notes/входящие.md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     #bindsym i exec "alacritty -e nvim $HOME/mydir/notes/входящие.md +WikiEnable +'cd ~/mydir/notes'", mode "default"
-    bindsym d exec "neovide --nofork $HOME/mydir/notes/$(date +%Y)/$(date +%Y-%m-%d-%H%M).md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym d exec "neovide $HOME/mydir/notes/$(date +%Y)/$(date +%Y-%m-%d-%H%M).md -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     #bindsym d exec "alacritty -e nvim $HOME/mydir/notes/$(date +%Y)/$(date +%Y-%m-%d-%H%M).md +WikiEnable +'cd ~/mydir/notes'", mode "default"
-    bindsym t exec "neovide --nofork $HOME/mydir/notes/todo.txt -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
+    bindsym t exec "neovide $HOME/mydir/notes/todo.txt -- -c WikiEnable -c 'cd ~/mydir/notes'", mode "default"
     #bindsym t exec "alacritty -e nvim $HOME/mydir/notes/todo.txt +WikiEnable +'cd ~/mydir/notes'", mode "default"
     bindsym Return exec "rofi -show combi", mode "default"
     bindsym Escape mode "default"
+
 }
 bindsym $mod+Return mode "$launcher"
+
+bindsym $mod+d exec --no-startup-id rofi -show drun -run-shell-command '{terminal} -e zsh -ic "{cmd} && read"'
 
 
 set $screenshots Screenshot (Enter) xclip, (p) area in file at Desktop, (f) file at Desktop

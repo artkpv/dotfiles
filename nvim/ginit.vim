@@ -7,5 +7,5 @@ endif
 
 
 " Disable Windows popup to make correct formatting. See https://github.com/neovim/neovim/issues/9026
-GuiPopupmenu 0
+"GuiPopupmenu 0
 
