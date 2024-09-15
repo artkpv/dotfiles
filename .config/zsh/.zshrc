@@ -1,36 +1,9 @@
 # Author: Artyom K. artkpv.net
 
-if [[ -e ~/mydir/notes/.zsh_secret && ! -e ~/.zsh_secret ]] ; then
-  ln -s ~/mydir/notes/.zsh_secret ~/.zsh_secret
-fi
-if [[ -e ~/.zsh_secret ]] ; then
-  . ~/.zsh_secret
-fi
-
 PATH=$PATH:$HOME/bin:$HOME/.local/bin
 
-# Path to your oh-my-zsh installation.
-export ZSH=/usr/share/oh-my-zsh
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/omz.sh" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/omz.sh"
 
-plugins=(
-    git
-    vi-mode
-    fzf
-    docker
-)
-
-source $ZSH/oh-my-zsh.sh
-
-
-#########
-# PLUGINS
-#########
-
-source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.zsh
-
-export FZF_DEFAULT_OPTS="--height=80% --border --layout=reverse --preview 'bat --style=numbers --color=always --line-range :500 {}'"
-export FZF_DEFAULT_COMMAND="fd"
-export FZF_CTRL_T_COMMAND="fd"
 
 # Refs https://aur.archlinux.org/packages/zsh-pure-prompt
 autoload -U promptinit; promptinit
@@ -38,76 +11,21 @@ autoload -U promptinit; promptinit
 zstyle :prompt:pure:git:stash show yes
 prompt pure
 
-# NNN
-export NNN_TRASH=1
-export NNN_CONTEXT_COLORS='4321'
-export NNN_PLUG='l:-_less -iR $nnn*;o:preview-tabbed;p:rsynccp'
-alias n='nnn -xa -P preview-tabbed'
 
-
-export BAT_THEME=OneHalfLight
-
-##########
-# ALIASES 
-##########
-
-alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
-
-#alias fd='fd -u'
-alias g='LANG=en git'
-alias info='info --vi-keys'
-alias less='less -r'
-alias l='ls -haAl --group-directories-first'
-alias ls='ls --color=auto'
-alias pa='pacman'
-alias start=xdg-open
-alias vi="LANG=en_US nvim"
-alias vim="LANG=en_US nvim"
-alias vimrc='nvim ~/.config/nvim/vimrc'
-alias zshrc='nvim ~/.zshrc'
-function cheat()
-{
-    curl cheat.sh/$1  | less -r
-}
-function hl
-{
-    hledger $* | less -R
-}
-alias hlui='hledger-ui --watch --theme=terminal'
-alias py=python3
-alias dstat_my="dstat -cdmn --thermal --top-cpu --top-mem 10"
-
-alias pabrowse_all="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
-alias pabrowse="pacman -Qqe | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
-
-alias dk="sudo docker"
-
-alias cb4t='chatblade -c 4t'
-alias cb4='chatblade -c 4'
-alias cb='chatblade'
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc"
 
 [[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
 
-cdls() {
-    cd "$@" && ls;
-}
 
-export LEDGER_FILE=$HOME/mydir/accounting/all.ledger
 
-if [ -n "$DISPLAY" ]; then
-    export BROWSER=firefox
-else 
-    export BROWSER=links
-fi
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-fi
-export VISUAL=nvim
-export PAGER='less -R'
+export NNN_FIFO=/tmp/nnn.fifo
+export NNN_TRASH=1
+export NNN_CONTEXT_COLORS='4321'
+export NNN_PLUG='l:-_less -iR $nnn*;o:preview-tabbed;p:rsynccp'
+
+export BAT_THEME=OneHalfLight
+
 export LESSCHARSET=utf-8
 
 export AUR_PAGER='nvim'
