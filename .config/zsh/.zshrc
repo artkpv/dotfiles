@@ -2,21 +2,19 @@
 
 PATH=$PATH:$HOME/bin:$HOME/.local/bin
 
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/omz.sh" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/omz.sh"
+# Avoid failing if no oh-my-zsh:
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/ohmyz.sh" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/ohmyz.sh"
 
 
-# Refs https://aur.archlinux.org/packages/zsh-pure-prompt
+# Prompt:
+fpath+=($ZDOTDIR/pure)
 autoload -U promptinit; promptinit
-# turn on git stash status
-zstyle :prompt:pure:git:stash show yes
+zstyle :prompt:pure:git:stash show yes # turn on git stash status
 prompt pure
-
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc"
 
 [[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
-
-
 
 
 export NNN_FIFO=/tmp/nnn.fifo
@@ -39,24 +37,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 #  OTHER
 ############################################################
 
-
-function cbr_get_currency() 
-{
-    # https://gist.github.com/artkpv/3cbff1819846a4eec132be21a1fbd63d
-    # Скрипт для получения курса валют на заданную даты из Центробанка 
-    if [[ $1 == '-h' || $1 == '--help' ]]; then 
-        echo Usage: 'cbr_get_currency [date] [currency]', date in format: DD.MM.YYYY
-        return
-    fi
-    DATE=${1:-$( date +%d/%m/%Y )}
-    CURR=${2-USD}
-    echo $DATE $CURR $( \
-        export LANG=ru_RU.CP1251; \
-        curl 'http://www.cbr.ru/scripts/XML_daily.asp?date_req='$DATE -s \
-            | grep -Po $CURR'.*?Value>[^<]*' \
-            | sed -En -e 's/.*>([0-9,]*)/\1/gp' - \
-        )
-}
 
 function n-toggle()
 {

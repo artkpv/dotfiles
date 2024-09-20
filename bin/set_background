@@ -1,0 +1,31 @@
+#!/bin/zsh
+
+img_name="$HOME/Downloads/pictures/image"
+
+SOURCE=${1:-bing}
+
+
+if [[ "$SOURCE" == "wiki" ]] ; then
+    # Wikipedia POD:
+    URL="https:$( curl https://en.wikipedia.org/wiki/Main_Page | pup '[role=presentation] a.mw-file-description img' attr{src} | grep -Po '.*(?=/)' | sed -e 's_thumb/__' )"
+
+    img_name="${img_name}-wiki"
+elif [[ "$SOURCE" == "ruwi" ]] ; then
+    echo TODO
+    # Ru Wikipedia POD:
+    # curl -o$img https:$( curl https://ru.wikipedia.org/wiki/Main_Page | pup '[role=presentation] a.mw-file-description img' attr{src} | grep -Po '.*(?=/)' | sed -e 's_thumb/__' )
+elif [[ "$SOURCE" == "bing" ]] ; then
+    # BING:
+    URL=$( curl https://bing.com -skL | grep -E 'https://www.bing.com/th[^"]*' -o )
+    img_name="${img_name}-bing"
+elif [[ "$SOURCE" == "nasa" ]] ; then
+    URL="https://apod.nasa.gov/apod/$( curl https://apod.nasa.gov/apod/ -kLs | sed -En -e 's_.*href="(image[^"]*.\w{3,4})".*_\1_p' )"
+    img_name="${img_name}-nasa"
+else
+    echo 'Usage set_background (wiki|bing|nasa)'
+fi
+
+img="${img_name}.png"
+
+curl -o"$img" -z "$img" "$URL"
+feh --bg-fill "$img" 

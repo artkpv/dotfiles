@@ -5,7 +5,8 @@
 
 xrandr --dpi 96		# Set DPI. User may want to use a larger number for larger screens.
 
-set_background.sh &
+set_background &
+
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!	# Uncomment to use Xresources colors/settings on startup
 
 autostart="udiskie"
@@ -17,5 +18,6 @@ done >/dev/null 2>&1
 # Ensure that xrdb has finished running before moving on to start the WM/DE.
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
 
+echo "before exec /usr/bin/i3"
 exec /usr/bin/i3
 
