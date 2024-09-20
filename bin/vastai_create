@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 # Published at https://gist.github.com/artkpv/c5ae0dd8609a934ca0a1fc64df8269ad
 DPH="${1:-1.1}"
 VRAM="${2:-40}"

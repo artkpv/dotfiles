@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+curl -m 2 'https://duckduckgo.com/?t=ffab&q=my+ip&ia=answer' -s | grep -o -E 'Your IP address is.*?</a'

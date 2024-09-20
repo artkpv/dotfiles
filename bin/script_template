@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cat <<EOF
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+trap "echo 'error: Script failed: see failed command above'" ERR
+EOF

@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+#echo '1\n86' | termite-style > /dev/null
+sed -i -E -e '/set background=dark/s_.*_set background=dark_' -e '/set background=light/s_.*_"set background=light_' ~/.config/nvim/vimrc
+sed -i -E -e '/gtk-theme-name=/s_.*_gtk-theme-name=Adwaita-dark_' ~/.config/gtk-3.0/settings.ini
+sed -i -E -e '/.*syntax-theme.*/s/Light/Dark/' ~/.gitconfig
+sed -i -E -e '/.*BAT_THEME.*/s/Light/Light/' ~/.zshrc
+sed -i -E -e '/.*c.colors.webpage.darkmode.enabled.*/s/.*/c.colors.webpage.darkmode.enabled = True/' ~/.config/qutebrowser/config.py
+sed -i -E -e '/.*light.*/s/light/dark/' ~/.newsboat/config
+sed -i -E -e '/.*light-theme.*/s/light-theme/dark-theme/' ~/.config/alacritty/alacritty.toml

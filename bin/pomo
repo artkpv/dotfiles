@@ -1,0 +1,27 @@
+#!/bin/zsh
+
+# https://superuser.com/a/611582
+[[ ! -z "$1" ]] || ( echo Need minutes to count down. ; exit 1 )
+start=$( date +%s )
+echo "$( date ) - started $1 min pomo"
+end="$(( $(date +%s) + $(( $1 * 60 )) ))"
+while [ "$end" -ge $(date +%s) ]; do
+    ## Is this more than 24h away?
+    days="$(($(($(( $end - $(date +%s) )) * 1 )) / 86400))"
+    time="$(( $end - `date +%s` ))"
+    printf '%s day(s) and %s\r' "$days" "$(date -u -d "@$time" +%H:%M:%S)"
+    sleep 0.1
+    polybar-msg action ipc send "$(date -u -d "@$time" +%H:%M:%S)" > /dev/null
+done
+minutes="$(( ( $(date +%s) - $start ) * 1 / 60 ))"
+echo "$( date +%Y-%m-%d ) P \n    (pomo)       ${minutes}m"  >> ~/mydir/notes/time/$( date +%Y )-pomo.ledger
+echo "$( date ) - done ${minutes} minutes."
+polybar-msg action ipc send Done > /dev/null
+beep > /dev/null
+beep > /dev/null
+beep > /dev/null
+if [[ $(( $RANDOM % 2 )) == 1 ]]; then
+    echo 'Выпал орел. Награда.'
+else 
+    echo 'Выпала решка. Награда в другой раз.'
+fi

@@ -1,0 +1,8 @@
+#!/bin/zsh
+# toggle brightness
+
+if ( brightnessctl| grep 100% ) ; then 
+    brightnessctl set 1% 
+else 
+    brightnessctl set 100%  
+fi 

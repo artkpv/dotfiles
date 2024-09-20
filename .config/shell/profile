@@ -18,7 +18,6 @@ else
 fi
 
 export VISUAL=nvim
-export PAGER='less -R'
 
 # ~/ Clean-up:
 export XDG_CONFIG_HOME="$HOME/.config"

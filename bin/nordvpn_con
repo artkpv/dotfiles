@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+echo use mullvad
+return
+_is_con() { 
+    res=$( myip ) 
+    echo $res
+    [[ "$res" != "" ]] && ( echo $res | grep -v Turkey ) 
+}
+if [[ -e /tmp/nordvpn_success_connections.txt ]] ; then
+    for l in $( cat /tmp/nordvpn_success_connections.txt | sort -u | shuf ) ; do   
+        nordvpn c $l 
+        _is_con && break
+    done
+fi
+if ! _is_con ; then echo '' > /tmp/nordvpn_success_connections.txt ; fi
+while ! _is_con ; do nordvpn c Europe ; done         
+nordvpn status | sed -E -n -e 's_Hostname: ([^\.]*).*_\1_p' - >> /tmp/nordvpn_success_connections.txt
