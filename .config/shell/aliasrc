@@ -1,0 +1,43 @@
+#!/bin/zsh
+
+##########
+# ALIASES 
+##########
+
+alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
+
+#alias fd='fd -u'
+alias g='LANG=en git'
+alias info='info --vi-keys'
+alias less='less -r'
+alias l='ls -haAl --group-directories-first'
+alias ls='ls --color=auto'
+alias pa='pacman'
+alias start=xdg-open
+alias vi="LANG=en_US nvim"
+alias vim="LANG=en_US nvim"
+alias vimrc='nvim ~/.config/nvim/vimrc'
+alias zshrc='nvim ~/.zshrc'
+function hl
+{
+    hledger $* | less -R
+}
+alias hlui='hledger-ui --watch --theme=terminal'
+alias py=python3
+alias dstat_my="dstat -cdmn --thermal --top-cpu --top-mem 10"
+
+alias pabrowse_all="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
+alias pabrowse="pacman -Qqe | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
+
+alias dk="sudo docker"
+
+alias cb4t='chatblade -c 4t'
+alias cb4='chatblade -c 4'
+alias cb='chatblade'
+
+cdls() {
+    cd "$@" && ls;
+}
+
+
+alias n='nnn -xa -P preview-tabbed'
