@@ -37,3 +37,5 @@ export AUR_PAGER='nvim'
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 export SDCV_PAGER=less
+
+export IPYTHONDIR="${XDG_CONFIG_HOME:-$HOME/.config}/ipython"
