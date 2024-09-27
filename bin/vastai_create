@@ -36,13 +36,11 @@ if [[ "$ans" =~ ^[0-9]+$ ]] ; then
 
     echo "$SSHURL"
     port=$( echo "$SSHURL" | grep -o '[0-9]\{3,\}' )
-    nport=$(( port - 1 ))
+    # nport=$(( port - 1 ))  # Some security measure from vastai?
     SSHURL="${SSHURL//$port/$nport}"
     echo "$SSHURL" | xclip -selection clipboard
     echo waiting to start
-    sleep 15
-    ssh "$SSHURL" <<- _EOF_
-    . ./create_env.sh
-_EOF_
+    sleep 5
+    ssh "$SSHURL" < echo '. ./create_env.sh'
 fi 
 
