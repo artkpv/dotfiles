@@ -27,5 +27,11 @@ fi
 
 img="${img_name}.png"
 
-curl -o"$img" -z "$img" "$URL"
+
+local_s=$(wc -c < "$img")
+remote_s=$(curl -sI "$URL" | awk '/Content-Length/ {sub("\r",""); print $2}')
+if [ $Local != $Remote ]; then
+    curl -o"$img" -z "$img" "$URL"
+fi
+
 feh --bg-fill "$img" 

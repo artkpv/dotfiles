@@ -1,5 +1,13 @@
 #!/bin/zsh
 
+# Buys a machine with GPUs at vast.ai.
+
+[[ "$1" =~ '-h|--help' ]] && { 
+echo "Usage
+    vastai_create <dollar per hour> <VRAM>"
+exit 0 
+}
+
 # Published at https://gist.github.com/artkpv/c5ae0dd8609a934ca0a1fc64df8269ad
 DPH="${1:-1.1}"
 VRAM="${2:-40}"
@@ -33,9 +41,9 @@ if [[ "$ans" =~ ^[0-9]+$ ]] ; then
     echo "$SSHURL" | xclip -selection clipboard
     echo waiting to start
     sleep 15
-    ssh "$SSHURL" <<EOF
+    ssh "$SSHURL" <<- _EOF_
     cd /workspace  
-    . ./create_env.sh '
-EOF
+    . ./create_env.sh
+_EOF_
 fi 
 
