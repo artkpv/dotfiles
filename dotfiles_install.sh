@@ -9,6 +9,7 @@ DOTFILES="$1"
     echo 'Usage: dotfiles_install.sh <path to dotfiles repo>'
     exit 1 
 }
+cd "$HOME" || exit 1
 
 [[ -e $HOME/.dotfiles ]] || git clone --bare "$DOTFILES" "$HOME/.dotfiles"
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
