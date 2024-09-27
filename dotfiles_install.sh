@@ -10,7 +10,7 @@ DOTFILES="$1"
     exit 1 
 }
 
-git clone --bare "$DOTFILES" "$HOME/.dotfiles"
+[[ -e $HOME/.dotfiles ]] || git clone --bare "$DOTFILES" "$HOME/.dotfiles"
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
 
 for file in $( dotfiles checkout 2>&1 | grep -E "\s+\." | cut -f 2 ) ; do 
