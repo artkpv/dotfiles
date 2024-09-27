@@ -27,7 +27,7 @@ if [[ "$ans" =~ ^[0-9]+$ ]] ; then
     res=$( vastai create instance "$IID" \
         --disk 180 \
         --image 'pytorch/pytorch:latest' \
-        --onstart ~/bin/vastai_template.sh \
+        --onstart ~/bin/vastai_onstart.sh \
         --env "-e GITHUB_TOKEN=$GITHUB_TOKEN -e HF_TOKEN=$HF_TOKEN -e WANDB_API_KEY=$WANDB_API_KEY -e OPENAI_API_KEY=$OPENAI_API_KEY " 
     )
     echo "$res"
@@ -42,7 +42,6 @@ if [[ "$ans" =~ ^[0-9]+$ ]] ; then
     echo waiting to start
     sleep 15
     ssh "$SSHURL" <<- _EOF_
-    cd /workspace  
     . ./create_env.sh
 _EOF_
 fi 
