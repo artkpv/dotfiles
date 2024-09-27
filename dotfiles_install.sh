@@ -15,6 +15,7 @@ cd "$HOME" || exit 1
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
 
 for file in $( dotfiles checkout 2>&1 | grep -E "\s+\." | cut -f 2 ) ; do 
+    echo "Backing up $file"
     mkdir --parents ".dotfiles-backup/$( dirname "$file" )"
     mv "$file" ".dotfiles-backup/$file"
 done
