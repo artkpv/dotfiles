@@ -71,7 +71,7 @@ _EOF_
 }
 
 if [[ "$#" == 2 ]] ; then
-    find_instance_id ; 
+    find_instance_id "$@"; 
     provision ;
 elif [[ "$#" == 1 ]] ; then
     INS_ID=$1
