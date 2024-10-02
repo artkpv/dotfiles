@@ -1,20 +1,31 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Buys a machine with GPUs at vast.ai.
 # Published at https://gist.github.com/artkpv/c5ae0dd8609a934ca0a1fc64df8269ad
 
-[[ "$1" =~ '-h|--help' ]] && { 
-echo "Usage
-    vastai_create <dollar per hour> <VRAM>"
-exit 0 
+usage() {
+    cat <<-_EOF_
+Usage:
+    1) vastai_create --filter <vast ai filter>
+        Creates an instance and provisions it.
+    2) vastai_create <instance id> 
+        Provisions an instance with ID.
+
+vast ai filter: 
+    - dph - dollar per hour
+    - gpu_ram - VRAM
+_EOF_
 }
 
-find_instance_id() 
-{
-    DPH="${1:-1.1}"
-    VRAM="${2:-40}"
+[[ "$1" =~ -h|--help || $# -eq 0 || $# -gt 2  ]] && { usage;  exit 1 ; }
 
-    search_str="reliability > 0.8 inet_down >= 600.0 num_gpus>=1 gpu_ram >= $VRAM disk_space >= 110 duration >= 1 dph <= $DPH cuda_vers >= 12.0 "
+find_instance_id() {
+    filter=""
+    if [[ "$1" == "--filter" && -n "$2" ]] ; then
+        filter="$2"
+    fi
+
+    search_str="reliability > 0.8 inet_down >= 600.0 num_gpus=1 disk_space >= 110 duration >= 1 cuda_vers >= 12.0 ${filter} "
     echo "$search_str":
     instances=$( vastai search offers "$search_str" -o dlperf_usd )
 
@@ -23,39 +34,38 @@ find_instance_id()
     echo "Enter ID for the instance to create ($IID)?"
     read -r ans
     [[ "$ans" =~ ^[0-9]+$ ]] && IID=$ans
+    return
 }
 
-provision()
-{
+provision() {
     create_instance
 
     create_environment
 }
 
-create_instance()
-{
-    [[ -n "$IID" ]] || { echo 'Need IID' ; exit 1 }
-
+create_instance() {
+    [[ -n "$IID" ]] || { echo 'Need IID' ; exit 1 ; }
 
     res=$( vastai create instance "$IID" \
-        --image pytorch/pytorch:2.2.0-cuda12.1-cudnn8-devel \
+        --image "pytorch/pytorch:2.2.0-cuda12.1-cudnn8-devel" \
         --disk 180 \
         --ssh \
         --onstart ~/bin/vastai_onstart.sh \
         --env "-e DATA_DIRECTORY=/workspace/ -e JUPYTER_DIR=/ -e GITHUB_TOKEN=$GITHUB_TOKEN -e HF_TOKEN=$HF_TOKEN -e WANDB_API_KEY=$WANDB_API_KEY -e OPENAI_API_KEY=$OPENAI_API_KEY"
-   )
-    [[ $? -eq 0 ]] || { echo 'Failed to create' ; exit 1 }
+
+    )
+    [[ $? -eq 0 ]] || { echo 'Failed to create' ; exit 1 ; }
     echo "$res"
     INS_ID=$( echo "$res" | grep -o "[0-9]\+" )
     echo 'Waiting for the instance to be running...'
     while ! ( vastai show instances | grep "${INS_ID}.*running" > /dev/null ) ; do 
         sleep 1
     done
+    return
 }
 
-create_environment()
-{
-    [[ -n "$INS_ID" ]] || { echo 'Need INS_ID' ; exit 1 }
+create_environment() {
+    [[ -n "$INS_ID" ]] || { echo 'Need INS_ID' ; exit 1 ; }
     echo 'Getting ssh url'
     SSHURL=$( vastai ssh-url "$INS_ID" )
     echo "$SSHURL"
@@ -68,12 +78,14 @@ create_environment()
         cd /workspace
         . ./vastai_create_env.sh
 _EOF_
+    return
 }
 
-if [[ "$#" == 2 ]] ; then
-    find_instance_id "$@"; 
-    provision ;
-elif [[ "$#" == 1 ]] ; then
+if [[ $# -eq 2 ]] ; then
+    find_instance_id "$@" 
+    provision 
+elif [[ $# -eq 1 ]] ; then
     INS_ID=$1
-    create_environment ;
+    create_environment
 fi
+
