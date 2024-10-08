@@ -29,9 +29,9 @@ img="${img_name}.png"
 
 
 local_s=$(wc -c < "$img")
-remote_s=$(curl -sI "$URL" | awk '/Content-Length/ {sub("\r",""); print $2}')
-if [ $Local != $Remote ]; then
-    curl -o"$img" -z "$img" "$URL"
+remote_s=$(curl --silent --head "$URL" | awk '/Content-Length/ {sub("\r",""); print $2}')
+if [[ -z "${remote_s}" || $local_s != $remote_s ]]; then
+    curl --silent --output "$img" "$URL"
 fi
 
 feh --bg-fill "$img" 

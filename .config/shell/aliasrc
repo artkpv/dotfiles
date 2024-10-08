@@ -18,6 +18,7 @@ alias vi="LANG=en_US nvim"
 alias vim="LANG=en_US nvim"
 alias vimrc='nvim ~/.config/nvim/vimrc'
 alias zshrc='nvim ~/.zshrc'
+alias tm='tmux new-session -A'
 function hl
 {
     hledger $* | less -R

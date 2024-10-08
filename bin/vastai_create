@@ -75,8 +75,9 @@ create_environment() {
     scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ~/bin/vastai_create_env.sh ${SCPURL}//workspace/vastai_create_env.sh 
     echo "Done. Next run /workspace/vastai_create_env.sh"
     ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$SSHURL" -tt '$SHELL -i ' <<- _EOF_
-        cd /workspace
-        . ./vastai_create_env.sh
+cd /workspace
+. ./vastai_create_env.sh
+exit 0
 _EOF_
     return
 }
