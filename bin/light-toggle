@@ -1,0 +1,43 @@
+#!/bin/zsh
+set -euo pipefail
+IFS=$'\n\t'
+trap "echo 'error: Script failed: see failed command above'" ERR
+
+
+toggle() {
+    # Toggle light/dark theme for apps.
+    
+    CF=$1
+    if [ $CF = 1 ] ; then 
+        from=dark
+        to=light
+        From=Dark
+        To=Light
+    else
+        from=light
+        to=dark
+        From=Light
+        To=Dark
+    fi
+
+    sed -i -E -e "/set background=${from}/s_.*_\"set background=${from}_" -e "/set background=${to}/s_.*_set background=${to}_" ~/.config/nvim/vimrc
+    sed -i -E -e "/gtk-theme-name=/s_.*_gtk-theme-name=$( [[ $to == dark ]] && echo Adwaita-dark || echo Adwaita )_" ~/.config/gtk-3.0/settings.ini
+    sed -i -E -e "/.*syntax-theme.*/s/${From}/${To}/" ~/.config/git/config
+    sed -i -E -e "/.*BAT_THEME.*/s/${from}/${to}/" ~/.config/zsh/.zshrc
+    sed -i -E -e "/.*c.colors.webpage.darkmode.enabled.*/s/.*/c.colors.webpage.darkmode.enabled = $( [[ $to == dark ]] && echo False || echo True )/" ~/.config/qutebrowser/config.py
+    sed -i -E -e "/.*dark.*/s/${from}/${to}/" ~/.newsboat/config
+    sed -i -E -e "/.*alacritty-themes.*/s/${From}/${To}/" ~/.config/alacritty/alacritty.toml
+}
+
+tfile=~/.cache/ld-toggle-light
+if [[ -e $tfile ]] ; then
+    toggle 0
+    brightnessctl set 75%  > /dev/null
+    rm $tfile
+    echo Turned dark
+else
+    brightnessctl set 100%  > /dev/null
+    toggle 1
+    touch $tfile
+    echo Turned light
+fi
