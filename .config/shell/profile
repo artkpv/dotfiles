@@ -8,6 +8,7 @@ export PATH="$PATH:$(find ~/.local/bin -type d | paste -sd ':' -)"
 
 # Default programs:
 export EDITOR="nvim"
+export VISUAL="nvim"
 
 export TERMINAL="alacritty"
 export TERMINAL_PROG="alacritty"
@@ -17,7 +18,6 @@ else
     export BROWSER=lynx
 fi
 
-export VISUAL=nvim
 
 # ~/ Clean-up:
 export XDG_CONFIG_HOME="$HOME/.config"

@@ -25,7 +25,7 @@ find_instance_id() {
         filter="$2"
     fi
 
-    search_str="reliability > 0.8 inet_down >= 600.0 num_gpus=1 disk_space >= 110 duration >= 1 cuda_vers >= 12.0 ${filter} "
+    search_str="reliability > 0.8 inet_down >= 800.0 num_gpus=1 disk_space >= 110 duration >= 1 cuda_vers >= 12.0 ${filter} "
     echo "$search_str":
     instances=$( vastai search offers "$search_str" -o dlperf_usd )
 
@@ -71,6 +71,7 @@ create_environment() {
     echo "$SSHURL"
     echo "$SSHURL" | xclip -selection clipboard
 
+    code --folder-uri "vscode-remote://ssh-remote+root@${SSHURL#ssh://}/workspace/rl_for_steg" & 
     SCPURL=$( echo $SSHURL | sed 's_ssh_scp_' )
     scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ~/bin/vastai_create_env.sh ${SCPURL}//workspace/vastai_create_env.sh 
     echo "Done. Next run /workspace/vastai_create_env.sh"
