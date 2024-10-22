@@ -71,9 +71,9 @@ create_environment() {
     echo "$SSHURL"
     echo "$SSHURL" | xclip -selection clipboard
 
-    code --folder-uri "vscode-remote://ssh-remote+root@${SSHURL#ssh://}/workspace/rl_for_steg" & 
-    SCPURL=$( echo $SSHURL | sed 's_ssh_scp_' )
-    scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ~/bin/vastai_create_env.sh ${SCPURL}//workspace/vastai_create_env.sh 
+    code --folder-uri "vscode-remote://ssh-remote+${SSHURL#ssh://}/workspace/rl_for_steg" & 
+    SCPURL="${SSHURL//ssh/scp}"
+    scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ~/bin/vastai_create_env.sh "${SCPURL}//workspace/vastai_create_env.sh" 
     echo "Done. Next run /workspace/vastai_create_env.sh"
     ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$SSHURL" -tt '$SHELL -i ' <<- _EOF_
 cd /workspace
