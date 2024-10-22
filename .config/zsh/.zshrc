@@ -126,7 +126,10 @@ export _ZO_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zoxide"
 eval "$(zoxide init zsh)"
 
 # Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
+if [[ -e /usr/share/fzf ]] ; then 
+    source /usr/share/fzf/completion.zsh
+    source /usr/share/fzf/key-bindings.zsh
+fi
 
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
