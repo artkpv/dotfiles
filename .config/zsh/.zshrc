@@ -2,10 +2,6 @@
 
 PATH=$PATH:$HOME/bin:$HOME/.local/bin
 
-# Avoid failing if no oh-my-zsh:
-#[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/ohmyz.sh" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/ohmyz.sh"
-
-
 # Prompt:
 fpath+=($ZDOTDIR/pure)
 autoload -U promptinit; promptinit
@@ -70,6 +66,33 @@ bindkey -M vicmd '^e' edit-command-line
 bindkey -M visual '^[[P' vi-delete
 
 
+vi_text_objects_and_surround() {
+    autoload -Uz select-bracketed select-quoted
+    zle -N select-quoted
+    zle -N select-bracketed
+    for km in viopp visual; do
+      bindkey -M $km -- '-' vi-up-line-or-history
+      for c in {a,i}${(s..)^:-\'\"\`\|,./:;=+@}; do
+        bindkey -M $km $c select-quoted
+      done
+      for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+        bindkey -M $km $c select-bracketed
+      done
+    done
+
+
+    autoload -Uz surround
+    zle -N delete-surround surround
+    zle -N add-surround surround
+    zle -N change-surround surround
+    bindkey -M vicmd cs change-surround
+    bindkey -M vicmd ds delete-surround
+    bindkey -M vicmd ys add-surround
+    bindkey -M visual S add-surround
+}
+vi_text_objects_and_surround
+
+
 export NNN_FIFO=/tmp/nnn.fifo
 export NNN_TRASH=1
 export NNN_CONTEXT_COLORS='4321'
@@ -101,6 +124,9 @@ function y() {
 
 export _ZO_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/zoxide"
 eval "$(zoxide init zsh)"
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
