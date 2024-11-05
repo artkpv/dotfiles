@@ -1,0 +1,80 @@
+#!/bin/zsh
+set -euo pipefail
+IFS=$'\n\t'
+trap "echo 'error: Script failed: see failed command above'" ERR
+
+text_dirs=(
+"mydir/accounting"
+"mydir/books"
+#"mydir/dev"
+"mydir/in"
+"mydir/notes"
+"mydir/ref"
+)
+
+media_dirs=(
+"mydir/Dcim Xperia"
+"mydir/Xperia-LoS-Camera"
+"mydir/media"
+"mydir/photos"
+"mydir/КамераXperia2022-10-07"
+)
+
+mount_point="/run/media/art/BackUp"
+backup_path="$mount_point/backup"
+df --human-readable $mount_point
+mount | grep "/dev/sda1 on $mount_point" > /dev/null
+if [ $? -ne 0 ]; then
+    if [ $? -eq 0 ];then
+        echo -e "\n ${color}--- $date_now Need /dev/sda1 to be mounted at $mount_point \n${nc}"
+    fi
+fi
+
+[[ -e $backup_path ]] || {
+    echo "Backup path '$backup_path' doesn't exist"
+    exit 1
+}
+
+date_now=$(date +"%Y-%m-%d_%H%M")
+target_dir="${backup_path}/${date_now}"
+mkdir --parents "$target_dir"
+
+export GPG_TTY=$(tty) # Fixes: gpg: error Inappropriate ioctl for device"
+
+backup_text()
+{
+    echo "Compressing, archiving and encrypting into ${target_dir}: \n$(du --summarize --human-readable --total $text_dirs)\n"
+    tar --create --bzip2 --file - $text_dirs \
+        | gpg --encrypt --recipient artyomkarpov@gmail.com \
+        | pv > "${target_dir}/text.tar.bz.gpg"
+}
+
+#encrypt_f() 
+#{
+#    file="$1"
+#    e_file="${file}.gpg"
+#    [[ -e "$e_file" ]] && rm "$e_file" 
+#    gpg --encrypt --recipient artyomkarpov@gmail.com --output "$e_file" "$file"
+#}
+
+backup_media()
+{
+    echo "Archiving and encrypting ${target_dir}: \n$(du --summarize --human-readable --total $media_dirs)\n"
+    tar --create --file - $media_dirs \
+        | gpg --encrypt --recipient artyomkarpov@gmail.com \
+        | pv > "${target_dir}/media.tar.gpg"
+}
+
+copy_to_gdrive()
+{
+    echo "Copying to Google Drive"
+    rclone copy -P $backup_path/my_kp_db.kdbx gdrive:/Backup/
+    rclone copy -P "${target_dir}" gdrive:/Backup/
+}
+
+
+backup_text
+backup_media
+
+echo "Copy to Google Drive? [Y/n]" 
+read && [[ -z "$REPLY" || "$REPLY" =~ ^[yY] ]] && copy_to_gdrive
