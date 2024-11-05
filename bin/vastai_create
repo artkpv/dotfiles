@@ -57,27 +57,29 @@ create_instance() {
     [[ $? -eq 0 ]] || { echo 'Failed to create' ; exit 1 ; }
     echo "$res"
     INS_ID=$( echo "$res" | grep -o "[0-9]\+" )
-    echo 'Waiting for the instance to be running...'
-    while ! ( vastai show instances | grep "${INS_ID}.*running" > /dev/null ) ; do 
-        sleep 1
-    done
+    echo "$INS_ID" | xclip -selection clipboard
     return
 }
 
 create_environment() {
     [[ -n "$INS_ID" ]] || { echo 'Need INS_ID' ; exit 1 ; }
+
+    echo 'Waiting for the instance to be running...'
+    while ! ( vastai show instances | grep "${INS_ID}.*running" > /dev/null ) ; do 
+        sleep 1
+    done
     echo 'Getting ssh url'
     SSHURL=$( vastai ssh-url "$INS_ID" )
     echo "$SSHURL"
     echo "$SSHURL" | xclip -selection clipboard
 
-    code --folder-uri "vscode-remote://ssh-remote+${SSHURL#ssh://}/workspace/rl_for_steg" & 
-    SCPURL="${SSHURL//ssh/scp}"
+    SCPURL="${SSHURL/ssh/scp}"
     scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ~/bin/vastai_create_env.sh "${SCPURL}//workspace/vastai_create_env.sh" 
+    # ( sleep 15 ; code --folder-uri "vscode-remote://ssh-remote+${SSHURL#ssh://}/workspace/rl_for_steg" ; ) &
     echo "Done. Next run /workspace/vastai_create_env.sh"
     ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$SSHURL" -tt '$SHELL -i ' <<- _EOF_
 cd /workspace
-. ./vastai_create_env.sh
+( . ./vastai_create_env.sh ; )
 exit 0
 _EOF_
     return

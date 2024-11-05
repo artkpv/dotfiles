@@ -27,16 +27,19 @@ toggle() {
     sed -i -E -e "/.*c.colors.webpage.darkmode.enabled.*/s/.*/c.colors.webpage.darkmode.enabled = $( [[ $to == dark ]] && echo False || echo True )/" ~/.config/qutebrowser/config.py
     sed -i -E -e "/.*dark.*/s/${from}/${to}/" ~/.newsboat/config
     sed -i -E -e "/.*alacritty-themes.*/s/${From}/${To}/" ~/.config/alacritty/alacritty.toml
+    sed -i -E -e "/.*config.color_scheme.*/s/${From}/${To}/" ~/.config/wezterm/wezterm.lua
+
+    set_background &
 }
 
 tfile=~/.cache/ld-toggle-light
 if [[ -e $tfile ]] ; then
     toggle 0
-    brightnessctl set 75%  > /dev/null
+    #brightnessctl set 75%  > /dev/null
     rm $tfile
     echo Turned dark
 else
-    brightnessctl set 100%  > /dev/null
+    #brightnessctl set 100%  > /dev/null
     toggle 1
     touch $tfile
     echo Turned light

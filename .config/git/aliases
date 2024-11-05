@@ -470,7 +470,7 @@
   cloner = clone --recursive
 
   # Stash aliases
-  save = stash save
+  ssave = stash save
   pop = stash pop
 
   # Stash snapshot - from http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
@@ -819,3 +819,7 @@
 
   ull = pull
   ush = push
+
+  ##########################################################################
+
+  save = !"git add . ; git commit -m save ; git push"

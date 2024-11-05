@@ -42,3 +42,6 @@ cdls() {
 
 
 alias n='nnn -xa -P preview-tabbed'
+
+alias ai='aichat'
+alias agrammar='aichat -r grammar'

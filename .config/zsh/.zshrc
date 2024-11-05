@@ -15,6 +15,9 @@ SAVEHIST=10000000
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 setopt inc_append_history
 
+# Searh history using UP / DOWN keys:
+bindkey '^[[A' up-line-or-search
+bindkey '^[[B' down-line-or-search
 
 # vi mode
 bindkey -v
