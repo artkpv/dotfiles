@@ -15,6 +15,7 @@ alias ls='ls --color=auto'
 alias pa='pacman'
 alias start=xdg-open
 alias vi="LANG=en_US nvim"
+alias viks="LANG=en_US nvim-kickstart"
 alias vim="LANG=en_US nvim"
 alias vimrc='nvim ~/.config/nvim/vimrc'
 alias zshrc='nvim ~/.zshrc'
@@ -45,3 +46,4 @@ alias n='nnn -xa -P preview-tabbed'
 
 alias ai='aichat'
 alias agrammar='aichat -r grammar'
+alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'

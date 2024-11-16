@@ -77,10 +77,10 @@ function create_repo()
     python -m venv .venv
     source .venv/bin/activate
     pip install -U pip
-    pip install -r requirements.txt
+    pip install -e .
     pip install vastai 
 }
 
-create_repo "https://oauth2:${GITHUB_TOKEN}@github.com/artkpv/rl_for_steganography" /workspace/rl_for_steg dev/direct-stego
+create_repo "https://oauth2:${GITHUB_TOKEN}@github.com/artkpv/rl_for_steganography" /workspace/rl_for_steg main
 
 #[[ ! $SHELL =~ zsh ]] && chsh -s /usr/bin/zsh
