@@ -45,7 +45,7 @@ backup_text()
 {
     echo "Compressing, archiving and encrypting into ${target_dir}: \n$(du --summarize --human-readable --total $text_dirs)\n"
     tar --create --bzip2 --file - $text_dirs \
-        | gpg --encrypt --recipient artyomkarpov@gmail.com \
+        | gpg -vv --encrypt --recipient artyomkarpov@gmail.com \
         | pv > "${target_dir}/text.tar.bz.gpg"
 }
 

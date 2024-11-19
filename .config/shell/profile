@@ -45,7 +45,6 @@ export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 
 export LEDGER_FILE="$HOME/mydir/accounting/all.ledger"
 
-
 [ -e ~/mydir/notes/.zsh_secret ] && [ ! -e ~/.zsh_secret ] && ln -s ~/mydir/notes/.zsh_secret ~/.zsh_secret
 [ -e ~/.zsh_secret ] && . "$HOME/.zsh_secret"
 

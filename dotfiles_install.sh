@@ -20,5 +20,7 @@ for file in $( dotfiles checkout 2>&1 | grep -E "\s+\." | cut -f 2 ) ; do
     mv "$file" ".dotfiles-backup/$file"
 done
 
-dotfiles checkout --recurse-submodules
+dotfiles checkout
 dotfiles config --local status.showUntrackedFiles no
+dotfiles submodule init
+dotfiles submodule update

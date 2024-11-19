@@ -36,6 +36,7 @@ alias dk="sudo docker"
 alias cb4t='chatblade -c 4t'
 alias cb4='chatblade -c 4'
 alias cb='chatblade'
+alias nest_level='pstree -s $$'
 
 cdls() {
     cd "$@" && ls;
