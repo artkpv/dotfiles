@@ -13,7 +13,6 @@ text_dirs=(
 )
 
 media_dirs=(
-"mydir/Dcim Xperia"
 "mydir/Xperia-LoS-Camera"
 "mydir/media"
 "mydir/photos"
