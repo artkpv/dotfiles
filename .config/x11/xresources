@@ -1,1 +1,4 @@
-/home/art/mydir/ref/dotfiles/Xresources
+Xcursor.theme: breeze
+Xcursor.size: 16
+
+*.font: monospace:size=10
