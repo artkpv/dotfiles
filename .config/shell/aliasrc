@@ -14,10 +14,9 @@ alias l='ls -haAl --group-directories-first'
 alias ls='ls --color=auto'
 alias pa='pacman'
 alias start=xdg-open
+alias vim_old="LANG=en_US NVIM_APPNAME="nvim_old" nvim"
 alias vi="LANG=en_US nvim"
-alias viks="LANG=en_US nvim-kickstart"
 alias vim="LANG=en_US nvim"
-alias vimrc='nvim ~/.config/nvim/vimrc'
 alias zshrc='nvim ~/.zshrc'
 alias tm='tmux new-session -A'
 function hl
@@ -47,4 +46,5 @@ alias n='nnn -xa -P preview-tabbed'
 
 alias ai='aichat'
 alias agrammar='aichat -r grammar'
-alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
+
+alias xclip_c='xclip -selection clipboard'

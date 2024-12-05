@@ -20,7 +20,7 @@ toggle() {
         To=Dark
     fi
 
-    sed -i -E -e "/set background=${from}/s_.*_\"set background=${from}_" -e "/set background=${to}/s_.*_set background=${to}_" ~/.config/nvim/vimrc
+    #sed -i -E -e "/set background=${from}/s_.*_\"set background=${from}_" -e "/set background=${to}/s_.*_set background=${to}_" ~/.config/nvim/vimrc
     sed -i -E -e "/gtk-theme-name=/s_.*_gtk-theme-name=$( [[ $to == dark ]] && echo Adwaita-dark || echo Adwaita )_" ~/.config/gtk-3.0/settings.ini
     sed -i -E -e "/.*syntax-theme.*/s/${From}/${To}/" ~/.config/git/config
     sed -i -E -e "/.*BAT_THEME.*/s/${from}/${to}/" ~/.config/zsh/.zshrc

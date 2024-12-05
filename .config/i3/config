@@ -71,8 +71,19 @@ gaps outer 2
 
 smart_borders on
 
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+focus_follows_mouse no
 
+############
+# Bindings #
+############ 
 include bindings.conf
+
+########
+# Exec #
+########
+
 
 set $Locker xflock4 && sleep 1
 
@@ -92,3 +103,5 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id picom -b -i 1.0
 
 exec --no-startup-id ~/bin/fehbg
+
+

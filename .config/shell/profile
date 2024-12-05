@@ -52,6 +52,10 @@ export LEDGER_FILE="$HOME/mydir/accounting/all.ledger"
 
 echo "before exec startx $XINITRC"
 # Start graphical server on user's current tty if not already running.
-echo '[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"'
-#[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+# [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+
+# startx when logged in
+if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+    exec startx $XINITRC
+fi
 
